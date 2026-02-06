@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Search, X, LayoutGrid, List as ListIcon, Filter } from 'lucide-react';
 
 import Header from './components/Header';
@@ -23,34 +23,25 @@ export default function App() {
     const [copiedId, setCopiedId] = useState(null);
     const [expandedCard, setExpandedCard] = useState(null);
 
-    useEffect(() => {
-        const styleId = 'fluent-styles';
-        if (!document.getElementById(styleId)) {
-            const style = document.createElement('style');
-            style.id = styleId;
-            style.innerHTML = `
-        @import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
-        body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
-      `;
-            document.head.appendChild(style);
-        }
-    }, []);
+
 
     const currentRegion = useMemo(() => AZURE_REGIONS.find(r => r.value === regionValue) || AZURE_REGIONS.find(r => !r.type), [regionValue]);
     const formattedInstance = useMemo(() => (instance || '001').padStart(3, '0'), [instance]);
 
-    const moveItem = (index, direction) => {
-        const newOrder = [...namingOrder];
-        const newIndex = index + direction;
-        if (newIndex < 0 || newIndex >= newOrder.length) return;
-        [newOrder[index], newOrder[newIndex]] = [newOrder[newIndex], newOrder[index]];
-        setNamingOrder(newOrder);
-    };
+    const moveItem = useCallback((index, direction) => {
+        setNamingOrder(prev => {
+            const newOrder = [...prev];
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= newOrder.length) return prev;
+            [newOrder[index], newOrder[newIndex]] = [newOrder[newIndex], newOrder[index]];
+            return newOrder;
+        });
+    }, []);
 
-    const handleInstanceChange = (e) => {
+    const handleInstanceChange = useCallback((e) => {
         const val = e.target.value.replace(/[^0-9]/g, '');
         if (val.length <= 3) setInstance(val);
-    };
+    }, []);
 
     const generateName = (resource) => {
         const resAbbrev = resource.abbrev || "res";
@@ -86,8 +77,8 @@ export default function App() {
         const separator = allowsHyphens ? '-' : '';
         let result = parts.join(separator);
 
-        // Apply case constraint
-        return lowercaseOnly ? result.toLowerCase() : result.toLowerCase();
+        // Apply lowercase constraint (always lowercase for consistency)
+        return result.toLowerCase();
     };
 
     const filteredResources = useMemo(() => {
@@ -98,23 +89,18 @@ export default function App() {
         });
     }, [searchTerm, activeCategory]);
 
-    const copyToClipboard = (text, id, e) => {
+    const copyToClipboard = useCallback(async (text, id, e) => {
         if (e) { e.stopPropagation(); e.preventDefault(); }
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.cssText = "position:fixed;top:0;left:0";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
         try {
-            document.execCommand('copy');
+            await navigator.clipboard.writeText(text);
             setCopiedId(id);
             setTimeout(() => setCopiedId(null), 2000);
-        } catch (err) { console.error('Copy failed', err); }
-        document.body.removeChild(textArea);
-    };
+        } catch (err) {
+            console.error('Copy failed', err);
+        }
+    }, []);
 
-    const handleCardToggle = (resourceName, isCurrentlyExpanded) => {
+    const handleCardToggle = useCallback((resourceName, isCurrentlyExpanded) => {
         if (isCurrentlyExpanded) {
             setExpandedCard(null);
         } else {
@@ -127,7 +113,7 @@ export default function App() {
                 }
             }, 50);
         }
-    };
+    }, []);
 
     // Generate the schema pattern (shows placeholders like {resource}-{workload}-{env}-{region}-{instance})
     const liveSchemaStr = useMemo(() => {
@@ -185,9 +171,9 @@ export default function App() {
                                 {searchTerm && <button onClick={() => setSearchTerm('')} className="p-0.5 hover:bg-black/10 rounded-full"><X className={`w-3 h-3 ${isDarkMode ? 'text-white' : 'text-black'}`} /></button>}
                             </div>
                             <div className={`flex rounded overflow-hidden border ${isDarkMode ? 'border-[#605e5c]' : 'border-[#8a8886]'}`}>
-                                <button onClick={() => setViewMode('grid')} className={`p-1.5 px-3 ${viewMode === 'grid' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><LayoutGrid className="w-4 h-4" /></button>
+                                <button onClick={() => setViewMode('grid')} aria-label="Grid view" className={`p-1.5 px-3 ${viewMode === 'grid' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><LayoutGrid className="w-4 h-4" /></button>
                                 <div className={`w-px ${isDarkMode ? 'bg-[#605e5c]' : 'bg-[#8a8886]'}`}></div>
-                                <button onClick={() => setViewMode('list')} className={`p-1.5 px-3 ${viewMode === 'list' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><ListIcon className="w-4 h-4" /></button>
+                                <button onClick={() => setViewMode('list')} aria-label="List view" className={`p-1.5 px-3 ${viewMode === 'list' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><ListIcon className="w-4 h-4" /></button>
                             </div>
                         </div>
                     </div>
