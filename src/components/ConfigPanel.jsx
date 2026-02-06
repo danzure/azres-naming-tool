@@ -108,8 +108,8 @@ export default function ConfigPanel({
                                         naming convention.
                                     </p>
                                     <p>
-                                        The Purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
-                                        First define your naming schema using the pameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
+                                        The purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
+                                        First define your naming schema using the parameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
                                     </p>
                                 </div>
                             </div>
