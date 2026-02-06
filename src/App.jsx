@@ -1,16 +1,16 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Search, X, LayoutGrid, List as ListIcon, Filter, ArrowUp } from 'lucide-react';
+import { Search, X, Filter, ArrowUp } from 'lucide-react';
 
 import Header from './components/Header';
 import ConfigPanel from './components/ConfigPanel';
 import ResourceCard from './components/ResourceCard';
-import ResourceListItem from './components/ResourceListItem';
+
 import { AZURE_REGIONS, RESOURCE_DATA_SORTED, CATEGORIES } from './data/constants';
 
 export default function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isConfigMinimized, setIsConfigMinimized] = useState(false);
-    const [viewMode, setViewMode] = useState('grid');
+
     const [workload, setWorkload] = useState('');
     const [envValue, setEnvValue] = useState('prod');
     const [regionValue, setRegionValue] = useState('uksouth');
@@ -193,11 +193,6 @@ export default function App() {
                                 <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Filter services..." className={`w-full bg-transparent border-none outline-none text-[14px] ${isDarkMode ? 'text-white placeholder:text-[#605e5c]' : 'text-[#201f1e] placeholder:text-[#a19f9d]'}`} />
                                 {searchTerm && <button onClick={() => setSearchTerm('')} className="p-0.5 hover:bg-black/10 rounded-full"><X className={`w-3 h-3 ${isDarkMode ? 'text-white' : 'text-black'}`} /></button>}
                             </div>
-                            <div className={`flex rounded overflow-hidden border ${isDarkMode ? 'border-[#605e5c]' : 'border-[#8a8886]'}`}>
-                                <button onClick={() => setViewMode('grid')} aria-label="Grid view" className={`p-1.5 px-3 ${viewMode === 'grid' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><LayoutGrid className="w-4 h-4" /></button>
-                                <div className={`w-px ${isDarkMode ? 'bg-[#605e5c]' : 'bg-[#8a8886]'}`}></div>
-                                <button onClick={() => setViewMode('list')} aria-label="List view" className={`p-1.5 px-3 ${viewMode === 'list' ? (isDarkMode ? 'bg-[#323130] text-white' : 'bg-[#f3f2f1] text-[#201f1e]') : (isDarkMode ? 'bg-transparent text-[#c8c6c4]' : 'bg-transparent text-[#605e5c]')}`}><ListIcon className="w-4 h-4" /></button>
-                            </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t pt-3" style={{ borderColor: isDarkMode ? '#484644' : '#edebe9' }}>
@@ -208,33 +203,14 @@ export default function App() {
                     </div>
                 </div>
 
-                {/* Resource Grid/List */}
-                <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" : "flex flex-col gap-2"}>
+                {/* Resource Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {filteredResources.map((resource) => {
                         const selectedSubResource = subResourceSelections[resource.name] || (resource.subResources?.[0]?.suffix);
                         const genName = generateName(resource, selectedSubResource);
                         const isCopied = copiedId === resource.name;
                         const isExpanded = expandedCard === resource.name;
                         const isTooLong = resource.maxLength && genName.length > resource.maxLength;
-
-                        if (viewMode === 'list') {
-                            return (
-                                <ResourceListItem
-                                    key={resource.name}
-                                    id={`resource-${resource.name}`}
-                                    resource={resource}
-                                    genName={genName}
-                                    isCopied={isCopied}
-                                    isExpanded={isExpanded}
-                                    isTooLong={isTooLong}
-                                    isDarkMode={isDarkMode}
-                                    onCopy={(e) => copyToClipboard(genName, resource.name, e)}
-                                    onToggle={() => handleCardToggle(resource.name, isExpanded)}
-                                    selectedSubResource={selectedSubResource}
-                                    onSubResourceChange={(suffix) => handleSubResourceChange(resource.name, suffix)}
-                                />
-                            );
-                        }
 
                         return (
                             <ResourceCard

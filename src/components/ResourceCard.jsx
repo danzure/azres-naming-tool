@@ -2,8 +2,11 @@ import { memo } from 'react';
 import { Box, Copy, Check, ShieldAlert } from 'lucide-react';
 import ValidationHighlight from './ValidationHighlight';
 import ExpandedPanel from './ExpandedPanel';
+import { getCategoryColors } from '../data/categoryColors';
 
 function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, isDarkMode, onCopy, onToggle, selectedSubResource, onSubResourceChange }) {
+    const categoryColors = getCategoryColors(resource.category, isDarkMode);
+
     return (
         <div
             id={id}
@@ -13,13 +16,19 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, 
             <div className="p-4 flex flex-col h-full gap-3">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 overflow-hidden">
-                        <div className={`p-2 rounded shrink-0 ${isDarkMode ? 'bg-[#323130] text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
+                        <div
+                            className="p-2 rounded shrink-0 transition-colors"
+                            style={{ backgroundColor: categoryColors.bg, color: categoryColors.icon }}
+                        >
                             <Box className="w-5 h-5" />
                         </div>
                         <div className="flex flex-col min-w-0">
                             <h3 className={`text-[14px] font-semibold truncate ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{resource.name}</h3>
                             <div className="flex items-center gap-1.5 mt-1">
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${isDarkMode ? 'bg-[#323130] text-[#c8c6c4]' : 'bg-[#f3f2f1] text-[#605e5c]'}`}>{resource.category}</span>
+                                <span
+                                    className="text-[10px] px-1.5 py-0.5 rounded font-medium transition-colors"
+                                    style={{ backgroundColor: categoryColors.bg, color: categoryColors.icon }}
+                                >{resource.category}</span>
                                 <span className={`text-[10px] font-mono opacity-60 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>{resource.abbrev}</span>
                             </div>
                         </div>
