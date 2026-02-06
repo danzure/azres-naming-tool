@@ -26,10 +26,31 @@ export default function ConfigPanel({
 
                 {!isMinimized && (
                     <div className="animate-in slide-in-from-top-2 duration-200">
-                        {/* Two-column grid: Parameters + About */}
+                        {/* Two-column grid: Parameters + About (reversed order on mobile) */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                            {/* Left: Parameters */}
-                            <div className={`p-3 rounded border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-sm'}`}>
+                            {/* About / CAF Introduction - shows first on mobile via order */}
+                            <div className={`order-1 lg:order-2 p-3 rounded border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-sm'}`}>
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Info className="w-3.5 h-3.5 text-[#0078d4]" />
+                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>About This Tool</h3>
+                                </div>
+                                <div className={`text-[12px] leading-relaxed space-y-2 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>
+                                    <p>
+                                        This tool generates consistent Azure resource names following Microsoft's{' '}
+                                        <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline font-medium">
+                                            Cloud Adoption Framework (CAF)
+                                        </a>{' '}
+                                        naming convention.
+                                    </p>
+                                    <p>
+                                        The purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
+                                        First define your naming schema using the parameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Parameters - shows second on mobile via order */}
+                            <div className={`order-2 lg:order-1 p-3 rounded border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-sm'}`}>
                                 <div className="flex items-center gap-2 mb-3">
                                     <Edit3 className="w-3.5 h-3.5 text-[#0078d4]" />
                                     <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Parameters</h3>
@@ -92,54 +113,37 @@ export default function ConfigPanel({
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Right: About / CAF Introduction */}
-                            <div className={`p-3 rounded border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-sm'}`}>
-                                <div className="flex items-center gap-2 mb-3">
-                                    <Info className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>About This Tool</h3>
-                                </div>
-                                <div className={`text-[12px] leading-relaxed space-y-2 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>
-                                    <p>
-                                        This tool generates consistent Azure resource names following Microsoft's{' '}
-                                        <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline font-medium">
-                                            Cloud Adoption Framework (CAF)
-                                        </a>{' '}
-                                        naming convention.
-                                    </p>
-                                    <p>
-                                        The purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
-                                        First define your naming schema using the parameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
-                                    </p>
-                                </div>
-                            </div>
                         </div>
 
-                        {/* Pattern Builder - full width */}
+                        {/* Pattern Builder - full width with mobile-optimized layout */}
                         <div className={`mt-3 p-3 rounded border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-sm'}`}>
-                            <div className="flex items-center gap-2 mb-2">
-                                <Layers className="w-3.5 h-3.5 text-[#0078d4]" />
-                                <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Pattern Builder</h3>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-3">
+                                <div className="flex items-center gap-2">
+                                    <Layers className="w-3.5 h-3.5 text-[#0078d4]" />
+                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Pattern Builder</h3>
+                                </div>
                                 <span className={`text-[11px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>
-                                    — Customize segment order for your naming convention
+                                    <span className="hidden sm:inline">— </span>Customize segment order for your naming convention
                                 </span>
                             </div>
-                            {/* Horizontal sequence */}
-                            <div className="flex flex-wrap gap-3">
+                            {/* Sequence items - vertical on mobile, horizontal on larger screens */}
+                            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
                                 {namingOrder.map((item, index) => (
                                     <div
                                         key={item}
-                                        className={`flex items-center gap-2 px-3 h-[36px] rounded-md border cursor-default ${item === 'Org' && !showOrg ? 'opacity-40' : ''} ${isDarkMode ? 'bg-[#252423] border-[#484644] hover:border-[#605e5c]' : 'bg-[#faf9f8] border-[#edebe9] hover:border-[#c8c6c4]'} transition-colors`}
+                                        className={`flex items-center justify-between sm:justify-start gap-2 px-3 h-[44px] sm:h-[36px] rounded-md border cursor-default ${item === 'Org' && !showOrg ? 'opacity-40' : ''} ${isDarkMode ? 'bg-[#252423] border-[#484644] hover:border-[#605e5c]' : 'bg-[#faf9f8] border-[#edebe9] hover:border-[#c8c6c4]'} transition-colors`}
                                     >
-                                        <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${isDarkMode ? 'bg-[#0078d4]/30 text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
-                                            {index + 1}
-                                        </span>
-                                        <span className={`text-[13px] font-medium ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{item}</span>
-                                        <div className="flex items-center gap-0.5 ml-1">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${isDarkMode ? 'bg-[#0078d4]/30 text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
+                                                {index + 1}
+                                            </span>
+                                            <span className={`text-[13px] font-medium ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{item}</span>
+                                        </div>
+                                        <div className="flex items-center gap-0.5">
                                             <button
                                                 onClick={() => onMoveItem(index, -1)}
                                                 disabled={index === 0}
-                                                className={`p-1.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className={`p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
                                                 title="Move left"
                                             >
                                                 <ArrowLeft className="w-4 h-4" />
@@ -147,7 +151,7 @@ export default function ConfigPanel({
                                             <button
                                                 onClick={() => onMoveItem(index, 1)}
                                                 disabled={index === namingOrder.length - 1}
-                                                className={`p-1.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className={`p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
                                                 title="Move right"
                                             >
                                                 <ArrowRight className="w-4 h-4" />
