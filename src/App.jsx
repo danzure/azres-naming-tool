@@ -129,7 +129,7 @@ export default function App() {
     }, [namingOrder, showOrg, orgPrefix, workload, envValue, currentRegion, formattedInstance]);
 
     return (
-        <div className={`min-h-screen font-sans pb-24 transition-colors duration-200 ${isDarkMode ? 'bg-[#111009] text-white' : 'bg-[#faf9f8] text-[#201f1e]'}`}>
+        <div className={`min-h-screen font-sans transition-colors duration-200 ${isDarkMode ? 'bg-[#111009] text-white' : 'bg-[#faf9f8] text-[#201f1e]'}`}>
             <Header isDarkMode={isDarkMode} onToggleTheme={() => setIsDarkMode(!isDarkMode)} />
 
             <ConfigPanel
@@ -223,12 +223,12 @@ export default function App() {
                         );
                     })}
                 </div>
-            </div>
 
-            {/* Footer */}
-            <footer className={`fixed bottom-0 left-0 right-0 py-3 text-center text-[12px] border-t ${isDarkMode ? 'bg-[#1b1a19] border-[#484644] text-[#a19f9d]' : 'bg-white border-[#edebe9] text-[#605e5c]'}`}>
-                Published by <a href="https://www.linkedin.com/in/danielpowley92/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#0078d4] hover:underline">Daniel Powley</a> • <a href="https://github.com/danzure/azres-naming-tool" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">GitHub</a> • Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">MIT License</a>
-            </footer>
+                {/* Footer */}
+                <footer className={`py-6 text-center text-[12px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>
+                    Published by <a href="https://www.linkedin.com/in/danielpowley92/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#0078d4] hover:underline">Daniel Powley</a> • <a href="https://github.com/danzure/azres-naming-tool" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">GitHub</a> • Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">MIT License</a>
+                </footer>
+            </div>
         </div>
     );
 }
