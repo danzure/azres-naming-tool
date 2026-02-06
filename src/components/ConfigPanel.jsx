@@ -44,7 +44,7 @@ export default function ConfigPanel({
                                         type="text"
                                         value={workload}
                                         onChange={(e) => setWorkload(e.target.value)}
-                                        placeholder="app"
+                                        placeholder="web"
                                         className={`px-2.5 h-[28px] border rounded outline-none text-[13px] transition-colors focus:border-[#0078d4] ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
                                     />
                                     {/* Environment */}
@@ -70,7 +70,7 @@ export default function ConfigPanel({
                                         className={`px-2.5 h-[28px] border rounded outline-none text-[13px] transition-colors focus:border-[#0078d4] ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
                                     />
                                     {/* Org Prefix */}
-                                    <Tooltip content="Optional org prefix" isDarkMode={isDarkMode}>
+                                    <Tooltip content="Organisation prefix" isDarkMode={isDarkMode}>
                                         <label className={`text-[12px] font-medium text-right ${!showOrg ? 'opacity-50' : ''} ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>Org</label>
                                     </Tooltip>
                                     <div className="flex items-center gap-1.5">
@@ -78,7 +78,7 @@ export default function ConfigPanel({
                                             type="text"
                                             value={orgPrefix}
                                             onChange={(e) => setOrgPrefix(e.target.value)}
-                                            placeholder="cts"
+                                            placeholder="Org"
                                             disabled={!showOrg}
                                             className={`flex-1 px-2.5 h-[28px] border rounded outline-none text-[13px] transition-colors focus:border-[#0078d4] disabled:opacity-40 ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
                                         />
@@ -109,9 +109,7 @@ export default function ConfigPanel({
                                     </p>
                                     <p>
                                         The Purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
-                                    </p>
-                                    <p>
-                                        Define your naming schema using the pameters and pattern builder, then browse the resource catalog below to copy correctly formatted names for your deployments.
+                                        First define your naming schema using the pameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
                                     </p>
                                 </div>
                             </div>
@@ -127,32 +125,32 @@ export default function ConfigPanel({
                                 </span>
                             </div>
                             {/* Horizontal sequence */}
-                            <div className="flex flex-wrap gap-1.5">
+                            <div className="flex flex-wrap gap-3">
                                 {namingOrder.map((item, index) => (
                                     <div
                                         key={item}
-                                        className={`flex items-center gap-1 px-2 h-[28px] rounded border ${item === 'Org' && !showOrg ? 'opacity-40' : ''} ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-[#faf9f8] border-[#edebe9]'}`}
+                                        className={`flex items-center gap-2 px-3 h-[36px] rounded-md border cursor-default ${item === 'Org' && !showOrg ? 'opacity-40' : ''} ${isDarkMode ? 'bg-[#252423] border-[#484644] hover:border-[#605e5c]' : 'bg-[#faf9f8] border-[#edebe9] hover:border-[#c8c6c4]'} transition-colors`}
                                     >
-                                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isDarkMode ? 'bg-[#0078d4]/30 text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
+                                        <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${isDarkMode ? 'bg-[#0078d4]/30 text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
                                             {index + 1}
                                         </span>
-                                        <span className={`text-[12px] font-medium ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{item}</span>
-                                        <div className="flex items-center -mr-1">
+                                        <span className={`text-[13px] font-medium ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{item}</span>
+                                        <div className="flex items-center gap-0.5 ml-1">
                                             <button
                                                 onClick={() => onMoveItem(index, -1)}
                                                 disabled={index === 0}
-                                                className={`p-0.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className={`p-1.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
                                                 title="Move left"
                                             >
-                                                <ArrowLeft className="w-3 h-3" />
+                                                <ArrowLeft className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => onMoveItem(index, 1)}
                                                 disabled={index === namingOrder.length - 1}
-                                                className={`p-0.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className={`p-1.5 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
                                                 title="Move right"
                                             >
-                                                <ArrowRight className="w-3 h-3" />
+                                                <ArrowRight className="w-4 h-4" />
                                             </button>
                                         </div>
                                     </div>

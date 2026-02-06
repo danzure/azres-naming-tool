@@ -56,15 +56,15 @@ export const AZURE_REGIONS = [
 ];
 
 export const ENVIRONMENTS = [
-    { label: 'Production', value: 'prod' },
-    { label: 'Development', value: 'dev' },
-    { label: 'Staging', value: 'stg' },
-    { label: 'Test', value: 'test' },
-    { label: 'UAT', value: 'uat' },
-    { label: 'QA', value: 'qa' },
-    { label: 'Shared', value: 'shrd' },
-    { label: 'Sandbox', value: 'sbx' },
-    { label: 'DR', value: 'dr' },
+    { label: 'Production (prod)', value: 'prod' },
+    { label: 'Development (dev)', value: 'dev' },
+    { label: 'Staging (stg)', value: 'stg' },
+    { label: 'Test (test)', value: 'test' },
+    { label: 'UAT (uat)', value: 'uat' },
+    { label: 'QA (qa)', value: 'qa' },
+    { label: 'Shared (shrd)', value: 'shrd' },
+    { label: 'Sandbox (sbx)', value: 'sbx' },
+    { label: 'DR (dr)', value: 'dr' },
 ];
 
 export const RESOURCE_DATA_RAW = [
