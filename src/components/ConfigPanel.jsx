@@ -52,7 +52,7 @@ export default function ConfigPanel({
                             </p>
                             <div className="flex flex-col lg:flex-row gap-4 items-start">
                                 <div className="w-full lg:w-64 shrink-0 flex flex-col gap-2">
-                                    <label className={`block text-[14px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Org Prefix</label>
+                                    <label className={`block text-[14px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Org Prefix <span className={`font-normal ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>(Optional)</span></label>
                                     <div className="flex items-center gap-2">
                                         <input type="text" value={orgPrefix} onChange={(e) => setOrgPrefix(e.target.value)} placeholder="e.g. cts" disabled={!showOrg} className={`flex-1 px-3 h-[32px] border rounded outline-none text-[14px] disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white placeholder:text-[#605e5c]' : 'bg-white border-[#8a8886] text-[#201f1e] placeholder:text-[#a19f9d]'}`} />
                                         <button onClick={() => setShowOrg(!showOrg)} className={`h-[32px] w-[32px] flex items-center justify-center rounded border transition-colors ${showOrg ? (isDarkMode ? 'bg-[#323130] border-[#0078d4] text-[#0078d4]' : 'bg-[#deecf9] border-[#0078d4] text-[#0078d4]') : (isDarkMode ? 'bg-transparent border-[#605e5c] text-[#797775] hover:border-[#8a8886]' : 'bg-white border-[#8a8886] text-[#605e5c] hover:border-[#201f1e]')}`}>
