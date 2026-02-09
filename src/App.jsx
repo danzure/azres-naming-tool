@@ -97,7 +97,12 @@ export default function App() {
             if (part === 'Resource') parts.push(resAbbrev);
             if (part === 'Workload') parts.push(cleanWorkload);
             if (part === 'Environment') parts.push(envValue);
-            if (part === 'Region') parts.push(regAbbrev);
+            if (part === 'Region') {
+                // Exclude region for global resources like Subscription and Management Group
+                if (resource.name !== 'Subscription' && resource.name !== 'Management group') {
+                    parts.push(regAbbrev);
+                }
+            }
             if (part === 'Instance') parts.push(suffix);
         });
 
