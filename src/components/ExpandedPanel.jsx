@@ -1,9 +1,28 @@
 import { memo } from 'react';
-import { Copy, Check, BookOpen, Info, ChevronDown } from 'lucide-react';
+import { Copy, Check, BookOpen, Info, ChevronDown, Globe } from 'lucide-react';
 
 function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, selectedSubResource, onSubResourceChange }) {
-    // Find the currently selected sub-resource details
     const currentSubResource = resource.subResources?.find(sr => sr.suffix === selectedSubResource);
+
+    const SCOPE_DESCRIPTIONS = {
+        'Resource group': 'Unique within the Resource Group.',
+        'Subscription': 'Unique within the Subscription.',
+        'Tenant': 'Unique within the Tenant.',
+        'Global': 'Unique across all of Azure (globally).',
+        'Region': 'Unique within the Azure Region.',
+        'VNet': 'Unique within the Virtual Network.',
+        'Namespace': 'Unique within the Namespace.',
+        'Storage account': 'Unique across all of Azure (globally).',
+        'Server': 'Unique within the Server.',
+        'Environment': 'Unique within the Environment.',
+        'Workspace': 'Unique within the Workspace.',
+        'vWAN': 'Unique within the Virtual WAN.',
+        'ANF account': 'Unique within the NetApp Account.',
+        'Capacity pool': 'Unique within the Capacity Pool.',
+        'Scope': 'Scope depends on context.'
+    };
+
+    const scopeDesc = SCOPE_DESCRIPTIONS[resource.scope] || `Name uniqueness scope: ${resource.scope}`;
 
     let displayDesc = resource.desc;
     let displayBestPractice = resource.bestPractice;
@@ -33,7 +52,7 @@ function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, select
             <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-[#0078d4]" />
-                    <h4 className={`text-[14px] font-bold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Resource Guidance</h4>
+                    <h4 className={`text-[14px] font-bold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Resource guidance</h4>
                 </div>
                 <a href={resource.learnUrl} target="_blank" rel="noopener noreferrer" className="text-[13px] flex items-center gap-1.5 text-[#0078d4] hover:underline">
                     View Documentation
@@ -46,7 +65,7 @@ function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, select
                 <div className={`mb-5 p-4 rounded border ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
                     <div className="flex items-center gap-2 mb-3">
                         <svg className="w-4 h-4 text-[#0078d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        <span className={`text-[12px] font-semibold uppercase tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Target Service</span>
+                        <span className={`text-[12px] font-semibold tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Target service</span>
                     </div>
                     <div className="flex flex-col gap-3">
                         <div className="relative">
@@ -78,11 +97,11 @@ function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, select
                 {/* Left Column - Description & Best Practice */}
                 <div className="flex flex-col gap-4">
                     <div>
-                        <span className={`text-[11px] font-semibold uppercase tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Description</span>
+                        <span className={`text-[11px] font-semibold tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Description</span>
                         <p className={`text-[13px] mt-1.5 leading-relaxed ${isDarkMode ? 'text-[#d2d0ce]' : 'text-[#323130]'}`}>{displayDesc}</p>
                     </div>
                     <div>
-                        <span className={`text-[11px] font-semibold uppercase tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>CAF Best Practice</span>
+                        <span className={`text-[11px] font-semibold tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>CAF best practice</span>
                         <div className={`mt-1.5 p-3 rounded border-l-4 ${isDarkMode ? 'bg-[#252423] border-[#0078d4]' : 'bg-white border-[#0078d4]'}`}>
                             <div className="flex gap-3">
                                 <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#0078d4]" />
@@ -96,12 +115,15 @@ function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, select
                 <div className={`p-4 rounded border ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
                     <div className="flex items-center gap-2 mb-4">
                         <svg className="w-4 h-4 text-[#0078d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span className={`text-[12px] font-semibold uppercase tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Naming Rules</span>
+                        <span className={`text-[12px] font-semibold tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Naming rules</span>
                     </div>
                     <div className="space-y-3">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-start justify-between">
                             <span className={`text-[13px] ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>Scope</span>
-                            <span className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{resource.scope || 'Resource group'}</span>
+                            <div className="flex flex-col items-end gap-1">
+                                <span className={`text-[13px] font-semibold text-right ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{resource.scope || 'Resource group'}</span>
+                                <span className={`text-[11px] text-right max-w-[200px] leading-tight ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>{scopeDesc}</span>
+                            </div>
                         </div>
                         <div className="flex items-center justify-between">
                             <span className={`text-[13px] ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`}>Abbreviation</span>
