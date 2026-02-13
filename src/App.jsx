@@ -5,25 +5,26 @@ import Header from './components/Header';
 import ConfigPanel from './components/ConfigPanel';
 import ResourceCard from './components/ResourceCard';
 import useDebounce from './hooks/useDebounce';
+import useLocalStorage from './hooks/useLocalStorage';
 
 import { AZURE_REGIONS, RESOURCE_DATA_SORTED, CATEGORIES } from './data/constants';
 
 export default function App() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useLocalStorage('azres_darkMode', false);
     const [isConfigMinimized, setIsConfigMinimized] = useState(false);
 
-    const [workload, setWorkload] = useState('');
-    const [envValue, setEnvValue] = useState('prod');
-    const [regionValue, setRegionValue] = useState('uksouth');
-    const [instance, setInstance] = useState('001');
-    const [orgPrefix, setOrgPrefix] = useState('');
-    const [namingOrder, setNamingOrder] = useState(['Org', 'Resource', 'Workload', 'Environment', 'Region', 'Instance']);
-    const [showOrg, setShowOrg] = useState(false);
+    const [workload, setWorkload] = useLocalStorage('azres_workload', '');
+    const [envValue, setEnvValue] = useLocalStorage('azres_env', 'prod');
+    const [regionValue, setRegionValue] = useLocalStorage('azres_region', 'uksouth');
+    const [instance, setInstance] = useLocalStorage('azres_instance', '001');
+    const [orgPrefix, setOrgPrefix] = useLocalStorage('azres_orgPrefix', '');
+    const [namingOrder, setNamingOrder] = useLocalStorage('azres_namingOrder', ['Org', 'Resource', 'Workload', 'Environment', 'Region', 'Instance']);
+    const [showOrg, setShowOrg] = useLocalStorage('azres_showOrg', false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeCategory, setActiveCategory] = useState('All');
+    const [activeCategory, setActiveCategory] = useLocalStorage('azres_category', 'All');
     const [copiedId, setCopiedId] = useState(null);
     const [expandedCard, setExpandedCard] = useState(null);
-    const [subResourceSelections, setSubResourceSelections] = useState({}); // Track selected sub-resource per resource
+    const [subResourceSelections, setSubResourceSelections] = useLocalStorage('azres_subResources', {}); // Track selected sub-resource per resource
     const [showScrollTop, setShowScrollTop] = useState(false);
 
     const searchInputRef = useRef(null);
