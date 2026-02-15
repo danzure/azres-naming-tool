@@ -269,7 +269,7 @@ export default function App() {
                             const staggerClass = index < 10 ? `stagger-${index + 1}` : '';
 
                             return (
-                                <div key={resource.name} className={`animate-fade-in opacity-0 ${staggerClass} ${isExpanded ? 'col-span-full z-10' : ''}`}>
+                                <div key={resource.name} className={`animate-fade-in opacity-0 ${staggerClass} ${isExpanded ? 'col-span-full z-10' : 'h-full'}`}>
                                     <ResourceCard
                                         id={`resource-${resource.name}`}
                                         resource={resource}
@@ -278,10 +278,11 @@ export default function App() {
                                         isExpanded={isExpanded}
                                         isTooLong={isTooLong}
                                         isDarkMode={isDarkMode}
-                                        onCopy={(e) => copyToClipboard(genName, resource.name, e)}
+                                        onCopy={(e, textOverride) => copyToClipboard(textOverride || genName, resource.name, e)}
                                         onToggle={() => handleCardToggle(resource.name, isExpanded)}
                                         selectedSubResource={selectedSubResource}
                                         onSubResourceChange={(suffix) => handleSubResourceChange(resource.name, suffix)}
+                                        generateName={generateName}
                                     />
                                 </div>
                             );

@@ -2,8 +2,12 @@ import { memo } from 'react';
 import { Copy, Check, BookOpen, Info, ChevronDown, Globe } from 'lucide-react';
 import PropTypes from 'prop-types';
 
-function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, selectedSubResource, onSubResourceChange }) {
+import { VNET_TOPOLOGIES, SPOKE_TYPES } from '../data/constants';
+
+function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, selectedSubResource, onSubResourceChange, topology, setTopology, selectedSpokes, handleSpokeToggle }) {
     const currentSubResource = resource.subResources?.find(sr => sr.suffix === selectedSubResource);
+    const isVNet = resource.name === 'Virtual network';
+    const isHubSpoke = isVNet && topology === 'hub-spoke';
 
     const SCOPE_DESCRIPTIONS = {
         'Resource group': 'Unique within the Resource Group.',
@@ -60,6 +64,49 @@ function ExpandedPanel({ resource, genName, isCopied, isDarkMode, onCopy, select
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </a>
             </div>
+
+            {/* Topology Selector (only for VNet) */}
+            {isVNet && (
+                <div className={`mb-5 p-4 rounded border ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
+                    <div className="flex items-center gap-2 mb-3">
+                        <svg className="w-4 h-4 text-[#0078d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        <span className={`text-[12px] font-semibold tracking-wide ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>Topology</span>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        <div className="relative">
+                            <select
+                                value={topology}
+                                onChange={(e) => setTopology && setTopology(e.target.value)}
+                                className={`w-full h-[36px] px-3 pr-8 rounded border appearance-none cursor-pointer text-[13px] font-medium ${isDarkMode ? 'bg-[#1b1a19] border-[#484644] text-white' : 'bg-[#faf9f8] border-[#edebe9] text-[#201f1e]'}`}
+                            >
+                                {VNET_TOPOLOGIES.map(t => (
+                                    <option key={t.value} value={t.value}>{t.label}</option>
+                                ))}
+                            </select>
+                            <ChevronDown className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`} />
+                        </div>
+
+                        {isHubSpoke && (
+                            <div className="flex flex-col gap-2 mt-2">
+                                <label className={`text-[11px] font-semibold uppercase tracking-wider opacity-70 ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Spokes</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {SPOKE_TYPES.map(spoke => (
+                                        <label key={spoke.value} className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedSpokes && selectedSpokes.includes(spoke.value)}
+                                                onChange={() => handleSpokeToggle && handleSpokeToggle(spoke.value)}
+                                                className={`rounded text-[#0078d4] focus:ring-[#0078d4] ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c]' : 'bg-white border-[#8a8886]'}`}
+                                            />
+                                            <span className={`text-[12px] ${isDarkMode ? 'text-[#d2d2d2]' : 'text-[#201f1e]'}`}>{spoke.label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Sub-resource Selector (only for resources with subResources) */}
             {resource.subResources && resource.subResources.length > 0 && (

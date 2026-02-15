@@ -286,5 +286,18 @@ export const RESOURCE_DATA_RAW = [
     { category: 'DevOps', name: 'DevTest Labs', abbrev: 'dtl', maxLength: 50, scope: 'Resource group', chars: 'a-z, A-Z, 0-9, -', desc: 'Self-service sandbox for creating VMs and PaaS resources with quotas, auto-shutdown, and claimable pools. Ideal for dev/test scenarios with cost controls.', bestPractice: 'Name pattern: dtl-{team}-{purpose}. Enable auto-shutdown; use claimable VMs for shared dev pool.', learnUrl: 'https://learn.microsoft.com/azure/devtest-labs/devtest-lab-overview' },
 ];
 
+export const VNET_TOPOLOGIES = [
+    { label: 'Single VNet', value: 'single' },
+    { label: 'Hub & Spoke', value: 'hub-spoke' },
+];
+
+export const SPOKE_TYPES = [
+    { label: 'Identity', value: 'identity', abbrev: 'id' },
+    { label: 'Shared Services', value: 'shared', abbrev: 'shared' },
+    { label: 'Application', value: 'app', abbrev: 'app' },
+    { label: 'Management', value: 'mgmt', abbrev: 'mgmt' },
+];
+
 export const RESOURCE_DATA_SORTED = [...RESOURCE_DATA_RAW].sort((a, b) => String(a.name).localeCompare(String(b.name)));
 export const CATEGORIES = ['All', ...[...new Set(RESOURCE_DATA_RAW.map(r => r.category))].sort()];
+
