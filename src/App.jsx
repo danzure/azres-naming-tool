@@ -26,6 +26,7 @@ export default function App() {
     const [expandedCard, setExpandedCard] = useState(null);
     const [subResourceSelections, setSubResourceSelections] = useLocalStorage('azres_subResources', {}); // Track selected sub-resource per resource
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(24); // Initial visible count for infinite scroll
 
     const searchInputRef = useRef(null);
 
@@ -56,12 +57,24 @@ export default function App() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [expandedCard, searchTerm]);
 
-    // Scroll-to-top visibility
+    // Scroll-to-top visibility and Infinite Scroll
     useEffect(() => {
-        const handleScroll = () => setShowScrollTop(window.scrollY > 200);
+        const handleScroll = () => {
+            setShowScrollTop(window.scrollY > 200);
+
+            // Infinite scroll: load more when near bottom
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                setVisibleCount(prev => Math.min(prev + 24, 1000)); // Load next 24 items, cap at sensible MAX
+            }
+        };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Reset visible count on filter change
+    useEffect(() => {
+        setVisibleCount(24);
+    }, [debouncedSearchTerm, activeCategory]);
 
     const scrollToTop = useCallback(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -87,7 +100,7 @@ export default function App() {
         if (val.length <= 3) setInstance(val);
     }, []);
 
-    const generateName = (resource, selectedSubResource = null) => {
+    const generateName = useCallback((resource, selectedSubResource = null) => {
         let resAbbrev = resource.abbrev || "res";
 
         // If resource has subResources and one is selected, append the suffix
@@ -109,11 +122,9 @@ export default function App() {
         const regAbbrev = currentRegion?.abbrev || 'uks';
         const suffix = formattedInstance;
 
-        // Check if resource allows hyphens based on chars field (look for standalone '-' in comma-separated list)
+        // Check if resource allows hyphens based on chars field
         const charsList = resource.chars ? resource.chars.split(',').map(c => c.trim()) : [];
         const allowsHyphens = charsList.includes('-');
-        // Check if resource only allows lowercase
-        const lowercaseOnly = resource.chars ? !resource.chars.includes('A-Z') : false;
 
         // Special handling for Windows VM (15 char limit)
         if (resAbbrev === 'vmw') {
@@ -129,7 +140,6 @@ export default function App() {
             if (part === 'Workload') parts.push(cleanWorkload);
             if (part === 'Environment') parts.push(envValue);
             if (part === 'Region') {
-                // Exclude region for global resources like Subscription and Management Group
                 if (resource.name !== 'Subscription' && resource.name !== 'Management group') {
                     parts.push(regAbbrev);
                 }
@@ -137,21 +147,24 @@ export default function App() {
             if (part === 'Instance') parts.push(suffix);
         });
 
-        // Join with or without hyphens based on resource constraints
         const separator = allowsHyphens ? '-' : '';
         let result = parts.join(separator);
 
-        // Apply lowercase constraint (always lowercase for consistency)
         return result.toLowerCase();
-    };
+    }, [workload, orgPrefix, currentRegion, formattedInstance, envValue, namingOrder, showOrg]);
 
     const filteredResources = useMemo(() => {
-        return RESOURCE_DATA_SORTED.filter(rt => {
+        const filtered = RESOURCE_DATA_SORTED.filter(rt => {
             const matchesSearch = String(rt.name).toLowerCase().includes(debouncedSearchTerm.toLowerCase()) || String(rt.abbrev).toLowerCase().includes(debouncedSearchTerm.toLowerCase());
             const matchesCategory = activeCategory === 'All' || rt.category === activeCategory;
             return matchesSearch && matchesCategory;
         });
+        return filtered;
     }, [debouncedSearchTerm, activeCategory]);
+
+    const displayedResources = useMemo(() => {
+        return filteredResources.slice(0, visibleCount);
+    }, [filteredResources, visibleCount]);
 
     const copyToClipboard = useCallback(async (text, id, e) => {
         if (e) { e.stopPropagation(); e.preventDefault(); }
@@ -252,14 +265,14 @@ export default function App() {
                 </div>
 
                 {/* Resource Grid */}
-                {filteredResources.length === 0 ? (
+                {displayedResources.length === 0 ? (
                     <div className={`text-center py-16 ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>
                         <p className="text-[14px]">No resources found matching your criteria.</p>
                         <p className="text-[12px] mt-2">Try adjusting your search or category filter.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        {filteredResources.map((resource, index) => {
+                        {displayedResources.map((resource, index) => {
                             const selectedSubResource = subResourceSelections[resource.name] || (resource.subResources?.[0]?.suffix);
                             const genName = generateName(resource, selectedSubResource);
                             const isCopied = copiedId === resource.name;
