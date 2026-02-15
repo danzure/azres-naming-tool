@@ -126,6 +126,10 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, 
                     {isTooLong && <ShieldAlert className="w-4 h-4 text-[#a80000] shrink-0" aria-label="Name exceeds maximum length" />}
                 </div>
 
+                <p className={`text-[12px] leading-relaxed line-clamp-2 ${isDarkMode ? 'text-[#d2d0ce]' : 'text-[#605e5c]'}`}>
+                    {resource.desc}
+                </p>
+
                 <div className="mt-auto pt-2">
                     <div className={`relative rounded px-3 border flex flex-col justify-center ${isHubSpoke ? 'min-h-[32px] py-2 gap-2 h-auto' : 'h-[32px]'} ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-[#faf9f8] border-[#edebe9]'}`}>
                         {!isHubSpoke ? (
