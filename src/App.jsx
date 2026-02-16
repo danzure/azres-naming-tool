@@ -1,9 +1,10 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { Search, X, Filter, ArrowUp } from 'lucide-react';
+import { Search, X, ArrowUp } from 'lucide-react';
 
 import Header from './components/Header';
 import ConfigPanel from './components/ConfigPanel';
 import ResourceCard from './components/ResourceCard';
+import ServiceFilter from './components/ServiceFilter';
 import useDebounce from './hooks/useDebounce';
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -276,11 +277,13 @@ export default function App() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t pt-3" style={{ borderColor: isDarkMode ? '#484644' : '#edebe9' }}>
-                        <Filter className={`w-3.5 h-3.5 mr-2 shrink-0 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`} />
-                        {CATEGORIES.map(cat => (
-                            <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-3 py-1 text-[13px] rounded-full whitespace-nowrap border transition-all ${activeCategory === cat ? (isDarkMode ? 'bg-primary-gradient border-transparent text-white font-semibold shadow-sm' : 'bg-primary-gradient border-transparent text-white font-semibold shadow-md') : (isDarkMode ? 'bg-transparent border-[#484644] text-[#c8c6c4] hover:bg-[#323130] hover:border-[#605e5c]' : 'bg-transparent border-[#edebe9] text-[#605e5c] hover:bg-[#f3f2f1] hover:border-[#c8c6c4]')}`}>{cat}</button>
-                        ))}
+                    <div className="mt-3 border-t pt-3" style={{ borderColor: isDarkMode ? '#484644' : '#edebe9' }}>
+                        <ServiceFilter
+                            activeCategory={activeCategory}
+                            onCategoryChange={setActiveCategory}
+                            categories={CATEGORIES}
+                            isDarkMode={isDarkMode}
+                        />
                     </div>
                 </div>
 
