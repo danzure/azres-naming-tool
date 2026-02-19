@@ -138,6 +138,7 @@ export default function App() {
             if (selectedSubResource === 'rs') return 'RouteServerSubnet';
         }
 
+
         const cleanWorkload = workload.toLowerCase().replace(/[^a-z0-9]/g, '');
         const cleanOrg = orgPrefix.toLowerCase().replace(/[^a-z0-9]/g, '');
         const regAbbrev = currentRegion?.abbrev || 'uks';
