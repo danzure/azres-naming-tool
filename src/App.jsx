@@ -7,6 +7,7 @@ import ResourceCard from './components/ResourceCard';
 import ServiceFilter from './components/ServiceFilter';
 import useDebounce from './hooks/useDebounce';
 import useLocalStorage from './hooks/useLocalStorage';
+import { generateName as generateResourceName } from './utils/nameGenerator';
 
 import { AZURE_REGIONS, RESOURCE_DATA_SORTED, CATEGORIES } from './data/constants';
 
@@ -121,63 +122,18 @@ export default function App() {
 
     /**
      * Generates a compliant Azure resource name based on configuration and resource specific rules.
-     * 
-     * @param {Object} resource - The resource definition object from constants.js
-     * @param {string} [selectedSubResource=null] - Optional suffix for sub-resources (e.g., 'vnet-hub')
-     * @returns {string} The generated resource name
+     * Delegates to the pure generateName utility with current state as config.
      */
     const generateName = useCallback((resource, selectedSubResource = null) => {
-        let resAbbrev = resource.abbrev || "res";
-
-        // If resource has subResources and one is selected, append the suffix
-        if (resource.subResources && selectedSubResource) {
-            resAbbrev = `${resAbbrev}-${selectedSubResource}`;
-        }
-
-        // Special handling for Azure Firewall and Bastion subnets (must be exact names)
-        if (resource.name === 'Subnet') {
-            if (selectedSubResource === 'afw') return 'AzureFirewallSubnet';
-            if (selectedSubResource === 'bas') return 'AzureBastionSubnet';
-            if (selectedSubResource === 'gw') return 'GatewaySubnet';
-            if (selectedSubResource === 'afwm') return 'AzureFirewallManagementSubnet';
-            if (selectedSubResource === 'rs') return 'RouteServerSubnet';
-        }
-
-
-        const cleanWorkload = workload.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const cleanOrg = orgPrefix.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const regAbbrev = currentRegion?.abbrev || 'uks';
-        const suffix = formattedInstance;
-
-        // Check if resource allows hyphens based on chars field
-        const charsList = resource.chars ? resource.chars.split(',').map(c => c.trim()) : [];
-        const allowsHyphens = charsList.includes('-');
-
-        // Special handling for Windows VM (15 char limit)
-        if (resAbbrev === 'vmw') {
-            const maxWorkload = 15 - 3 - 1 - 3 - 3;
-            return `${resAbbrev}${cleanWorkload.substring(0, maxWorkload)}${envValue.substring(0, 1)}${regAbbrev.substring(0, 3)}${suffix}`.toLowerCase();
-        }
-
-        // Build parts based on naming order
-        let parts = [];
-        namingOrder.forEach(part => {
-            if (part === 'Org' && showOrg && cleanOrg) parts.push(cleanOrg);
-            if (part === 'Resource') parts.push(resAbbrev);
-            if (part === 'Workload') parts.push(cleanWorkload);
-            if (part === 'Environment') parts.push(envValue);
-            if (part === 'Region') {
-                if (resource.name !== 'Subscription' && resource.name !== 'Management group') {
-                    parts.push(regAbbrev);
-                }
-            }
-            if (part === 'Instance') parts.push(suffix);
-        });
-
-        const separator = allowsHyphens ? '-' : '';
-        let result = parts.join(separator);
-
-        return result.toLowerCase();
+        return generateResourceName(resource, {
+            workload,
+            orgPrefix,
+            regionAbbrev: currentRegion?.abbrev || 'uks',
+            instance: formattedInstance,
+            envValue,
+            namingOrder,
+            showOrg,
+        }, selectedSubResource);
     }, [workload, orgPrefix, currentRegion, formattedInstance, envValue, namingOrder, showOrg]);
 
     const filteredResources = useMemo(() => {
