@@ -57,11 +57,11 @@ describe('generateName', () => {
         expect(result).toBe('rg-myappv2-prod-uks-001');
     });
 
-    it('handles empty workload', () => {
+    it('handles empty workload with placeholder', () => {
         const resource = makeResource();
         const config = { ...defaultConfig, workload: '' };
         const result = generateName(resource, config);
-        expect(result).toBe('rg--prod-uks-001');
+        expect(result).toBe('rg-workload-prod-uks-001');
     });
 
     // ─── Instance Padding ───────────────────────────────────────────
@@ -304,6 +304,6 @@ describe('generateName', () => {
         const resource = makeResource({ chars: undefined });
         const result = generateName(resource, defaultConfig);
         // No hyphens since chars is undefined → allowsHyphens is false
-        expect(result).toBe('reswebproduks001');
+        expect(result).toBe('rgwebproduks001');
     });
 });

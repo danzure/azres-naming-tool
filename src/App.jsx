@@ -262,7 +262,6 @@ export default function App() {
                             const genName = generateName(resource, selectedSubResource);
                             const isCopied = copiedId === resource.name;
                             const isExpanded = expandedCard === resource.name;
-                            const isTooLong = resource.maxLength && genName.length > resource.maxLength;
                             // Cap stagger delay at 10 items to prevent long waits
                             const staggerClass = index < 10 ? `stagger-${index + 1}` : '';
 
@@ -274,7 +273,6 @@ export default function App() {
                                         genName={genName}
                                         isCopied={isCopied}
                                         isExpanded={isExpanded}
-                                        isTooLong={isTooLong}
                                         isDarkMode={isDarkMode}
                                         onCopy={(e, textOverride) => copyToClipboard(textOverride || genName, resource.name, e)}
                                         onToggle={() => handleCardToggle(resource.name, isExpanded)}

@@ -1,9 +1,10 @@
 import { memo, useState, useMemo } from 'react';
-import { Box, Copy, Check, ShieldAlert, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, BrainCircuit, Settings2, Wifi, GitBranch } from 'lucide-react';
+import { Box, Copy, Check, ShieldAlert, AlertTriangle, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, BrainCircuit, Settings2, Wifi, GitBranch } from 'lucide-react';
 import ValidationHighlight from './ValidationHighlight';
 import ExpandedPanel from './ExpandedPanel';
 import { getCategoryColors } from '../data/categoryColors';
 import { getBundleResources } from '../utils/bundleGenerator';
+import { validateName } from '../utils/nameValidator';
 import PropTypes from 'prop-types';
 
 const CATEGORY_ICONS = {
@@ -23,7 +24,7 @@ const CATEGORY_ICONS = {
     'DevOps': GitBranch,
 };
 
-function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, isDarkMode, onCopy, onToggle, selectedSubResource, onSubResourceChange, generateName }) {
+function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode, onCopy, onToggle, selectedSubResource, onSubResourceChange, generateName }) {
     const categoryColors = getCategoryColors(resource.category, isDarkMode);
     const CategoryIcon = CATEGORY_ICONS[resource.category] || Box;
 
@@ -43,12 +44,18 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, 
     // Helper to generate name - utilizing the passed generateName function with modified resource context
     const getGeneratedName = (resItem) => generateName(resItem, null);
 
+    // Validation
+    const validationIssues = useMemo(() => validateName(genName, resource), [genName, resource]);
+    const hasErrors = validationIssues.some(i => i.type === 'error');
+    const hasWarnings = validationIssues.some(i => i.type === 'warning');
+    const isTooLong = validationIssues.some(i => i.code === 'TOO_LONG');
+
 
     return (
         <div
             id={id}
             onClick={onToggle}
-            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-[#0078d4] shadow-depth' : 'hover:-translate-y-1 hover:shadow-depth shadow-soft'} ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'} ${isTooLong ? 'border-l-4 border-l-[#a80000]' : ''}`}
+            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-[#0078d4] shadow-depth' : 'hover:-translate-y-1 hover:shadow-depth shadow-soft'} ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'} ${hasErrors ? 'border-l-4 border-l-[#a80000]' : hasWarnings ? 'border-l-4 border-l-[#ffaa44]' : ''}`}
         >
             <div className="p-4 flex flex-col h-full gap-3">
                 <div className="flex items-start justify-between gap-3">
@@ -70,7 +77,22 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isTooLong, 
                             </div>
                         </div>
                     </div>
-                    {isTooLong && <ShieldAlert className="w-4 h-4 text-[#a80000] shrink-0" aria-label="Name exceeds maximum length" />}
+                    {validationIssues.length > 0 && (
+                        <div className="relative group/validation shrink-0">
+                            {hasErrors
+                                ? <ShieldAlert className="w-4 h-4 text-[#a80000]" aria-label={`${validationIssues.length} validation issue(s)`} />
+                                : <AlertTriangle className="w-4 h-4 text-[#ffaa44]" aria-label={`${validationIssues.length} validation warning(s)`} />
+                            }
+                            <div className={`absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block ${isDarkMode ? 'bg-[#323130] border-[#605e5c] text-[#e1dfdd]' : 'bg-white border-[#edebe9] text-[#323130]'}`}>
+                                {validationIssues.map((issue, i) => (
+                                    <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} ${isDarkMode ? 'border-[#484644]' : 'border-[#edebe9]'}`}>
+                                        <span className={`shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full ${issue.type === 'error' ? 'bg-[#a80000]' : 'bg-[#ffaa44]'}`} />
+                                        <span>{issue.message}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <p className={`text-[12px] leading-relaxed line-clamp-2 ${isDarkMode ? 'text-[#d2d0ce]' : 'text-[#605e5c]'}`}>
@@ -152,7 +174,6 @@ ResourceCard.propTypes = {
     genName: PropTypes.string.isRequired,
     isCopied: PropTypes.bool.isRequired,
     isExpanded: PropTypes.bool.isRequired,
-    isTooLong: PropTypes.bool.isRequired,
     isDarkMode: PropTypes.bool.isRequired,
     onCopy: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,

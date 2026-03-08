@@ -32,7 +32,7 @@ export function generateName(resource, config, selectedSubResource = null) {
         if (selectedSubResource === 'rs') return 'RouteServerSubnet';
     }
 
-    const cleanWorkload = workload.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const cleanWorkload = workload.toLowerCase().replace(/[^a-z0-9]/g, '') || 'workload';
     const cleanOrg = orgPrefix.toLowerCase().replace(/[^a-z0-9]/g, '');
     const regAbbrev = regionAbbrev || 'uks';
     const suffix = (instance || '001').padStart(3, '0');
