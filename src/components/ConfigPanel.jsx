@@ -68,15 +68,14 @@ function ConfigPanel({
                                 </div>
                                 <div className={`text-[12px] leading-relaxed space-y-2 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>
                                     <p>
-                                        This tool generates consistent Azure resource names following Microsoft's{' '}
+                                        The app.atozazure Resource Naming Tool helps you generate consistent, standards-compliant Azure resource names aligned with Microsoft's{' '}
                                         <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline font-medium">
                                             Cloud Adoption Framework (CAF)
-                                        </a>{' '}
-                                        naming convention.
+                                        </a>
+                                        . Each name is automatically validated against Azure's character, length, and scope constraints so you can deploy with confidence.
                                     </p>
                                     <p>
-                                        The purpose of this tool is to help organize Azure resources with predictable, standardized names that include key context like environment, region, and workload identifiers.
-                                        First define your naming schema using the parameters and pattern builder, then browse the resource catalog below and copy correctly formatted names for your deployments.
+                                        Configure your environment, region, workload, and optional org prefix using the parameters panel, then use the pattern builder to customise segment order. Browse the catalog of 100+ Azure services below — each card shows the generated name, recommended abbreviation, and best-practice guidance. Copy individual names or export bundles for use in your IaC templates and deployments.
                                     </p>
                                 </div>
                             </div>

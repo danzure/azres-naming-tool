@@ -7,7 +7,8 @@ export default function Header({ isDarkMode, onToggleTheme }) {
             <div className="flex items-center gap-4">
                 <div className="flex items-baseline gap-2">
                     <span className="font-semibold text-[16px] text-white tracking-tight">app.atozazure</span>
-                    <span className="text-[12px] text-white/80 tracking-wide">Resource namer</span>
+                    <span className="text-[13px] text-white/40 mx-1">|</span>
+                    <span className="text-[12px] text-white/80 tracking-wide">Resource Naming Tool</span>
                 </div>
             </div>
             <button
