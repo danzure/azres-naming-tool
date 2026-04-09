@@ -1,4 +1,4 @@
-# app.atozazure | Resource Naming Tool🌐
+# app.atozazure | Resource Naming Tool 🌐
 
 A modern, web-based tool for generating **Microsoft Cloud Adoption Framework (CAF)** compliant names for Azure resources. 
 
