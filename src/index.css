@@ -8,7 +8,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+@layer base {
+    /* Cohesive, accessible focus state across the entire application */
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible,
+    [tabindex]:focus-visible {
+        outline: 2px solid #0078d4 !important;
+        outline-offset: 2px !important;
+        box-shadow: none !important;
+    }
+    
+    /* Suppress default focus rings for non-keyboard nav */
+    button:focus:not(:focus-visible),
+    input:focus:not(:focus-visible),
+    select:focus:not(:focus-visible) {
+        outline: none;
+    }
 }
 
 html,

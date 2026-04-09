@@ -24,8 +24,8 @@ const CATEGORY_ICONS = {
     'DevOps': GitBranch,
 };
 
-function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode, onCopy, onToggle, selectedSubResource, onSubResourceChange, generateName }) {
-    const categoryColors = getCategoryColors(resource.category, isDarkMode);
+function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onToggle, selectedSubResource, onSubResourceChange, generateName }) {
+    const categoryColors = getCategoryColors(resource.category);
     const CategoryIcon = CATEGORY_ICONS[resource.category] || Box;
 
     const [topology, setTopology] = useState('single');
@@ -48,26 +48,24 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
     return (
         <div
             id={id}
-            onClick={onToggle}
-            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-[#0078d4] shadow-depth' : 'hover:-translate-y-1 hover:shadow-depth shadow-soft'} ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'} ${hasErrors ? 'border-l-4 border-l-[#a80000]' : hasWarnings ? 'border-l-4 border-l-[#ffaa44]' : ''}`}
+            onClick={() => onToggle(resource.name, isExpanded)}
+            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-[#0078d4] shadow-depth' : 'hover:-translate-y-1 hover:shadow-depth shadow-soft'} bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644] ${hasErrors ? 'border-l-4 border-l-[#a80000]' : hasWarnings ? 'border-l-4 border-l-[#ffaa44]' : ''}`}
         >
             <div className="p-4 flex flex-col h-full gap-3">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 overflow-hidden">
                         <div
-                            className="p-2 rounded shrink-0 transition-colors"
-                            style={{ backgroundColor: categoryColors.bg, color: categoryColors.icon }}
+                            className={`p-2 rounded shrink-0 ${categoryColors.bgClass} ${categoryColors.textClass}`}
                         >
                             <CategoryIcon className="w-5 h-5" />
                         </div>
                         <div className="flex flex-col min-w-0">
-                            <h3 className={`text-[14px] font-semibold truncate ${isDarkMode ? 'text-white' : 'text-[#242424]'}`}>{resource.name}</h3>
+                            <h3 className="text-[14px] font-semibold truncate text-[#242424] dark:text-white">{resource.name}</h3>
                             <div className="flex items-center gap-1.5 mt-1">
                                 <span
-                                    className="text-[11px] px-1.5 py-0.5 rounded font-medium transition-colors"
-                                    style={{ backgroundColor: categoryColors.bg, color: categoryColors.icon }}
+                                    className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${categoryColors.bgClass} ${categoryColors.textClass}`}
                                 >{resource.category}</span>
-                                <span className={`text-[11px] font-mono opacity-60 ${isDarkMode ? 'text-[#d2d2d2]' : 'text-[#616161]'}`}>{resource.abbrev}</span>
+                                <span className="text-[11px] font-mono opacity-60 text-[#616161] dark:text-[#d2d2d2]">{resource.abbrev}</span>
                             </div>
                         </div>
                     </div>
@@ -77,9 +75,9 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
                                 ? <ShieldAlert className="w-4 h-4 text-[#a80000]" aria-label={`${validationIssues.length} validation issue(s)`} />
                                 : <AlertTriangle className="w-4 h-4 text-[#ffaa44]" aria-label={`${validationIssues.length} validation warning(s)`} />
                             }
-                            <div className={`absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block ${isDarkMode ? 'bg-[#323130] border-[#605e5c] text-[#e1dfdd]' : 'bg-white border-[#edebe9] text-[#323130]'}`}>
+                            <div className="absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block bg-white dark:bg-[#323130] border-[#edebe9] dark:border-[#605e5c] text-[#323130] dark:text-[#e1dfdd]">
                                 {validationIssues.map((issue, i) => (
-                                    <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} ${isDarkMode ? 'border-[#484644]' : 'border-[#edebe9]'}`}>
+                                    <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} border-[#edebe9] dark:border-[#484644]`}>
                                         <span className={`shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full ${issue.type === 'error' ? 'bg-[#a80000]' : 'bg-[#ffaa44]'}`} />
                                         <span>{issue.message}</span>
                                     </div>
@@ -89,27 +87,28 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
                     )}
                 </div>
 
-                <p className={`text-[12px] leading-relaxed line-clamp-2 ${isDarkMode ? 'text-[#d2d0ce]' : 'text-[#605e5c]'}`}>
+                <p className="text-[12px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
                     {resource.desc}
                 </p>
 
                 <div className="mt-auto pt-2">
-                    <div className={`relative rounded px-3 border flex flex-col justify-center h-[32px] ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-[#faf9f8] border-[#edebe9]'}`}>
-                        <div className={`text-[13px] font-medium font-mono truncate w-full pr-8 flex items-center gap-2 ${isTooLong ? 'text-[#a80000]' : isDarkMode ? 'text-[#ffffff]' : 'text-[#242424]'}`}>
-                            <ValidationHighlight name={hasBundle ? getGeneratedName(bundle[0]) : genName} allowedCharsPattern={hasBundle ? bundle[0].chars : resource.chars} isDarkMode={isDarkMode} />
+                    <div className="relative rounded px-3 border flex flex-col justify-center h-[32px] bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
+                        <div className={`text-[13px] font-medium font-mono truncate w-full pr-8 flex items-center gap-2 ${isTooLong ? 'text-[#a80000]' : 'text-[#242424] dark:text-[#ffffff]'}`}>
+                            <ValidationHighlight name={hasBundle ? getGeneratedName(bundle[0]) : genName} allowedCharsPattern={hasBundle ? bundle[0].chars : resource.chars} />
                             {hasBundle && (
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${isDarkMode ? 'bg-[#323130] text-[#60cdff]' : 'bg-[#f3f2f1] text-[#0078d4]'}`}>
+                                <span className="text-[10px] px-1.5 py-0.5 rounded font-bold bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#60cdff]">
                                     +{bundle.length - 1}
                                 </span>
                             )}
                         </div>
                         <button
                             onClick={(e) => {
+                                e.stopPropagation();
                                 if (hasBundle) {
                                     const allNames = bundle.map(item => `${item.name}: ${getGeneratedName(item)}`).join('\n');
-                                    onCopy(e, allNames);
+                                    onCopy(allNames, resource.name, e);
                                 } else {
-                                    onCopy(e);
+                                    onCopy(genName, resource.name, e);
                                 }
                             }}
                             aria-label={isCopied ? 'Copied' : 'Copy name'}
@@ -123,8 +122,8 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
                         </button>
                     </div>
                     <div className="flex justify-between items-center text-[10px] mt-2 px-0.5 opacity-70 shrink-0">
-                        <span className={isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}>Max: {resource.maxLength || 64}</span>
-                        <span className={`font-bold ${isTooLong ? 'text-[#a80000]' : isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{genName.length} chars</span>
+                        <span className="text-[#605e5c] dark:text-[#c8c6c4]">Max: {resource.maxLength || 64}</span>
+                        <span className={`font-bold ${isTooLong ? 'text-[#a80000]' : 'text-[#201f1e] dark:text-white'}`}>{genName.length} chars</span>
                     </div>
                 </div>
             </div>
@@ -138,10 +137,9 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
                         resource={resource}
                         genName={genName}
                         isCopied={isCopied}
-                        isDarkMode={isDarkMode}
                         onCopy={onCopy}
                         selectedSubResource={selectedSubResource}
-                        onSubResourceChange={onSubResourceChange}
+                        onSubResourceChange={(suffix) => onSubResourceChange(resource.name, suffix)}
                         topology={topology}
                         setTopology={setTopology}
                         spokeCount={spokeCount}
@@ -170,7 +168,6 @@ ResourceCard.propTypes = {
     genName: PropTypes.string.isRequired,
     isCopied: PropTypes.bool.isRequired,
     isExpanded: PropTypes.bool.isRequired,
-    isDarkMode: PropTypes.bool.isRequired,
     onCopy: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
     selectedSubResource: PropTypes.string,

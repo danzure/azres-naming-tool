@@ -61,29 +61,29 @@ const NAME_PATTERN_RE = /^Name pattern:\s*([^.]+)\.\s*/;
 // ── Reusable sub-components (defined at module level to avoid re-creation) ─────
 
 /** Fluent UI 2 themed select dropdown */
-function FluentSelect({ value, onChange, options, isDarkMode }) {
+function FluentSelect({ value, onChange, options }) {
     return (
         <div className="relative">
             <select
                 value={value}
                 onChange={onChange}
-                className={`w-full h-[32px] px-3 pr-8 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white' : 'bg-white border-[#8a8886] text-[#323130]'}`}
+                className="w-full h-[32px] px-3 pr-8 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
             >
                 {options.map(opt => (
                     <option key={opt.value ?? opt.suffix} value={opt.value ?? opt.suffix}>{opt.label}</option>
                 ))}
             </select>
-            <ChevronDown className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]'}`} />
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-[#605e5c] dark:text-[#c8c6c4]" />
         </div>
     );
 }
 
 /** Single row in the Naming Rules card */
-function NamingRuleRow({ label, description, children, isDarkMode, isLast = false }) {
+function NamingRuleRow({ label, description, children, isLast = false }) {
     return (
-        <div className={`flex items-start justify-between py-3 ${isLast ? '' : `border-b ${isDarkMode ? 'border-[#3b3a39]' : 'border-[#e1dfdd]'}`}`}>
+        <div className={`flex items-start justify-between py-3 ${isLast ? '' : 'border-b border-[#e1dfdd] dark:border-[#3b3a39]'}`}>
             <div className="flex flex-col gap-0.5 max-w-[40%]">
-                <span className={`text-[13px] font-medium ${isDarkMode ? 'text-[#e1dfdd]' : 'text-[#323130]'}`}>{label}</span>
+                <span className="text-[13px] font-medium text-[#323130] dark:text-[#e1dfdd]">{label}</span>
                 <span className="text-[11px] text-[#a19f9d] leading-tight">{description}</span>
             </div>
             {children}
@@ -103,7 +103,7 @@ function NamingRuleRow({ label, description, children, isDarkMode, isLast = fals
  * - Naming rules visualization
  */
 function ExpandedPanel({
-    resource, genName, isCopied, isDarkMode, onCopy,
+    resource, genName, isCopied, onCopy,
     selectedSubResource, onSubResourceChange,
     topology, setTopology, spokeCount, setSpokeCount, spokeStartValue, setSpokeStartValue,
     bundle, getBundleName,
@@ -147,47 +147,47 @@ function ExpandedPanel({
 
     const t = useMemo(() => ({
         // Surface card
-        card: isDarkMode ? 'bg-[#292827] border-[#3b3a39]' : 'bg-white border-[#e1dfdd]',
+        card: 'bg-white dark:bg-[#292827] border-[#e1dfdd] dark:border-[#3b3a39]',
         // Primary body text
-        text: isDarkMode ? 'text-[#d2d0ce]' : 'text-[#323130]',
+        text: 'text-[#323130] dark:text-[#d2d0ce]',
         // Strong text / headings
-        strong: isDarkMode ? 'text-white' : 'text-[#242424]',
+        strong: 'text-[#242424] dark:text-white',
         // Caption / label
-        caption: isDarkMode ? 'text-[#c8c6c4]' : 'text-[#605e5c]',
+        caption: 'text-[#605e5c] dark:text-[#c8c6c4]',
         // Muted / secondary text
-        muted: isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]',
+        muted: 'text-[#605e5c] dark:text-[#a19f9d]',
         // Divider
-        divider: isDarkMode ? 'border-[#3b3a39]' : 'border-[#e1dfdd]',
+        divider: 'border-[#e1dfdd] dark:border-[#3b3a39]',
         // Code badge
-        code: isDarkMode ? 'bg-[#323130] text-[#60cdff] border-[#484644]' : 'bg-[#f3f2f1] text-[#0078d4] border-[#e1dfdd]',
+        code: 'bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#60cdff] border-[#e1dfdd] dark:border-[#484644]',
         // Code block (naming pattern)
-        codeBlock: isDarkMode ? 'bg-[#1b1a19] text-[#60cdff] border border-[#3b3a39]' : 'bg-[#f5f5f5] text-[#0078d4] border border-[#e1dfdd]',
+        codeBlock: 'bg-[#f5f5f5] dark:bg-[#1b1a19] text-[#0078d4] dark:text-[#60cdff] border border-[#e1dfdd] dark:border-[#3b3a39]',
         // Char badge
-        charBadge: isDarkMode ? 'bg-[#323130] text-[#e1dfdd] border-[#484644]' : 'bg-[#f3f2f1] text-[#323130] border-[#e1dfdd]',
-    }), [isDarkMode]);
+        charBadge: 'bg-[#f3f2f1] dark:bg-[#323130] text-[#323130] dark:text-[#e1dfdd] border-[#e1dfdd] dark:border-[#484644]',
+    }), []);
 
     // ── Validation bar styles ──────────────────────────────────────────────────
 
     const validationBar = useMemo(() => {
         if (validationIssues.length === 0) {
             return {
-                bg: isDarkMode ? 'bg-[#1b2b1b] border-[#1e4620]' : 'bg-[#f1faf1] border-[#c6ebc9]',
+                bg: 'bg-[#f1faf1] dark:bg-[#1b2b1b] border-[#c6ebc9] dark:border-[#1e4620]',
                 accent: 'bg-[#107c10]',
             };
         }
         const hasError = validationIssues.some(i => i.type === 'error');
         return {
             bg: hasError
-                ? isDarkMode ? 'bg-[#2c1515] border-[#442726]' : 'bg-[#fdf3f4] border-[#eeacb2]'
-                : isDarkMode ? 'bg-[#2c2412] border-[#4a3c1e]' : 'bg-[#fff8f0] border-[#f5d9a8]',
+                ? 'bg-[#fdf3f4] dark:bg-[#2c1515] border-[#eeacb2] dark:border-[#442726]'
+                : 'bg-[#fff8f0] dark:bg-[#2c2412] border-[#f5d9a8] dark:border-[#4a3c1e]',
             accent: hasError ? 'bg-[#c50f1f]' : 'bg-[#f7941d]',
         };
-    }, [validationIssues, isDarkMode]);
+    }, [validationIssues]);
 
     // ── Render ─────────────────────────────────────────────────────────────────
 
     return (
-        <div onClick={(e) => e.stopPropagation()} className={`p-6 border-t cursor-default ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-[#faf9f8] border-[#edebe9]'}`}>
+        <div onClick={(e) => e.stopPropagation()} className="p-6 border-t cursor-default bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
                 <span className={`text-[13px] font-semibold ${t.caption}`}>Resource guidance</span>
@@ -195,7 +195,7 @@ function ExpandedPanel({
                     href={resource.learnUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-[12px] font-medium flex items-center gap-1.5 px-2.5 py-1 rounded-sm transition-colors ${isDarkMode ? 'text-[#60cdff] hover:bg-[#2b2b2b]' : 'text-[#0078d4] hover:bg-[#f3f2f1]'}`}
+                    className="text-[12px] font-medium flex items-center gap-1.5 px-2.5 py-1 rounded-sm transition-colors text-[#0078d4] dark:text-[#60cdff] hover:bg-[#f3f2f1] dark:hover:bg-[#2b2b2b]"
                 >
                     View Documentation
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -211,31 +211,30 @@ function ExpandedPanel({
                             value={topology}
                             onChange={(e) => setTopology?.(e.target.value)}
                             options={topologyOptions}
-                            isDarkMode={isDarkMode}
                         />
                         {isHubSpoke && (
                             <div className="flex flex-col gap-3 mt-1">
                                 <div className="flex gap-4">
                                     <div className="flex flex-col gap-1 flex-1">
-                                        <label className={`text-[11px] font-semibold uppercase tracking-wider ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Number of spokes</label>
+                                        <label className="text-[11px] font-semibold uppercase tracking-wider text-[#616161] dark:text-[#a19f9d]">Number of spokes</label>
                                         <input
                                             type="number"
                                             min="0"
                                             max="20"
                                             value={spokeCount}
                                             onChange={(e) => setSpokeCount?.(Math.max(0, Math.min(20, parseInt(e.target.value) || 0)))}
-                                            className={`w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white' : 'bg-white border-[#8a8886] text-[#323130]'}`}
+                                            className="w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-1 flex-1">
-                                        <label className={`text-[11px] font-semibold uppercase tracking-wider ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Start from</label>
+                                        <label className="text-[11px] font-semibold uppercase tracking-wider text-[#616161] dark:text-[#a19f9d]">Start from</label>
                                         <input
                                             type="number"
                                             min="0"
                                             max="999"
                                             value={spokeStartValue}
                                             onChange={(e) => setSpokeStartValue?.(Math.max(0, parseInt(e.target.value) || 0))}
-                                            className={`w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white' : 'bg-white border-[#8a8886] text-[#323130]'}`}
+                                            className="w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
                                         />
                                     </div>
                                 </div>
@@ -254,7 +253,6 @@ function ExpandedPanel({
                             value={selectedSubResource || ''}
                             onChange={(e) => onSubResourceChange?.(e.target.value)}
                             options={resource.subResources}
-                            isDarkMode={isDarkMode}
                         />
                         {currentSubResource?.dnsZone && (
                             <div className={`text-[12px] ${t.muted}`}>
@@ -280,7 +278,7 @@ function ExpandedPanel({
                                     <span className={`text-[11px] font-medium mb-1 ${t.muted}`}>{item.name}</span>
                                     <div className="flex items-center justify-between gap-2">
                                         <div className={`text-[13px] font-mono truncate flex-1 ${t.strong}`}>
-                                            <ValidationHighlight name={itemName} allowedCharsPattern={item.chars || resource.chars} isDarkMode={isDarkMode} />
+                                            <ValidationHighlight name={itemName} allowedCharsPattern={item.chars || resource.chars} />
                                         </div>
                                         <button
                                             onClick={(e) => { e.stopPropagation(); onCopy(e, itemName); }}
@@ -305,7 +303,7 @@ function ExpandedPanel({
                     {validationIssues.length === 0 ? (
                         <div className="flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4 text-[#107c10] shrink-0" />
-                            <span className={`text-[13px] font-medium ${isDarkMode ? 'text-[#a3d4a3]' : 'text-[#0e700e]'}`}>Name passes all validation checks</span>
+                            <span className="text-[13px] font-medium text-[#0e700e] dark:text-[#a3d4a3]">Name passes all validation checks</span>
                         </div>
                     ) : (
                         <div className="flex flex-col gap-2">
@@ -315,7 +313,7 @@ function ExpandedPanel({
                                         ? <ShieldAlert className="w-3.5 h-3.5 shrink-0 text-[#c50f1f]" />
                                         : <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-[#f7941d]" />
                                     }
-                                    <span className={`text-[13px] ${isDarkMode ? 'text-[#e1dfdd]' : 'text-[#242424]'}`}>{issue.message}</span>
+                                    <span className="text-[13px] text-[#242424] dark:text-[#e1dfdd]">{issue.message}</span>
                                 </div>
                             ))}
                         </div>
@@ -366,26 +364,26 @@ function ExpandedPanel({
                     <div className="p-4">
                         <span className={`text-[12px] font-semibold mb-4 block ${t.caption}`}>Naming rules</span>
                         <div className="flex flex-col">
-                            <NamingRuleRow label="Uniqueness Scope" description="The level at which the name must be unique." isDarkMode={isDarkMode}>
+                            <NamingRuleRow label="Uniqueness Scope" description="The level at which the name must be unique.">
                                 <div className="flex flex-col items-end gap-0.5 text-right">
                                     <span className={`text-[13px] font-semibold ${t.strong}`}>{resource.scope || 'Resource group'}</span>
                                     <span className="text-[11px] max-w-[200px] leading-tight text-[#a19f9d]">{scopeDesc}</span>
                                 </div>
                             </NamingRuleRow>
 
-                            <NamingRuleRow label="Max Length" description="Maximum number of characters allowed." isDarkMode={isDarkMode}>
+                            <NamingRuleRow label="Max Length" description="Maximum number of characters allowed.">
                                 <span className={`text-[13px] font-mono font-semibold ${t.strong}`}>
                                     {resource.maxLength} chars
                                 </span>
                             </NamingRuleRow>
 
-                            <NamingRuleRow label="Recommended Abbrev" description="Common abbreviation for this resource type." isDarkMode={isDarkMode}>
+                            <NamingRuleRow label="Recommended Abbrev" description="Common abbreviation for this resource type.">
                                 <code className={`text-[12px] px-2 py-0.5 rounded-sm font-mono font-medium border ${t.code}`}>
                                     {resource.abbrev}{selectedSubResource ? `-${selectedSubResource}` : ''}
                                 </code>
                             </NamingRuleRow>
 
-                            <NamingRuleRow label="Allowed Characters" description="Only the characters shown here are permitted in the name." isDarkMode={isDarkMode} isLast>
+                            <NamingRuleRow label="Allowed Characters" description="Only the characters shown here are permitted in the name." isLast>
                                 <div className="flex items-center gap-1 flex-wrap justify-end max-w-[55%]">
                                     {resource.chars?.split(',').map((char, i) => (
                                         <span key={i} className={`text-[11px] px-1.5 py-0.5 rounded-sm font-mono font-medium min-w-[22px] text-center border ${t.charBadge}`}>
@@ -423,7 +421,6 @@ ExpandedPanel.propTypes = {
     }).isRequired,
     genName: PropTypes.string.isRequired,
     isCopied: PropTypes.bool.isRequired,
-    isDarkMode: PropTypes.bool.isRequired,
     onCopy: PropTypes.func.isRequired,
     selectedSubResource: PropTypes.string,
     onSubResourceChange: PropTypes.func,

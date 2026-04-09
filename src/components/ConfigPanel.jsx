@@ -36,19 +36,19 @@ import PropTypes from 'prop-types';
  * @param {Function} props.onCopy - Copy handler
  */
 function ConfigPanel({
-    isDarkMode, isMinimized, onToggleMinimize,
+    isMinimized, onToggleMinimize,
     workload, setWorkload, envValue, setEnvValue, regionValue, setRegionValue,
     instance, onInstanceChange, orgPrefix, setOrgPrefix, showOrg, setShowOrg,
     namingOrder, onMoveItem, liveSchemaStr, copiedId, onCopy
 }) {
     return (
-        <nav className={`mt-[48px] shadow-sm transition-all border-b ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
+        <nav className="mt-[48px] shadow-sm transition-all border-b bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644]">
             <div className="max-w-[1600px] mx-auto px-4 py-3">
                 {/* Header row */}
                 <div className="flex items-center justify-between mb-3">
                     <div>
-                        <h2 className={`text-[16px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#242424]'}`}>Configuration</h2>
-                        <p className={`text-[12px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Define naming parameters</p>
+                        <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Configuration</h2>
+                        <p className="text-[12px] text-[#616161] dark:text-[#a19f9d]">Define naming parameters</p>
                     </div>
                     <button onClick={onToggleMinimize} className="text-[13px] font-medium text-[#0078d4] hover:underline flex items-center gap-1">
                         {isMinimized ? 'Show' : 'Hide'}
@@ -61,12 +61,12 @@ function ConfigPanel({
                         {/* Two-column grid: Parameters + About (reversed order on mobile) */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                             {/* About / CAF Introduction - shows first on mobile via order */}
-                            <div className={`order-1 lg:order-2 p-3 rounded-lg border shadow-soft ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
+                            <div className="order-1 lg:order-2 p-3 rounded-lg border shadow-soft bg-white dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
                                 <div className="flex items-center gap-2 mb-3">
                                     <Info className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>About This Tool</h3>
+                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">About This Tool</h3>
                                 </div>
-                                <div className={`text-[12px] leading-relaxed space-y-2 ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>
+                                <div className="text-[12px] leading-relaxed space-y-2 text-[#616161] dark:text-[#c8c6c4]">
                                     <p>
                                         The app.atozazure Resource Naming Tool helps you generate consistent, standards-compliant Azure resource names aligned with Microsoft's{' '}
                                         <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline font-medium">
@@ -81,16 +81,16 @@ function ConfigPanel({
                             </div>
 
                             {/* Parameters - shows second on mobile via order */}
-                            <div className={`order-2 lg:order-1 p-3 rounded-lg border shadow-soft ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
+                            <div className="order-2 lg:order-1 p-3 rounded-lg border shadow-soft bg-white dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
                                 <div className="flex items-center gap-2 mb-3">
                                     <Edit3 className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Parameters</h3>
+                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">Parameters</h3>
                                 </div>
                                 {/* Form grid - label left, input right */}
                                 <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 items-center">
                                     {/* Org Prefix */}
-                                    <Tooltip content="Organisation prefix" isDarkMode={isDarkMode}>
-                                        <label className={`text-[12px] font-medium text-right ${!showOrg ? 'opacity-50' : ''} ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>Org Prefix</label>
+                                    <Tooltip content="Organisation prefix">
+                                        <label className={`text-[12px] font-medium text-right text-[#616161] dark:text-[#c8c6c4] ${!showOrg ? 'opacity-50' : ''}`}>Org Prefix</label>
                                     </Tooltip>
                                     <div className="flex items-center gap-1.5">
                                         <input
@@ -99,54 +99,54 @@ function ConfigPanel({
                                             onChange={(e) => setOrgPrefix(e.target.value)}
                                             placeholder="Optional"
                                             disabled={!showOrg}
-                                            className={`flex-1 px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 disabled:opacity-40 ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
+                                            className="flex-1 px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 disabled:opacity-40 bg-white dark:bg-[#252423] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]"
                                         />
                                         <button
                                             onClick={() => setShowOrg(!showOrg)}
-                                            className={`h-[28px] w-[28px] flex items-center justify-center rounded border transition-colors shrink-0 ${showOrg ? 'bg-[#0078d4] border-[#0078d4] text-white' : (isDarkMode ? 'bg-transparent border-[#605e5c] text-[#8a8886] hover:border-[#8a8886]' : 'bg-white border-[#8a8886] text-[#605e5c] hover:border-[#323130]')}`}
+                                            className={`h-[28px] w-[28px] flex items-center justify-center rounded border transition-colors shrink-0 ${showOrg ? 'bg-[#0078d4] border-[#0078d4] text-white' : 'bg-white dark:bg-transparent border-[#8a8886] dark:border-[#605e5c] text-[#605e5c] dark:text-[#8a8886] hover:border-[#323130] dark:hover:border-[#8a8886]'}`}
                                             title={showOrg ? 'Disable Org' : 'Enable Org'}
                                         >
                                             {showOrg ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
                                         </button>
                                     </div>
                                     {/* Workload */}
-                                    <Tooltip content="Application or workload name" isDarkMode={isDarkMode}>
-                                        <label className={`text-[12px] font-medium text-right ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>Workload</label>
+                                    <Tooltip content="Application or workload name">
+                                        <label className="text-[12px] font-medium text-right text-[#616161] dark:text-[#c8c6c4]">Workload</label>
                                     </Tooltip>
                                     <input
                                         type="text"
                                         value={workload}
                                         onChange={(e) => setWorkload(e.target.value)}
                                         placeholder="web"
-                                        className={`px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
+                                        className="px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 bg-white dark:bg-[#252423] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]"
                                     />
                                     {/* Environment */}
-                                    <Tooltip content="Lifecycle stage" isDarkMode={isDarkMode}>
-                                        <label className={`text-[12px] font-medium text-right ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>Environment</label>
+                                    <Tooltip content="Lifecycle stage">
+                                        <label className="text-[12px] font-medium text-right text-[#616161] dark:text-[#c8c6c4]">Environment</label>
                                     </Tooltip>
-                                    <SearchableSelect items={ENVIRONMENTS} value={envValue} onChange={setEnvValue} isDarkMode={isDarkMode} compact />
+                                    <SearchableSelect items={ENVIRONMENTS} value={envValue} onChange={setEnvValue} compact />
                                     {/* Region */}
-                                    <Tooltip content="Azure region" isDarkMode={isDarkMode}>
-                                        <label className={`text-[12px] font-medium text-right ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>Region</label>
+                                    <Tooltip content="Azure region">
+                                        <label className="text-[12px] font-medium text-right text-[#616161] dark:text-[#c8c6c4]">Region</label>
                                     </Tooltip>
                                     <div className="flex items-center gap-1.5">
                                         <div className="flex-1 min-w-0">
-                                            <SearchableSelect items={AZURE_REGIONS} value={regionValue} onChange={setRegionValue} isDarkMode={isDarkMode} placeholder="Select..." compact />
+                                            <SearchableSelect items={AZURE_REGIONS} value={regionValue} onChange={setRegionValue} placeholder="Select..." compact />
                                         </div>
                                         <a
                                             href="https://datacenters.microsoft.com/globe/explore/"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             title="View Azure Infrastructure Map"
-                                            className={`h-[32px] flex items-center justify-center rounded border transition-colors shrink-0 px-2 gap-1.5 no-underline ${isDarkMode ? 'bg-transparent border-[#605e5c] text-[#c8c6c4] hover:border-[#8a8886]' : 'bg-white border-[#8a8886] text-[#605e5c] hover:border-[#323130]'}`}
+                                            className="h-[32px] flex items-center justify-center rounded border transition-colors shrink-0 px-2 gap-1.5 no-underline bg-white dark:bg-transparent border-[#8a8886] dark:border-[#605e5c] text-[#605e5c] dark:text-[#c8c6c4] hover:border-[#323130] dark:hover:border-[#8a8886]"
                                         >
                                             <Globe className="w-3.5 h-3.5" />
                                             <span className="text-[11px] font-semibold">View Map</span>
                                         </a>
                                     </div>
                                     {/* Instance */}
-                                    <Tooltip content="Instance number (001-999)" isDarkMode={isDarkMode}>
-                                        <label className={`text-[12px] font-medium text-right ${isDarkMode ? 'text-[#c8c6c4]' : 'text-[#616161]'}`}>Instance</label>
+                                    <Tooltip content="Instance number (001-999)">
+                                        <label className="text-[12px] font-medium text-right text-[#616161] dark:text-[#c8c6c4]">Instance</label>
                                     </Tooltip>
                                     <input
                                         type="text"
@@ -154,20 +154,20 @@ function ConfigPanel({
                                         onChange={onInstanceChange}
                                         maxLength={3}
                                         placeholder="001"
-                                        className={`px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 ${isDarkMode ? 'bg-[#252423] text-white border-[#605e5c] placeholder:text-[#605e5c]' : 'bg-white text-[#201f1e] border-[#8a8886] placeholder:text-[#a19f9d]'}`}
+                                        className="px-2.5 h-[28px] border rounded outline-none text-[13px] transition-all duration-200 focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 bg-white dark:bg-[#252423] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Pattern Builder - full width with mobile-optimized layout */}
-                        <div className={`mt-3 p-3 rounded-lg border ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-white border-[#edebe9] shadow-soft'}`}>
+                        <div className="mt-3 p-3 rounded-lg border bg-white dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644] shadow-soft dark:shadow-none">
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-3">
                                 <div className="flex items-center gap-2">
                                     <Layers className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className={`text-[13px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>Pattern Builder</h3>
+                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">Pattern Builder</h3>
                                 </div>
-                                <span className={`text-[11px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>
+                                <span className="text-[11px] text-[#616161] dark:text-[#a19f9d]">
                                     <span className="hidden sm:inline">— </span>Customize segment order for your naming convention
                                 </span>
                             </div>
@@ -181,19 +181,19 @@ function ConfigPanel({
                                 {namingOrder.map((item, index) => (
                                     <div
                                         key={item}
-                                        className={`flex items-center justify-between sm:justify-start gap-2 px-3 h-[44px] sm:h-[36px] rounded-md border cursor-default ${item === 'Org' && !showOrg ? 'opacity-40' : ''} ${isDarkMode ? 'bg-[#252423] border-[#484644] hover:border-[#605e5c]' : 'bg-[#faf9f8] border-[#edebe9] hover:border-[#c8c6c4]'} transition-colors`}
+                                        className={`flex items-center justify-between sm:justify-start gap-2 px-3 h-[44px] sm:h-[36px] rounded-md border cursor-default ${item === 'Org' && !showOrg ? 'opacity-40' : ''} bg-[#faf9f8] dark:bg-[#252423] border-[#edebe9] dark:border-[#484644] hover:border-[#c8c6c4] dark:hover:border-[#605e5c] transition-colors`}
                                     >
                                         <div className="flex items-center gap-2">
-                                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${isDarkMode ? 'bg-[#0078d4]/30 text-[#60cdff]' : 'bg-[#deecf9] text-[#0078d4]'}`}>
+                                            <span className="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 bg-[#deecf9] dark:bg-[#0078d4]/30 text-[#0078d4] dark:text-[#60cdff]">
                                                 {index + 1}
                                             </span>
-                                            <span className={`text-[13px] font-medium ${isDarkMode ? 'text-white' : 'text-[#201f1e]'}`}>{item}</span>
+                                            <span className="text-[13px] font-medium text-[#201f1e] dark:text-white">{item}</span>
                                         </div>
                                         <div className="flex items-center gap-0.5">
                                             <button
                                                 onClick={() => onMoveItem(index, -1)}
                                                 disabled={index === 0}
-                                                className={`p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className="p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#edebe9] dark:hover:bg-[#484644]"
                                                 title="Move left"
                                             >
                                                 <ArrowLeft className="w-4 h-4" />
@@ -201,7 +201,7 @@ function ConfigPanel({
                                             <button
                                                 onClick={() => onMoveItem(index, 1)}
                                                 disabled={index === namingOrder.length - 1}
-                                                className={`p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 ${isDarkMode ? 'text-[#a19f9d] hover:bg-[#484644]' : 'text-[#605e5c] hover:bg-[#edebe9]'}`}
+                                                className="p-1.5 sm:p-1 rounded transition-colors disabled:opacity-20 text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#edebe9] dark:hover:bg-[#484644]"
                                                 title="Move right"
                                             >
                                                 <ArrowRight className="w-4 h-4" />
@@ -213,12 +213,12 @@ function ConfigPanel({
                         </div>
 
                         {/* Live Preview - compact bar */}
-                        <div className={`mt-3 px-3 py-2 rounded border flex items-center gap-3 ${isDarkMode ? 'bg-[#1b1a19] border-[#484644]' : 'bg-[#faf9f8] border-[#edebe9]'}`}>
+                        <div className="mt-3 px-3 py-2 rounded border flex items-center gap-3 bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
                             <div className="flex items-center gap-2 shrink-0">
                                 <Eye className="w-3.5 h-3.5 text-[#0078d4]" />
-                                <span className={`text-[12px] font-medium ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Preview</span>
+                                <span className="text-[12px] font-medium text-[#616161] dark:text-[#a19f9d]">Preview</span>
                             </div>
-                            <div className={`flex-1 px-3 py-1.5 rounded font-mono text-[14px] font-semibold tracking-wide ${isDarkMode ? 'bg-[#252423] text-[#60cdff]' : 'bg-white text-[#0078d4] border border-[#edebe9]'}`}>
+                            <div className="flex-1 px-3 py-1.5 rounded font-mono text-[14px] font-semibold tracking-wide bg-white dark:bg-[#252423] text-[#0078d4] dark:text-[#60cdff] border border-[#edebe9] dark:border-transparent">
                                 {liveSchemaStr}
                             </div>
                             <button
@@ -239,7 +239,6 @@ function ConfigPanel({
 }
 
 ConfigPanel.propTypes = {
-    isDarkMode: PropTypes.bool.isRequired,
     isMinimized: PropTypes.bool.isRequired,
     onToggleMinimize: PropTypes.func.isRequired,
     workload: PropTypes.string.isRequired,

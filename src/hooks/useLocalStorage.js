@@ -24,9 +24,15 @@ export default function useLocalStorage(key, initialValue) {
         try {
             setStoredValue(prev => {
                 const valueToStore = value instanceof Function ? value(prev) : value;
+                
+                // Decouple disk I/O from the main React rendering thread
                 if (typeof window !== 'undefined') {
-                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                    // Use setTimeout to push the localStorage write to the end of the event queue
+                    setTimeout(() => {
+                        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                    }, 0);
                 }
+                
                 return valueToStore;
             });
         } catch (error) {

@@ -46,6 +46,15 @@ export default function App() {
     // Delays search execution by 300ms until user stops typing
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+    // Toggle document class for Tailwind dark mode
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDarkMode]);
+
     // Keyboard shortcuts handler
     // - Escape: Close expanded cards or clear search
     // - Ctrl+K / Forward Slash: Focus search input
@@ -137,12 +146,19 @@ export default function App() {
     }, [workload, orgPrefix, currentRegion, formattedInstance, envValue, namingOrder, showOrg]);
 
     const filteredResources = useMemo(() => {
-        const filtered = RESOURCE_DATA_SORTED.filter(rt => {
-            const matchesSearch = String(rt.name).toLowerCase().includes(debouncedSearchTerm.toLowerCase()) || String(rt.abbrev).toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+        const lowerSearch = debouncedSearchTerm.toLowerCase();
+        
+        return RESOURCE_DATA_SORTED.filter(rt => {
+            // Short-circuit category match first 
             const matchesCategory = activeCategory === 'All' || rt.category === activeCategory;
-            return matchesSearch && matchesCategory;
+            if (!matchesCategory) return false;
+            
+            // Short-circuit empty search
+            if (!lowerSearch) return true;
+            
+            // Only perform string allocations if necessary
+            return String(rt.name).toLowerCase().includes(lowerSearch) || String(rt.abbrev).toLowerCase().includes(lowerSearch);
         });
-        return filtered;
     }, [debouncedSearchTerm, activeCategory]);
 
     const displayedResources = useMemo(() => {
@@ -194,14 +210,13 @@ export default function App() {
     }, [namingOrder, showOrg]);
 
     return (
-        <div className={`min-h-screen font-sans transition-colors duration-200 ${isDarkMode ? 'bg-[#111009] text-white' : 'bg-[#faf9f8] text-[#242424]'}`}>
+        <div className="min-h-screen font-sans transition-colors duration-200 bg-[#faf9f8] dark:bg-[#111009] text-[#242424] dark:text-white">
             <Header
                 isDarkMode={isDarkMode}
                 onToggleTheme={() => setIsDarkMode(prev => !prev)}
             />
 
             <ConfigPanel
-                isDarkMode={isDarkMode}
                 isMinimized={isConfigMinimized}
                 onToggleMinimize={() => setIsConfigMinimized(prev => !prev)}
                 workload={workload}
@@ -225,33 +240,32 @@ export default function App() {
 
             <div className="max-w-[1600px] mx-auto px-6 pt-8 space-y-8">
                 {/* Services Header Card */}
-                <div className={`p-5 rounded-lg shadow-soft border flex flex-col gap-4 ${isDarkMode ? 'bg-[#252423] border-[#484644]' : 'bg-white border-[#edebe9]'}`}>
+                <div className="p-5 rounded-lg shadow-soft border flex flex-col gap-4 bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644]">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h2 className={`text-[18px] font-semibold ${isDarkMode ? 'text-white' : 'text-[#242424]'}`}>Services</h2>
-                            <p className={`text-[13px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Select a resource to generate a name</p>
+                            <h2 className="text-[18px] font-semibold text-[#242424] dark:text-white">Services</h2>
+                            <p className="text-[13px] text-[#616161] dark:text-[#a19f9d]">Select a resource to generate a name</p>
                         </div>
                         <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:max-w-xl">
-                            <div className={`relative flex-1 w-full flex items-center px-2 h-[32px] border rounded ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c]' : 'bg-white border-[#8a8886]'}`}>
+                            <div className="relative flex-1 w-full flex items-center px-2 h-[32px] border rounded bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c]">
                                 <Search className="w-4 h-4 mr-2 text-[#0078d4]" />
-                                <input ref={searchInputRef} type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Filter services... (Ctrl+K)" className={`w-full bg-transparent border-none outline-none text-[14px] ${isDarkMode ? 'text-white placeholder:text-[#605e5c]' : 'text-[#201f1e] placeholder:text-[#a19f9d]'}`} />
-                                {searchTerm && <button onClick={() => setSearchTerm('')} className="p-0.5 hover:bg-black/10 rounded-full"><X className={`w-3 h-3 ${isDarkMode ? 'text-white' : 'text-black'}`} /></button>}
+                                <input ref={searchInputRef} type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Filter services... (Ctrl+K)" className="w-full bg-transparent border-none outline-none text-[14px] text-[#201f1e] dark:text-white placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]" />
+                                {searchTerm && <button onClick={() => setSearchTerm('')} className="p-0.5 hover:bg-black/10 rounded-full"><X className="w-3 h-3 text-black dark:text-white" /></button>}
                             </div>
                         </div>
                     </div>
-                    <div className="mt-3 border-t pt-3" style={{ borderColor: isDarkMode ? '#484644' : '#edebe9' }}>
+                    <div className="mt-3 border-t pt-3 border-[#edebe9] dark:border-[#484644]">
                         <ServiceFilter
                             activeCategory={activeCategory}
                             onCategoryChange={setActiveCategory}
                             categories={CATEGORIES}
-                            isDarkMode={isDarkMode}
                         />
                     </div>
                 </div>
 
                 {/* Resource Grid */}
                 {displayedResources.length === 0 ? (
-                    <div className={`text-center py-16 ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>
+                    <div className="text-center py-16 text-[#605e5c] dark:text-[#a19f9d]">
                         <p className="text-[14px]">No resources found matching your criteria.</p>
                         <p className="text-[12px] mt-2">Try adjusting your search or category filter.</p>
                     </div>
@@ -273,11 +287,10 @@ export default function App() {
                                         genName={genName}
                                         isCopied={isCopied}
                                         isExpanded={isExpanded}
-                                        isDarkMode={isDarkMode}
-                                        onCopy={(e, textOverride) => copyToClipboard(textOverride || genName, resource.name, e)}
-                                        onToggle={() => handleCardToggle(resource.name, isExpanded)}
+                                        onCopy={copyToClipboard}
+                                        onToggle={handleCardToggle}
                                         selectedSubResource={selectedSubResource}
-                                        onSubResourceChange={(suffix) => handleSubResourceChange(resource.name, suffix)}
+                                        onSubResourceChange={handleSubResourceChange}
                                         generateName={generateName}
                                     />
                                 </div>
@@ -287,7 +300,7 @@ export default function App() {
                 )}
 
                 {/* Footer */}
-                <footer className={`py-6 text-center text-[12px] ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#605e5c]'}`}>
+                <footer className="py-6 text-center text-[12px] text-[#605e5c] dark:text-[#a19f9d]">
                     Published by <a href="https://www.linkedin.com/in/danielpowley92/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#0078d4] hover:underline">Daniel Powley</a> • <a href="https://github.com/danzure/azres-naming-tool" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">GitHub</a> • Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">MIT License</a>
                 </footer>
             </div>
@@ -297,7 +310,7 @@ export default function App() {
                 <button
                     onClick={scrollToTop}
                     aria-label="Scroll to top"
-                    className={`fixed bottom-6 right-6 p-3 rounded-full shadow-lg hover:shadow-depth transition-all duration-300 z-50 animate-scale-in ${isDarkMode ? 'bg-[#323130] text-white hover:bg-[#484644]' : 'bg-primary-gradient text-white hover:shadow-glow'}`}
+                    className="fixed bottom-6 right-6 p-3 rounded-full shadow-lg hover:shadow-depth transition-all duration-300 z-50 animate-scale-in bg-primary-gradient dark:bg-[#323130] text-white hover:shadow-glow dark:hover:shadow-none dark:hover:bg-[#484644]"
                 >
                     <ArrowUp className="w-5 h-5" />
                 </button>

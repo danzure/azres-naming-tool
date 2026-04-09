@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-export default function ValidationHighlight({ name, allowedCharsPattern, isDarkMode }) {
+export default function ValidationHighlight({ name, allowedCharsPattern }) {
     const validator = useMemo(() => {
         if (!allowedCharsPattern) return () => true;
         const allowedParts = allowedCharsPattern.split(',').map(s => s.trim());
@@ -48,7 +48,7 @@ export default function ValidationHighlight({ name, allowedCharsPattern, isDarkM
                 seg.type === 'valid' ? (
                     seg.text
                 ) : (
-                    <span key={i} className={`${isDarkMode ? 'text-[#f1707b]' : 'text-[#a80000]'} font-bold underline decoration-wavy`} title={`Invalid: '${seg.text}'`}>
+                    <span key={i} className="text-[#a80000] dark:text-[#f1707b] font-bold underline decoration-wavy" title={`Invalid: '${seg.text}'`}>
                         {seg.text}
                     </span>
                 )
@@ -60,5 +60,4 @@ export default function ValidationHighlight({ name, allowedCharsPattern, isDarkM
 ValidationHighlight.propTypes = {
     name: PropTypes.string.isRequired,
     allowedCharsPattern: PropTypes.string,
-    isDarkMode: PropTypes.bool.isRequired,
 };
