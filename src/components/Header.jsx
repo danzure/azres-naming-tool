@@ -5,7 +5,10 @@ export default function Header({ isDarkMode, onToggleTheme }) {
     return (
         <header className={`h-[48px] flex items-center justify-between px-5 border-b z-50 fixed top-0 w-full ${isDarkMode ? 'bg-[#1b1a19] border-[#323130]' : 'bg-primary-gradient border-transparent text-white shadow-soft'}`}>
             <div className="flex items-center gap-4">
-                <span className="font-semibold text-[16px] text-white tracking-tight">a-zurenamer</span>
+                <div className="flex items-baseline gap-2">
+                    <span className="font-semibold text-[16px] text-white tracking-tight">app.atozazure</span>
+                    <span className="text-[12px] text-white/80 tracking-wide">Resource namer</span>
+                </div>
             </div>
             <button
                 onClick={onToggleTheme}
