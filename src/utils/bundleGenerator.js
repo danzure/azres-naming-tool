@@ -1,6 +1,4 @@
 
-import { SPOKE_TYPES } from '../data/constants';
-
 /**
  * Generates a bundle of related resources based on the selected topology.
  * 
@@ -10,21 +8,25 @@ import { SPOKE_TYPES } from '../data/constants';
  * 
  * @param {Object} resource - The main resource object from constants.js
  * @param {string} topology - The selected topology ('single', 'hub-spoke', 'bundle')
- * @param {Array} selectedSpokes - Optional array of selected spokes for VNet topology
+ * @param {Object} spokeOptions - Optional spoke configuration for VNet topology
+ * @param {number} spokeOptions.spokeCount - Number of spokes to generate
+ * @param {number} spokeOptions.spokeStartValue - Starting number for spoke numbering
  * @returns {Array|null} - An array of resource objects representing the bundle, or null if no bundle applies.
  */
-export function getBundleResources(resource, topology, selectedSpokes = []) {
+export function getBundleResources(resource, topology, spokeOptions = {}) {
     if (resource.name === 'Virtual network' && topology === 'hub-spoke') {
         const hub = { ...resource, abbrev: 'vnet-hub', name: 'Hub VNet' };
+        const { spokeCount = 0, spokeStartValue = 1 } = spokeOptions;
 
         const spokes = [];
-        if (selectedSpokes.length > 0) {
-            SPOKE_TYPES.filter(s => selectedSpokes.includes(s.value)).forEach(spoke => {
-                spokes.push({
-                    ...resource,
-                    abbrev: `vnet-${spoke.abbrev}`,
-                    name: `${spoke.label} Spoke`
-                });
+        for (let i = 0; i < spokeCount; i++) {
+            const num = spokeStartValue + i;
+            const padded = String(num).padStart(3, '0');
+            spokes.push({
+                ...resource,
+                abbrev: 'vnet-spoke',
+                name: `Spoke ${padded}`,
+                instanceOverride: padded
             });
         }
 

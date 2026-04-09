@@ -124,12 +124,12 @@ export default function App() {
      * Generates a compliant Azure resource name based on configuration and resource specific rules.
      * Delegates to the pure generateName utility with current state as config.
      */
-    const generateName = useCallback((resource, selectedSubResource = null) => {
+    const generateName = useCallback((resource, selectedSubResource = null, instanceOverride = null) => {
         return generateResourceName(resource, {
             workload,
             orgPrefix,
             regionAbbrev: currentRegion?.abbrev || 'uks',
-            instance: formattedInstance,
+            instance: instanceOverride || formattedInstance,
             envValue,
             namingOrder,
             showOrg,

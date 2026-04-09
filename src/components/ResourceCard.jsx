@@ -29,20 +29,14 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
     const CategoryIcon = CATEGORY_ICONS[resource.category] || Box;
 
     const [topology, setTopology] = useState('single');
-    const [selectedSpokes, setSelectedSpokes] = useState([]);
+    const [spokeCount, setSpokeCount] = useState(1);
+    const [spokeStartValue, setSpokeStartValue] = useState(1);
 
-    const handleSpokeToggle = (spokeValue) => {
-        setSelectedSpokes(prev => {
-            if (prev.includes(spokeValue)) return prev.filter(s => s !== spokeValue);
-            return [...prev, spokeValue];
-        });
-    };
-
-    const bundle = useMemo(() => getBundleResources(resource, topology, selectedSpokes), [resource, topology, selectedSpokes]);
+    const bundle = useMemo(() => getBundleResources(resource, topology, { spokeCount, spokeStartValue }), [resource, topology, spokeCount, spokeStartValue]);
     const hasBundle = bundle && bundle.length > 0;
 
     // Helper to generate name - utilizing the passed generateName function with modified resource context
-    const getGeneratedName = (resItem) => generateName(resItem, null);
+    const getGeneratedName = (resItem) => generateName(resItem, null, resItem.instanceOverride);
 
     // Validation
     const validationIssues = useMemo(() => validateName(genName, resource), [genName, resource]);
@@ -150,8 +144,10 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, isDarkMode,
                         onSubResourceChange={onSubResourceChange}
                         topology={topology}
                         setTopology={setTopology}
-                        selectedSpokes={selectedSpokes}
-                        handleSpokeToggle={handleSpokeToggle}
+                        spokeCount={spokeCount}
+                        setSpokeCount={setSpokeCount}
+                        spokeStartValue={spokeStartValue}
+                        setSpokeStartValue={setSpokeStartValue}
                         bundle={bundle}
                         getBundleName={getGeneratedName}
                     />

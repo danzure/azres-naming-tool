@@ -311,12 +311,6 @@ export const WEB_TOPOLOGIES = [
     { label: 'Full Web App (Plan + App + Insights)', value: 'bundle' },
 ];
 
-export const SPOKE_TYPES = [
-    { label: 'Identity', value: 'identity', abbrev: 'id' },
-    { label: 'Shared Services', value: 'shared', abbrev: 'shared' },
-    { label: 'Application', value: 'app', abbrev: 'app' },
-    { label: 'Management', value: 'mgmt', abbrev: 'mgmt' },
-];
 
 export const RESOURCE_DATA_SORTED = [...RESOURCE_DATA_RAW].sort((a, b) => String(a.name).localeCompare(String(b.name)));
 export const CATEGORIES = ['All', ...[...new Set(RESOURCE_DATA_RAW.map(r => r.category))].sort()];

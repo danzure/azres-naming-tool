@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 import { Copy, Check, Info, ChevronDown, ShieldCheck, ShieldAlert, AlertTriangle } from 'lucide-react';
 import PropTypes from 'prop-types';
 
-import { VNET_TOPOLOGIES, AVD_TOPOLOGIES, AKS_TOPOLOGIES, SQL_TOPOLOGIES, WEB_TOPOLOGIES, SPOKE_TYPES } from '../data/constants';
+import { VNET_TOPOLOGIES, AVD_TOPOLOGIES, AKS_TOPOLOGIES, SQL_TOPOLOGIES, WEB_TOPOLOGIES } from '../data/constants';
 import ValidationHighlight from './ValidationHighlight';
 import { validateName } from '../utils/nameValidator';
 
@@ -105,7 +105,7 @@ function NamingRuleRow({ label, description, children, isDarkMode, isLast = fals
 function ExpandedPanel({
     resource, genName, isCopied, isDarkMode, onCopy,
     selectedSubResource, onSubResourceChange,
-    topology, setTopology, selectedSpokes, handleSpokeToggle,
+    topology, setTopology, spokeCount, setSpokeCount, spokeStartValue, setSpokeStartValue,
     bundle, getBundleName,
 }) {
     // ── Derived state ──────────────────────────────────────────────────────────
@@ -214,20 +214,30 @@ function ExpandedPanel({
                             isDarkMode={isDarkMode}
                         />
                         {isHubSpoke && (
-                            <div className="flex flex-col gap-2 mt-1">
-                                <label className={`text-[11px] font-semibold uppercase tracking-wider ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Spokes</label>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {SPOKE_TYPES.map(spoke => (
-                                        <label key={spoke.value} className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedSpokes?.includes(spoke.value) ?? false}
-                                                onChange={() => handleSpokeToggle?.(spoke.value)}
-                                                className={`rounded text-[#0078d4] focus:ring-[#0078d4] ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c]' : 'bg-white border-[#8a8886]'}`}
-                                            />
-                                            <span className={`text-[12px] ${t.text}`}>{spoke.label}</span>
-                                        </label>
-                                    ))}
+                            <div className="flex flex-col gap-3 mt-1">
+                                <div className="flex gap-4">
+                                    <div className="flex flex-col gap-1 flex-1">
+                                        <label className={`text-[11px] font-semibold uppercase tracking-wider ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Number of spokes</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="20"
+                                            value={spokeCount}
+                                            onChange={(e) => setSpokeCount?.(Math.max(0, Math.min(20, parseInt(e.target.value) || 0)))}
+                                            className={`w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white' : 'bg-white border-[#8a8886] text-[#323130]'}`}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1 flex-1">
+                                        <label className={`text-[11px] font-semibold uppercase tracking-wider ${isDarkMode ? 'text-[#a19f9d]' : 'text-[#616161]'}`}>Start from</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="999"
+                                            value={spokeStartValue}
+                                            onChange={(e) => setSpokeStartValue?.(Math.max(0, parseInt(e.target.value) || 0))}
+                                            className={`w-full h-[32px] px-3 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] transition-colors ${isDarkMode ? 'bg-[#1b1a19] border-[#605e5c] text-white' : 'bg-white border-[#8a8886] text-[#323130]'}`}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -419,8 +429,10 @@ ExpandedPanel.propTypes = {
     onSubResourceChange: PropTypes.func,
     topology: PropTypes.string,
     setTopology: PropTypes.func,
-    selectedSpokes: PropTypes.array,
-    handleSpokeToggle: PropTypes.func,
+    spokeCount: PropTypes.number,
+    setSpokeCount: PropTypes.func,
+    spokeStartValue: PropTypes.number,
+    setSpokeStartValue: PropTypes.func,
     bundle: PropTypes.array,
     getBundleName: PropTypes.func,
 };

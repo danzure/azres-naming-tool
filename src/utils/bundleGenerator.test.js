@@ -64,34 +64,46 @@ describe('getBundleResources', () => {
     // ─── VNet Hub & Spoke ───────────────────────────────────────────
 
     describe('VNet Hub & Spoke', () => {
-        it('returns hub only when no spokes are selected', () => {
-            const result = getBundleResources(makeVNet(), 'hub-spoke', []);
+        it('returns hub only when spokeCount is 0', () => {
+            const result = getBundleResources(makeVNet(), 'hub-spoke', { spokeCount: 0, spokeStartValue: 1 });
             expect(result).toHaveLength(1);
             expect(result[0].abbrev).toBe('vnet-hub');
             expect(result[0].name).toBe('Hub VNet');
         });
 
-        it('returns hub + selected spokes', () => {
-            const result = getBundleResources(makeVNet(), 'hub-spoke', ['identity', 'app']);
+        it('returns hub + numbered spokes with zero-padded instance', () => {
+            const result = getBundleResources(makeVNet(), 'hub-spoke', { spokeCount: 2, spokeStartValue: 1 });
             expect(result).toHaveLength(3);
             expect(result[0].abbrev).toBe('vnet-hub');
-            expect(result[1].abbrev).toBe('vnet-id');
-            expect(result[1].name).toBe('Identity Spoke');
-            expect(result[2].abbrev).toBe('vnet-app');
-            expect(result[2].name).toBe('Application Spoke');
+            expect(result[1].abbrev).toBe('vnet-spoke');
+            expect(result[1].name).toBe('Spoke 001');
+            expect(result[1].instanceOverride).toBe('001');
+            expect(result[2].abbrev).toBe('vnet-spoke');
+            expect(result[2].name).toBe('Spoke 002');
+            expect(result[2].instanceOverride).toBe('002');
         });
 
-        it('returns hub + all spokes', () => {
-            const result = getBundleResources(makeVNet(), 'hub-spoke', ['identity', 'shared', 'app', 'mgmt']);
-            expect(result).toHaveLength(5); // hub + 4 spokes
+        it('starts numbering from spokeStartValue', () => {
+            const result = getBundleResources(makeVNet(), 'hub-spoke', { spokeCount: 3, spokeStartValue: 5 });
+            expect(result).toHaveLength(4); // hub + 3 spokes
+            expect(result[1].name).toBe('Spoke 005');
+            expect(result[1].instanceOverride).toBe('005');
+            expect(result[2].instanceOverride).toBe('006');
+            expect(result[3].instanceOverride).toBe('007');
         });
 
         it('preserves base resource properties on derived items', () => {
             const resource = makeVNet();
-            const result = getBundleResources(resource, 'hub-spoke', ['app']);
+            const result = getBundleResources(resource, 'hub-spoke', { spokeCount: 1, spokeStartValue: 1 });
             expect(result[0].maxLength).toBe(resource.maxLength);
             expect(result[0].chars).toBe(resource.chars);
             expect(result[1].maxLength).toBe(resource.maxLength);
+        });
+
+        it('defaults to 0 spokes when options are empty', () => {
+            const result = getBundleResources(makeVNet(), 'hub-spoke', {});
+            expect(result).toHaveLength(1);
+            expect(result[0].abbrev).toBe('vnet-hub');
         });
     });
 
