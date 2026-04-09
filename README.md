@@ -1,11 +1,11 @@
-# a-zurenamer 🌐
+# app.atozazure | Resource Naming Tool 🌐
 
 A modern, web-based tool for generating **Microsoft Cloud Adoption Framework (CAF)** compliant names for Azure resources. 
 
 This application simplifies governance by ensuring all resource names adhere to Azure's strict naming rules, character limits, and scope uniqueness requirements, while providing helpful guidance and best practices.
 
 ## 🔗 Live Demo
-[https://a-zurenamer.app/](https://a-zurenamer.app/)
+[https://app.atozazure.com/](https://app.atozazure.com/)
 
 ## 🚀 Key Features
 
