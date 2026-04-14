@@ -103,10 +103,11 @@ function ConfigPanel({
                                         />
                                         <button
                                             onClick={() => setShowOrg(!showOrg)}
-                                            className={`h-[28px] w-[28px] flex items-center justify-center rounded border transition-colors shrink-0 ${showOrg ? 'bg-[#0078d4] border-[#0078d4] text-white' : 'bg-white dark:bg-transparent border-[#8a8886] dark:border-[#605e5c] text-[#605e5c] dark:text-[#8a8886] hover:border-[#323130] dark:hover:border-[#8a8886]'}`}
+                                            className={`h-[28px] flex items-center justify-center rounded border transition-colors shrink-0 px-2 gap-1.5 ${showOrg ? 'bg-[#0078d4] border-[#0078d4] text-white' : 'bg-white dark:bg-transparent border-[#8a8886] dark:border-[#605e5c] text-[#605e5c] dark:text-[#8a8886] hover:border-[#323130] dark:hover:border-[#8a8886]'}`}
                                             title={showOrg ? 'Disable Org' : 'Enable Org'}
                                         >
                                             {showOrg ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                                            <span className="text-[11px] font-semibold">{showOrg ? 'Hide Org' : 'Show Org'}</span>
                                         </button>
                                     </div>
                                     {/* Workload */}

@@ -45,7 +45,7 @@ export default function SearchableSelect({ items, value, onChange, label, placeh
                         <div className="p-2 border-b border-opacity-10 border-current">
                             <input autoFocus type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={placeholder} className="w-full px-2 py-1.5 text-[13px] border-b outline-none bg-transparent text-[#201f1e] dark:text-white border-[#edebe9] dark:border-[#484644] placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]" />
                         </div>
-                        <div className="max-h-[300px] overflow-y-auto">
+                        <div className="max-h-[300px] overflow-y-auto scroll-smooth">
                             {filteredItems.map((item, idx) => {
                                 if (item.type === 'header') {
                                     const nextItem = filteredItems[idx + 1];
@@ -87,7 +87,7 @@ export default function SearchableSelect({ items, value, onChange, label, placeh
                     <div className="p-2 border-b border-opacity-10 border-current">
                         <input autoFocus type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={placeholder} className="w-full px-2 py-1.5 text-[14px] border-b outline-none bg-transparent text-[#201f1e] dark:text-white border-[#edebe9] dark:border-[#484644] placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]" />
                     </div>
-                    <div className="max-h-[300px] overflow-y-auto">
+                    <div className="max-h-[300px] overflow-y-auto scroll-smooth">
                         {filteredItems.map((item, idx) => {
                             if (item.type === 'header') {
                                 const nextItem = filteredItems[idx + 1];
