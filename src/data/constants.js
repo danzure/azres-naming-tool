@@ -1,3 +1,12 @@
+/**
+ * Global Constants & Resource Definitions
+ * 
+ * Central collection of static data powering the application.
+ * Contains dictionaries for:
+ * - Azure Regions & Environments
+ * - Network Topologies (VNet, AKS, AVD, etc.)
+ * - The primary database of ~110 Azure resources with their CAF naming rules
+ */
 export const AZURE_REGIONS = [
     { label: 'Europe', type: 'header' },
     { label: 'France Central', value: 'francecentral', abbrev: 'frc' },

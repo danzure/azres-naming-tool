@@ -3,6 +3,24 @@ import { ChevronDown, Check, HelpCircle } from 'lucide-react';
 import Tooltip from './Tooltip';
 import PropTypes from 'prop-types';
 
+/**
+ * SearchableSelect Component
+ * 
+ * A custom dropdown component featuring a searchable input to filter items.
+ * Supports grouping with 'header' type items, abbreviated labels, and 
+ * an optional compact mode where the external label is hidden.
+ * Used for selecting the specific resource from the categorized list.
+ * 
+ * @param {Object} props
+ * @param {Array<{label: string, value?: string, type?: string, abbrev?: string}>} props.items - Array of dropdown options.
+ * @param {string} props.value - Currently selected item value.
+ * @param {Function} props.onChange - Callback fired when a new item is selected.
+ * @param {string} [props.label] - External label text.
+ * @param {string} [props.placeholder="Select..."] - Search input placeholder text.
+ * @param {string} [props.description] - Tooltip description text shown on hover of the label.
+ * @param {boolean} [props.compact] - If true, hides external label and adapts height to match input fields.
+ * @returns {JSX.Element}
+ */
 export default function SearchableSelect({ items, value, onChange, label, placeholder = "Select...", description, compact }) {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');

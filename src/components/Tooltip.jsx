@@ -1,5 +1,16 @@
 import PropTypes from 'prop-types';
 
+/**
+ * Tooltip Component
+ * 
+ * A simple wrapper component that displays an absolute-positioned tooltip box
+ * when hovering over its children. The tooltip appears directly below the target.
+ * 
+ * @param {Object} props
+ * @param {string} props.content - Text to display inside the tooltip.
+ * @param {React.ReactNode} props.children - Element the tooltip is attached to.
+ * @returns {JSX.Element}
+ */
 export default function Tooltip({ content, children }) {
     if (!content) return children;
 

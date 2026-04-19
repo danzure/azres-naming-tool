@@ -8,6 +8,12 @@ import PropTypes from 'prop-types';
  * A horizontal scrollable list of category filters for the service grid.
  * Adheres to Fluent UI design principles with generous touch targets and clear active states.
  * Includes desktop-friendly scroll navigation buttons.
+ * 
+ * @param {Object} props
+ * @param {string} props.activeCategory - The name of the currently selected category filter.
+ * @param {Function} props.onCategoryChange - Callback fired when a new category is selected.
+ * @param {Array<string>} props.categories - List of all available category names.
+ * @returns {JSX.Element}
  */
 const ServiceFilter = ({ activeCategory, onCategoryChange, categories }) => {
     const scrollContainerRef = useRef(null);

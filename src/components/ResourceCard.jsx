@@ -24,6 +24,29 @@ const CATEGORY_ICONS = {
     'DevOps': GitBranch,
 };
 
+/**
+ * ResourceCard Component
+ * 
+ * Highly interactive card component representing a single Azure resource type.
+ * Displays resource metadata (name, abbreviation, category icon).
+ * Handles the generation of the compliant name based on the current global configuration.
+ * Includes inline validation status warnings/errors, a quick copy button, and manages
+ * local state for sub-resource selection and topology expansion.
+ * Renders the ExpandedPanel conditionally when the card is toggled open.
+ * 
+ * @param {Object} props
+ * @param {string} props.id - HTML ID attribute for the card container.
+ * @param {Object} props.resource - The dictionary definition of the target Azure resource.
+ * @param {string} props.genName - The primary generated name for this resource.
+ * @param {boolean} props.isCopied - Global flag tracking whether a copy interaction recently occurred.
+ * @param {boolean} props.isExpanded - Whether this specific card is currently expanded into detailed view.
+ * @param {Function} props.onCopy - Click handler to manually execute a copy action.
+ * @param {Function} props.onToggle - Click handler specifically for expanding/collapsing this card.
+ * @param {string} [props.selectedSubResource] - The currently selected target subresource suffix (if applicable).
+ * @param {Function} [props.onSubResourceChange] - State setter for the active subresource selection.
+ * @param {Function} props.generateName - Parent context utility to regenerate names dynamically for bundled assets.
+ * @returns {JSX.Element}
+ */
 function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onToggle, selectedSubResource, onSubResourceChange, generateName }) {
     const categoryColors = getCategoryColors(resource.category);
     const CategoryIcon = CATEGORY_ICONS[resource.category] || Box;

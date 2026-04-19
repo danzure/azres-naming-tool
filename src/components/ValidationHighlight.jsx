@@ -1,6 +1,19 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * ValidationHighlight Component
+ * 
+ * Renders a string of text with inline syntax highlighting for invalid characters.
+ * Identifies any character not matching the provided allowedCharsPattern and 
+ * applies a red underline and title attribute detailing the issue.
+ * Operates efficiently by grouping sequential valid characters into single text nodes.
+ * 
+ * @param {Object} props
+ * @param {string} props.name - The target string (usually a generated resource name) to validate.
+ * @param {string} [props.allowedCharsPattern] - Comma-separated list of allowed char ranges (e.g. 'a-z,0-9,-').
+ * @returns {JSX.Element}
+ */
 export default function ValidationHighlight({ name, allowedCharsPattern }) {
     const validator = useMemo(() => {
         if (!allowedCharsPattern) return () => true;

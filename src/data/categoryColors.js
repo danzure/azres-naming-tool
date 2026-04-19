@@ -1,5 +1,11 @@
-// Category color theme based on Azure/Fluent UI design palette
-// Each category returns standard Tailwind classes handling both light and dark mode
+/**
+ * Category Color Definitions
+ * 
+ * Defines the standard color palette mapping for each Azure resource category.
+ * Each category provides specific Tailwind background and text color classes 
+ * that automatically handle both light and dark mode themes.
+ * Designed to align with Fluent UI design principles.
+ */
 export const CATEGORY_COLORS = {
     'General': { bgClass: 'bg-[#e5dfec] dark:bg-[#3b2d5c]', textClass: 'text-[#7c3aed] dark:text-[#a78bfa]' },      // Purple
     'Compute': { bgClass: 'bg-[#dbeafe] dark:bg-[#1e3a5f]', textClass: 'text-[#2563eb] dark:text-[#60a5fa]' },      // Blue
