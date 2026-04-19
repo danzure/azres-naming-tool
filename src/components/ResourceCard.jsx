@@ -87,7 +87,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                     )}
                 </div>
 
-                <p className="text-[12px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
+                <p className="text-[13px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
                     {resource.desc}
                 </p>
 
@@ -96,7 +96,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                         <div className={`text-[13px] font-medium font-mono truncate w-full pr-8 flex items-center gap-2 ${isTooLong ? 'text-[#a80000]' : 'text-[#242424] dark:text-[#ffffff]'}`}>
                             <ValidationHighlight name={hasBundle ? getGeneratedName(bundle[0]) : genName} allowedCharsPattern={hasBundle ? bundle[0].chars : resource.chars} />
                             {hasBundle && (
-                                <span className="text-[10px] px-1.5 py-0.5 rounded font-bold bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#60cdff]">
+                                <span className="text-[11px] px-1.5 py-0.5 rounded font-bold bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#60cdff]">
                                     +{bundle.length - 1}
                                 </span>
                             )}
@@ -121,7 +121,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                             {/* Mobile visual optimization: hide text on very small screens if needed, but keeping separate for now */}
                         </button>
                     </div>
-                    <div className="flex justify-between items-center text-[10px] mt-2 px-0.5 opacity-70 shrink-0">
+                    <div className="flex justify-between items-center text-[11px] mt-2 px-0.5 opacity-70 shrink-0">
                         <span className="text-[#605e5c] dark:text-[#c8c6c4]">Max: {resource.maxLength || 64}</span>
                         <span className={`font-bold ${isTooLong ? 'text-[#a80000]' : 'text-[#201f1e] dark:text-white'}`}>{genName.length} chars</span>
                     </div>

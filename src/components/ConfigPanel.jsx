@@ -48,7 +48,7 @@ function ConfigPanel({
                 <div className="flex items-center justify-between mb-3">
                     <div>
                         <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Configuration</h2>
-                        <p className="text-[12px] text-[#616161] dark:text-[#a19f9d]">Define naming parameters</p>
+                        <p className="text-[13px] text-[#616161] dark:text-[#a19f9d]">Define naming parameters</p>
                     </div>
                     <button onClick={onToggleMinimize} className="text-[13px] font-medium text-[#0078d4] hover:underline flex items-center gap-1">
                         {isMinimized ? 'Show' : 'Hide'}
@@ -64,9 +64,9 @@ function ConfigPanel({
                             <div className="order-1 lg:order-2 p-3 rounded-lg border shadow-soft bg-white dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
                                 <div className="flex items-center gap-2 mb-3">
                                     <Info className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">About This Tool</h3>
+                                    <h3 className="text-[14px] font-semibold text-[#201f1e] dark:text-white">About This Tool</h3>
                                 </div>
-                                <div className="text-[12px] leading-relaxed space-y-2 text-[#616161] dark:text-[#c8c6c4]">
+                                <div className="text-[13px] leading-relaxed space-y-2 text-[#616161] dark:text-[#c8c6c4]">
                                     <p>
                                         The app.atozazure Resource Naming Tool helps you generate consistent, standards-compliant Azure resource names aligned with Microsoft's{' '}
                                         <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline font-medium">
@@ -84,7 +84,7 @@ function ConfigPanel({
                             <div className="order-2 lg:order-1 p-3 rounded-lg border shadow-soft bg-white dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
                                 <div className="flex items-center gap-2 mb-3">
                                     <Edit3 className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">Parameters</h3>
+                                    <h3 className="text-[14px] font-semibold text-[#201f1e] dark:text-white">Parameters</h3>
                                 </div>
                                 {/* Form grid - label left, input right */}
                                 <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 items-center">
@@ -107,7 +107,7 @@ function ConfigPanel({
                                             title={showOrg ? 'Disable Org' : 'Enable Org'}
                                         >
                                             {showOrg ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-                                            <span className="text-[11px] font-semibold">{showOrg ? 'Hide Org' : 'Show Org'}</span>
+                                            <span className="text-[12px] font-semibold">{showOrg ? 'Hide Org' : 'Show Org'}</span>
                                         </button>
                                     </div>
                                     {/* Workload */}
@@ -142,7 +142,7 @@ function ConfigPanel({
                                             className="h-[32px] flex items-center justify-center rounded border transition-colors shrink-0 px-2 gap-1.5 no-underline bg-white dark:bg-transparent border-[#8a8886] dark:border-[#605e5c] text-[#605e5c] dark:text-[#c8c6c4] hover:border-[#323130] dark:hover:border-[#8a8886]"
                                         >
                                             <Globe className="w-3.5 h-3.5" />
-                                            <span className="text-[11px] font-semibold">View Map</span>
+                                            <span className="text-[12px] font-semibold">View Map</span>
                                         </a>
                                     </div>
                                     {/* Instance */}
@@ -166,9 +166,9 @@ function ConfigPanel({
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-3">
                                 <div className="flex items-center gap-2">
                                     <Layers className="w-3.5 h-3.5 text-[#0078d4]" />
-                                    <h3 className="text-[13px] font-semibold text-[#201f1e] dark:text-white">Pattern Builder</h3>
+                                    <h3 className="text-[14px] font-semibold text-[#201f1e] dark:text-white">Pattern Builder</h3>
                                 </div>
-                                <span className="text-[11px] text-[#616161] dark:text-[#a19f9d]">
+                                <span className="text-[12px] text-[#616161] dark:text-[#a19f9d]">
                                     <span className="hidden sm:inline">— </span>Customize segment order for your naming convention
                                 </span>
                             </div>
