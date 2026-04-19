@@ -308,6 +308,11 @@ export const AKS_TOPOLOGIES = [
     { label: 'Production Cluster', value: 'bundle' },
 ];
 
+export const ML_TOPOLOGIES = [
+    { label: 'Workspace Only', value: 'single' },
+    { label: 'ML Deployment Bundle', value: 'bundle' },
+];
+
 export const SQL_TOPOLOGIES = [
     { label: 'Server Only', value: 'single' },
     { label: 'Server & Database', value: 'bundle' },

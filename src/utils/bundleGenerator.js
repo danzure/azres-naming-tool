@@ -117,6 +117,49 @@ export function getBundleResources(resource, topology, spokeOptions = {}) {
         ];
     }
 
+    if (resource.name === 'Machine Learning workspace' && topology === 'bundle') {
+        // ML Workspace Bundle: The four resources Azure ML auto-provisions on deployment.
+        // Storage Account — binary/model artifact storage (no hyphens, 24-char max, lowercase only)
+        // Key Vault       — secrets and CMK management (24-char max, global scope)
+        // Application Insights — telemetry and training run monitoring
+        // Container Registry   — Docker image cache for training environments (no hyphens, alphanumeric only)
+        return [
+            { ...resource, name: 'ML Workspace' }, // mlw (original)
+            {
+                ...resource,
+                abbrev: 'st',
+                name: 'Storage Account',
+                chars: 'a-z, 0-9',
+                maxLength: 24,
+                scope: 'Global',
+            },
+            {
+                ...resource,
+                abbrev: 'kv',
+                name: 'Key Vault',
+                chars: 'a-z, A-Z, 0-9, -',
+                maxLength: 24,
+                scope: 'Global',
+            },
+            {
+                ...resource,
+                abbrev: 'appi',
+                name: 'Application Insights',
+                chars: 'a-z, A-Z, 0-9, -, _, .',
+                maxLength: 260,
+                scope: 'Resource group',
+            },
+            {
+                ...resource,
+                abbrev: 'cr',
+                name: 'Container Registry',
+                chars: 'a-z, 0-9',
+                maxLength: 50,
+                scope: 'Global',
+            },
+        ];
+    }
+
     // Default: Single resource (no bundle)
     return null;
 }
