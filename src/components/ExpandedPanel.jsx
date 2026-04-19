@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import PropTypes from 'prop-types';
 
 import { VNET_TOPOLOGIES, AVD_TOPOLOGIES, AKS_TOPOLOGIES, SQL_TOPOLOGIES, WEB_TOPOLOGIES, ML_TOPOLOGIES } from '../data/constants';
@@ -79,7 +79,7 @@ function ExpandedPanel({
     resource, genName, isCopied, onCopy,
     selectedSubResource, onSubResourceChange,
     topology, setTopology, spokeCount, setSpokeCount, spokeStartValue, setSpokeStartValue,
-    bundle, getBundleName,
+    bundle, getBundleName, onClose
 }) {
     // ── Derived state ──────────────────────────────────────────────────────────
     const currentSubResource = resource.subResources?.find(sr => sr.suffix === selectedSubResource);
@@ -200,6 +200,7 @@ function ExpandedPanel({
                 </div>
             </div>
 
+
             <BundleList 
                 bundle={bundle} 
                 getBundleName={getBundleName} 
@@ -274,6 +275,7 @@ ExpandedPanel.propTypes = {
     setSpokeStartValue: PropTypes.func,
     bundle: PropTypes.array,
     getBundleName: PropTypes.func,
+    onClose: PropTypes.func,
 };
 
 export default memo(ExpandedPanel);

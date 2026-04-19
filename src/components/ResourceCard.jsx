@@ -1,5 +1,5 @@
 import { memo, useState, useMemo } from 'react';
-import { Box, Copy, Check, ShieldAlert, AlertTriangle, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, BrainCircuit, Settings2, Wifi, GitBranch } from 'lucide-react';
+import { Box, Copy, Check, ShieldAlert, AlertTriangle, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, BrainCircuit, Settings2, Wifi, GitBranch, X } from 'lucide-react';
 import ValidationHighlight from './ValidationHighlight';
 import ExpandedPanel from './ExpandedPanel';
 import { getCategoryColors } from '../data/categoryColors';
@@ -92,22 +92,33 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                             </div>
                         </div>
                     </div>
-                    {validationIssues.length > 0 && (
-                        <div className="relative group/validation shrink-0">
-                            {hasErrors
-                                ? <ShieldAlert className="w-4 h-4 text-[#a80000]" aria-label={`${validationIssues.length} validation issue(s)`} />
-                                : <AlertTriangle className="w-4 h-4 text-[#ffaa44]" aria-label={`${validationIssues.length} validation warning(s)`} />
-                            }
-                            <div className="absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block bg-white dark:bg-[#323130] border-[#edebe9] dark:border-[#605e5c] text-[#323130] dark:text-[#e1dfdd]">
-                                {validationIssues.map((issue, i) => (
-                                    <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} border-[#edebe9] dark:border-[#484644]`}>
-                                        <span className={`shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full ${issue.type === 'error' ? 'bg-[#a80000]' : 'bg-[#ffaa44]'}`} />
-                                        <span>{issue.message}</span>
-                                    </div>
-                                ))}
+                    <div className="flex items-center gap-2 shrink-0">
+                        {validationIssues.length > 0 && (
+                            <div className="relative group/validation">
+                                {hasErrors
+                                    ? <ShieldAlert className="w-4 h-4 text-[#a80000]" aria-label={`${validationIssues.length} validation issue(s)`} />
+                                    : <AlertTriangle className="w-4 h-4 text-[#ffaa44]" aria-label={`${validationIssues.length} validation warning(s)`} />
+                                }
+                                <div className="absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block bg-white dark:bg-[#323130] border-[#edebe9] dark:border-[#605e5c] text-[#323130] dark:text-[#e1dfdd]">
+                                    {validationIssues.map((issue, i) => (
+                                        <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} border-[#edebe9] dark:border-[#484644]`}>
+                                            <span className={`shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full ${issue.type === 'error' ? 'bg-[#a80000]' : 'bg-[#ffaa44]'}`} />
+                                            <span>{issue.message}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                        {isExpanded && (
+                            <button
+                                onClick={(e) => { e.stopPropagation(); onToggle(resource.name, isExpanded); }}
+                                className="p-1 -mr-1 rounded-sm text-[#605e5c] dark:text-[#c8c6c4] hover:bg-[#edebe9] dark:hover:bg-[#323130] transition-colors"
+                                aria-label="Close"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <p className="text-[13px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
@@ -171,6 +182,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                         setSpokeStartValue={setSpokeStartValue}
                         bundle={bundle}
                         getBundleName={getGeneratedName}
+                        onClose={() => onToggle(resource.name, isExpanded)}
                     />
                 </div>
             )}
