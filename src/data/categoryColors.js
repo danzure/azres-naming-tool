@@ -4,23 +4,24 @@
  * Defines the standard color palette mapping for each Azure resource category.
  * Each category provides specific Tailwind background and text color classes 
  * that automatically handle both light and dark mode themes.
- * Designed to align with Fluent UI design principles.
+ * Designed to align with the official Microsoft Fluent UI semantic color palette.
  */
 export const CATEGORY_COLORS = {
-    'General': { bgClass: 'bg-[#e5dfec] dark:bg-[#3b2d5c]', textClass: 'text-[#7c3aed] dark:text-[#a78bfa]' },      // Purple
-    'Compute': { bgClass: 'bg-[#dbeafe] dark:bg-[#1e3a5f]', textClass: 'text-[#2563eb] dark:text-[#60a5fa]' },      // Blue
-    'Networking': { bgClass: 'bg-[#d1fae5] dark:bg-[#064e3b]', textClass: 'text-[#059669] dark:text-[#34d399]' },      // Green
-    'Storage': { bgClass: 'bg-[#fef3c7] dark:bg-[#78350f]', textClass: 'text-[#d97706] dark:text-[#fbbf24]' },      // Amber
-    'Web': { bgClass: 'bg-[#fce7f3] dark:bg-[#831843]', textClass: 'text-[#db2777] dark:text-[#f472b6]' },      // Pink
-    'Databases': { bgClass: 'bg-[#e0e7ff] dark:bg-[#312e81]', textClass: 'text-[#4f46e5] dark:text-[#818cf8]' },      // Indigo
-    'Containers': { bgClass: 'bg-[#cffafe] dark:bg-[#164e63]', textClass: 'text-[#0891b2] dark:text-[#22d3ee]' },      // Cyan
-    'Security': { bgClass: 'bg-[#fee2e2] dark:bg-[#7f1d1d]', textClass: 'text-[#dc2626] dark:text-[#f87171]' },      // Red
-    'Integration': { bgClass: 'bg-[#fbcfe8] dark:bg-[#701a75]', textClass: 'text-[#c026d3] dark:text-[#e879f9]' },      // Fuchsia
-    'Analytics': { bgClass: 'bg-[#fed7aa] dark:bg-[#7c2d12]', textClass: 'text-[#ea580c] dark:text-[#fb923c]' },      // Orange
-    'AI + ML': { bgClass: 'bg-[#d9f99d] dark:bg-[#365314]', textClass: 'text-[#65a30d] dark:text-[#a3e635]' },      // Lime
-    'Management + Governance': { bgClass: 'bg-[#e2e8f0] dark:bg-[#334155]', textClass: 'text-[#475569] dark:text-[#94a3b8]' },      // Slate
-    'IoT': { bgClass: 'bg-[#ccfbf1] dark:bg-[#134e4a]', textClass: 'text-[#0d9488] dark:text-[#2dd4bf]' },      // Teal
-    'DevOps': { bgClass: 'bg-[#fef9c3] dark:bg-[#713f12]', textClass: 'text-[#ca8a04] dark:text-[#facc15]' }       // Yellow
+    'General': { bgClass: 'bg-[#EFF6FC] dark:bg-[#00245B]', textClass: 'text-[#0078D4] dark:text-[#2899F5]' }, // MS Blue
+    'Compute': { bgClass: 'bg-[#EFF6FC] dark:bg-[#00245B]', textClass: 'text-[#0078D4] dark:text-[#2899F5]' }, // MS Blue
+    'Networking': { bgClass: 'bg-[#FDF6F3] dark:bg-[#4A1600]', textClass: 'text-[#D83B01] dark:text-[#F36F38]' }, // MS Orange
+    'Storage': { bgClass: 'bg-[#F3F9F1] dark:bg-[#062906]', textClass: 'text-[#107C10] dark:text-[#42A142]' }, // MS Green
+    'Web': { bgClass: 'bg-[#F6F3F9] dark:bg-[#200D3B]', textClass: 'text-[#5C2D91] dark:text-[#8D64C5]' }, // MS Purple
+    'Databases': { bgClass: 'bg-[#EAF8FC] dark:bg-[#00384B]', textClass: 'text-[#00BCF2] dark:text-[#3ED1F6]' }, // MS Cyan
+    'Containers': { bgClass: 'bg-[#EBF7F7] dark:bg-[#002A2B]', textClass: 'text-[#038387] dark:text-[#32B4B8]' }, // MS Teal
+    'Security': { bgClass: 'bg-[#FDF3F4] dark:bg-[#43020A]', textClass: 'text-[#D13438] dark:text-[#F46B70]' }, // MS Red
+    'Integration': { bgClass: 'bg-[#FCF0F6] dark:bg-[#3D0026]', textClass: 'text-[#B4009E] dark:text-[#D13FB8]' }, // MS Magenta
+    'Analytics': { bgClass: 'bg-[#FFF9E6] dark:bg-[#4C3B00]', textClass: 'text-[#FFB900] dark:text-[#FFCE40]' }, // MS Yellow
+    'AI + ML': { bgClass: 'bg-[#EAF8FC] dark:bg-[#00384B]', textClass: 'text-[#00BCF2] dark:text-[#3ED1F6]' }, // MS Cyan
+    'Management + Governance': { bgClass: 'bg-[#F3F2F1] dark:bg-[#323130]', textClass: 'text-[#605E5C] dark:text-[#C8C6C4]' }, // MS Neutral
+    'IoT': { bgClass: 'bg-[#EBF7F7] dark:bg-[#002A2B]', textClass: 'text-[#038387] dark:text-[#32B4B8]' }, // MS Teal
+    'Desktop Virtualization': { bgClass: 'bg-[#EFF6FC] dark:bg-[#00245B]', textClass: 'text-[#0078D4] dark:text-[#2899F5]' }, // MS Blue
+    'DevOps': { bgClass: 'bg-[#F6F3F9] dark:bg-[#200D3B]', textClass: 'text-[#5C2D91] dark:text-[#8D64C5]' } // MS Purple
 };
 
 // Helper function to get classes for a category
