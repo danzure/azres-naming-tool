@@ -21,8 +21,12 @@ import { AZURE_REGIONS, RESOURCE_DATA_SORTED, CATEGORIES } from './data/constant
  * - Resource data and generation logic
  */
 export default function App() {
+    // Detect system dark mode preference as the default when no localStorage value exists
+    const systemPrefersDark = typeof window !== 'undefined'
+        && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+
     // Persistent state using local storage for user preferences
-    const [isDarkMode, setIsDarkMode] = useLocalStorage('azres_darkMode', false);
+    const [isDarkMode, setIsDarkMode] = useLocalStorage('azres_darkMode', systemPrefersDark);
     const [isConfigMinimized, setIsConfigMinimized] = useState(false);
 
     const [workload, setWorkload] = useLocalStorage('azres_workload', '');
@@ -54,6 +58,23 @@ export default function App() {
             document.documentElement.classList.remove('dark');
         }
     }, [isDarkMode]);
+
+    // Listen for system theme changes and sync when the user hasn't set a manual preference
+    useEffect(() => {
+        const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+        if (!mediaQuery) return;
+
+        const handleSystemThemeChange = (e) => {
+            // Only auto-sync if there is no manually saved preference in localStorage
+            const savedPref = window.localStorage.getItem('azres_darkMode');
+            if (savedPref === null) {
+                setIsDarkMode(e.matches);
+            }
+        };
+
+        mediaQuery.addEventListener('change', handleSystemThemeChange);
+        return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
+    }, [setIsDarkMode]);
 
     // Keyboard shortcuts handler
     // - Escape: Close expanded cards or clear search
@@ -108,6 +129,12 @@ export default function App() {
     const scrollToTop = useCallback(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
+
+    // Stable callback references for memoised child components
+    const handleToggleTheme = useCallback(() => setIsDarkMode(prev => !prev), [setIsDarkMode]);
+    const handleToggleMinimize = useCallback(() => setIsConfigMinimized(prev => !prev), []);
+    const handleSearchChange = useCallback((e) => setSearchTerm(e.target.value), []);
+    const handleClearSearch = useCallback(() => setSearchTerm(''), []);
 
 
 
@@ -209,16 +236,20 @@ export default function App() {
         return parts.join('-');
     }, [namingOrder, showOrg]);
 
+    const handleCopySchema = useCallback((e) => {
+        copyToClipboard(liveSchemaStr, 'live-pill', e);
+    }, [copyToClipboard, liveSchemaStr]);
+
     return (
         <div className="min-h-screen font-sans transition-colors duration-200 bg-[#faf9f8] dark:bg-[#111009] text-[#242424] dark:text-white">
             <Header
                 isDarkMode={isDarkMode}
-                onToggleTheme={() => setIsDarkMode(prev => !prev)}
+                onToggleTheme={handleToggleTheme}
             />
 
             <ConfigPanel
                 isMinimized={isConfigMinimized}
-                onToggleMinimize={() => setIsConfigMinimized(prev => !prev)}
+                onToggleMinimize={handleToggleMinimize}
                 workload={workload}
                 setWorkload={setWorkload}
                 envValue={envValue}
@@ -235,7 +266,7 @@ export default function App() {
                 onMoveItem={moveItem}
                 liveSchemaStr={liveSchemaStr}
                 copiedId={copiedId}
-                onCopy={(e) => copyToClipboard(liveSchemaStr, 'live-pill', e)}
+                onCopy={handleCopySchema}
             />
 
             <div className="max-w-[1600px] mx-auto px-6 pt-6 space-y-5">
@@ -245,8 +276,8 @@ export default function App() {
                     onCategoryChange={setActiveCategory}
                     categories={CATEGORIES}
                     searchTerm={searchTerm}
-                    onSearchChange={(e) => setSearchTerm(e.target.value)}
-                    onClearSearch={() => setSearchTerm('')}
+                    onSearchChange={handleSearchChange}
+                    onClearSearch={handleClearSearch}
                     searchInputRef={searchInputRef}
                 />
 

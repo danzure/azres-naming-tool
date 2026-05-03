@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { memo, useRef, useEffect, useState } from 'react';
 import { Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -195,4 +195,4 @@ ServiceFilter.propTypes = {
     searchInputRef: PropTypes.object,
 };
 
-export default ServiceFilter;
+export default memo(ServiceFilter);
