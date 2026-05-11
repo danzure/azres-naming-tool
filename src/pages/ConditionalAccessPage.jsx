@@ -20,6 +20,7 @@ export default function ConditionalAccessPage() {
     const [action, setAction] = useState('RequireMFA');
     const [customAction, setCustomAction] = useState('');
     const [resource, setResource] = useState('AllApps');
+    const [customResource, setCustomResource] = useState('');
     const [platform, setPlatform] = useState('AnyPlatform');
 
     // UI state for copy feedback
@@ -60,8 +61,9 @@ export default function ConditionalAccessPage() {
      */
     const generatedName = useMemo(() => {
         const finalAction = action === 'Custom' ? (customAction || 'Custom') : action;
-        return `${prefix}-${persona}-${resource}-${platform}-${finalAction}`;
-    }, [prefix, persona, action, customAction, resource, platform]);
+        const finalResource = resource === 'Custom' ? (customResource || 'Custom') : resource;
+        return `${prefix}-${persona}-${finalResource}-${platform}-${finalAction}`;
+    }, [prefix, persona, action, customAction, resource, customResource, platform]);
 
     /**
      * Asynchronously copies the provided text to the user's clipboard and triggers temporary UI feedback.
@@ -161,7 +163,7 @@ export default function ConditionalAccessPage() {
                                 <select
                                     value={persona}
                                     onChange={(e) => setPersona(e.target.value)}
-                                    className="px-2.5 h-[32px] rounded outline-none text-[13px] font-semibold transition-all bg-[#EFF6FC] dark:bg-[#0078d4]/15 text-[#0078d4] dark:text-[#60cdff] border border-transparent hover:border-[#c7e0f4] dark:hover:border-[#0078d4]/30 cursor-pointer"
+                                    className="px-2.5 h-[32px] border rounded outline-none text-[13px] transition-all bg-white dark:bg-[#1b1a19] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] hover:border-[#323130] dark:hover:border-[#8a8886] focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] cursor-pointer"
                                 >
                                     <option value="AllUsers">All Users</option>
                                     <option value="Admins">Administrators</option>
@@ -175,30 +177,45 @@ export default function ConditionalAccessPage() {
                                 </select>
                                 
                                 <span>when they access</span>
-                                <select
-                                    value={resource}
-                                    onChange={(e) => setResource(e.target.value)}
-                                    className="px-2.5 h-[32px] rounded outline-none text-[13px] font-semibold transition-all bg-[#EFF6FC] dark:bg-[#0078d4]/15 text-[#0078d4] dark:text-[#60cdff] border border-transparent hover:border-[#c7e0f4] dark:hover:border-[#0078d4]/30 cursor-pointer"
-                                >
-                                    <option value="AllApps">All Cloud Apps</option>
-                                    <option value="O365">Office 365 Suite</option>
-                                    <option value="AzurePortal">Azure Management</option>
-                                    <option value="MsAdminPortals">MS Admin Portals</option>
-                                    <option value="Exo">Exchange Online</option>
-                                    <option value="Spo">SharePoint Online</option>
-                                    <option value="Teams">Microsoft Teams</option>
-                                    <option value="Intune">Microsoft Intune</option>
-                                    <option value="Avd">Azure Virtual Desktop</option>
-                                    <option value="Defender">Microsoft Defender</option>
-                                    <option value="HighRiskApps">High Risk Apps</option>
-                                    <option value="SecurityInfo">Security Info Registration</option>
-                                </select>
+                                <div className="flex items-center gap-2">
+                                    <select
+                                        value={resource}
+                                        onChange={(e) => setResource(e.target.value)}
+                                        className="px-2.5 h-[32px] border rounded outline-none text-[13px] transition-all bg-white dark:bg-[#1b1a19] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] hover:border-[#323130] dark:hover:border-[#8a8886] focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] cursor-pointer"
+                                    >
+                                        <option value="AllApps">All Cloud Apps</option>
+                                        <option value="O365">Office 365 Suite</option>
+                                        <option value="AzurePortal">Azure Management</option>
+                                        <option value="MsAdminPortals">MS Admin Portals</option>
+                                        <option value="Exo">Exchange Online</option>
+                                        <option value="Spo">SharePoint Online</option>
+                                        <option value="Teams">Microsoft Teams</option>
+                                        <option value="Intune">Microsoft Intune</option>
+                                        <option value="Avd">Azure Virtual Desktop</option>
+                                        <option value="Defender">Microsoft Defender</option>
+                                        <option value="HighRiskApps">High Risk Apps</option>
+                                        <option value="SecurityInfo">Security Info Registration</option>
+                                        <option value="Custom">Custom App...</option>
+                                    </select>
+
+                                    {resource === 'Custom' && (
+                                        <input
+                                            type="text"
+                                            value={customResource}
+                                            onChange={(e) => setCustomResource(e.target.value.replace(/[^a-zA-Z0-9-]/g, ''))}
+                                            placeholder="e.g. SalesApp"
+                                            className="px-2 h-[32px] border rounded outline-none text-[13px] font-mono transition-all focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 bg-white dark:bg-[#252423] border-[#0078d4]/40 dark:border-[#0078d4]/60 w-[160px]"
+                                            maxLength={30}
+                                            autoFocus
+                                        />
+                                    )}
+                                </div>
 
                                 <span>from</span>
                                 <select
                                     value={platform}
                                     onChange={(e) => setPlatform(e.target.value)}
-                                    className="px-2.5 h-[32px] rounded outline-none text-[13px] font-semibold transition-all bg-[#EFF6FC] dark:bg-[#0078d4]/15 text-[#0078d4] dark:text-[#60cdff] border border-transparent hover:border-[#c7e0f4] dark:hover:border-[#0078d4]/30 cursor-pointer"
+                                    className="px-2.5 h-[32px] border rounded outline-none text-[13px] transition-all bg-white dark:bg-[#1b1a19] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] hover:border-[#323130] dark:hover:border-[#8a8886] focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] cursor-pointer"
                                 >
                                     <option value="AnyPlatform">Any Platform</option>
                                     <option value="UnknownPlatform">Unknown / Unsupported</option>
@@ -214,7 +231,7 @@ export default function ConditionalAccessPage() {
                                     <select
                                         value={action}
                                         onChange={(e) => setAction(e.target.value)}
-                                        className="px-2.5 h-[32px] rounded outline-none text-[13px] font-semibold transition-all bg-[#F3F0F7] dark:bg-[#5C2D91]/20 text-[#5C2D91] dark:text-[#d1a8ff] border border-transparent hover:border-[#E1DFDD] dark:hover:border-[#5C2D91]/40 cursor-pointer"
+                                        className="px-2.5 h-[32px] border rounded outline-none text-[13px] transition-all bg-white dark:bg-[#1b1a19] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] hover:border-[#323130] dark:hover:border-[#8a8886] focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] cursor-pointer"
                                     >
                                         <option value="RequireMFA">Require Multi-factor Authentication</option>
                                         <option value="RequirePhishResist">Require Phishing-Resistant Multi-factor Authentication</option>
