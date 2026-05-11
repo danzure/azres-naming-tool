@@ -177,7 +177,26 @@ export default function ConditionalAccessPage() {
                                 </select>
                                 
                                 <span>when they access</span>
-                                <div className="flex items-center gap-2">
+                                {resource === 'Custom' ? (
+                                    <div className="relative flex items-center">
+                                        <input
+                                            type="text"
+                                            value={customResource}
+                                            onChange={(e) => setCustomResource(e.target.value.replace(/[^a-zA-Z0-9-]/g, ''))}
+                                            placeholder="e.g. SalesApp"
+                                            className="px-2.5 h-[32px] pr-7 border rounded outline-none text-[13px] font-mono transition-all focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 bg-white dark:bg-[#252423] text-[#201f1e] dark:text-white border-[#0078d4]/40 dark:border-[#0078d4]/60 w-[160px]"
+                                            maxLength={30}
+                                            autoFocus
+                                        />
+                                        <button 
+                                            onClick={() => { setResource('AllApps'); setCustomResource(''); }}
+                                            className="absolute right-1 w-5 h-5 flex items-center justify-center rounded-sm hover:bg-[#0078d4]/10 text-[#0078d4] dark:hover:bg-white/10"
+                                            title="Revert to list"
+                                        >
+                                            <span className="text-[16px] leading-none mb-[2px]">&times;</span>
+                                        </button>
+                                    </div>
+                                ) : (
                                     <select
                                         value={resource}
                                         onChange={(e) => setResource(e.target.value)}
@@ -197,19 +216,7 @@ export default function ConditionalAccessPage() {
                                         <option value="SecurityInfo">Security Info Registration</option>
                                         <option value="Custom">Custom App...</option>
                                     </select>
-
-                                    {resource === 'Custom' && (
-                                        <input
-                                            type="text"
-                                            value={customResource}
-                                            onChange={(e) => setCustomResource(e.target.value.replace(/[^a-zA-Z0-9-]/g, ''))}
-                                            placeholder="e.g. SalesApp"
-                                            className="px-2 h-[32px] border rounded outline-none text-[13px] font-mono transition-all focus:border-[#0078d4] focus:ring-2 focus:ring-[#0078d4]/20 bg-white dark:bg-[#252423] border-[#0078d4]/40 dark:border-[#0078d4]/60 w-[160px]"
-                                            maxLength={30}
-                                            autoFocus
-                                        />
-                                    )}
-                                </div>
+                                )}
 
                                 <span>from</span>
                                 <select
@@ -227,7 +234,26 @@ export default function ConditionalAccessPage() {
                                 </select>
 
                                 <span>and enforces</span>
-                                <div className="flex items-center gap-2">
+                                {action === 'Custom' ? (
+                                    <div className="relative flex items-center">
+                                        <input
+                                            type="text"
+                                            value={customAction}
+                                            onChange={(e) => setCustomAction(e.target.value.replace(/[^a-zA-Z0-9-]/g, ''))}
+                                            placeholder="e.g. BlockNonCompliant"
+                                            className="px-2.5 h-[32px] pr-7 border rounded outline-none text-[13px] font-mono transition-all focus:border-[#5C2D91] focus:ring-2 focus:ring-[#5C2D91]/20 bg-white dark:bg-[#252423] text-[#201f1e] dark:text-white border-[#5C2D91]/40 dark:border-[#5C2D91]/60 w-[160px]"
+                                            maxLength={30}
+                                            autoFocus
+                                        />
+                                        <button 
+                                            onClick={() => { setAction('RequireMFA'); setCustomAction(''); }}
+                                            className="absolute right-1 w-5 h-5 flex items-center justify-center rounded-sm hover:bg-[#5C2D91]/10 text-[#5C2D91] dark:hover:bg-white/10"
+                                            title="Revert to list"
+                                        >
+                                            <span className="text-[16px] leading-none mb-[2px]">&times;</span>
+                                        </button>
+                                    </div>
+                                ) : (
                                     <select
                                         value={action}
                                         onChange={(e) => setAction(e.target.value)}
@@ -249,19 +275,7 @@ export default function ConditionalAccessPage() {
                                         <option value="TermsOfUse">Terms of Use</option>
                                         <option value="Custom">Custom Requirement...</option>
                                     </select>
-                                    
-                                    {action === 'Custom' && (
-                                        <input
-                                            type="text"
-                                            value={customAction}
-                                            onChange={(e) => setCustomAction(e.target.value.replace(/[^a-zA-Z0-9-]/g, ''))}
-                                            placeholder="e.g. BlockNonCompliant"
-                                            className="px-2 h-[32px] border rounded outline-none text-[13px] font-mono transition-all focus:border-[#5C2D91] focus:ring-2 focus:ring-[#5C2D91]/20 bg-white dark:bg-[#252423] border-[#5C2D91]/40 dark:border-[#5C2D91]/60 w-[160px]"
-                                            maxLength={30}
-                                            autoFocus
-                                        />
-                                    )}
-                                </div>
+                                )}
                                 <span>.</span>
                             </div>
                         </div>
