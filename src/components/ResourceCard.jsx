@@ -1,5 +1,5 @@
 import { memo, useState, useMemo } from 'react';
-import { Box, Copy, Check, ShieldAlert, AlertTriangle, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, Sparkles, Settings2, Wifi, GitBranch, X } from 'lucide-react';
+import { Box, Copy, Check, ShieldAlert, AlertTriangle, LayoutGrid, Cpu, Network, Database, Globe, DatabaseZap, ShieldCheck, Workflow, BarChart3, Sparkles, Settings2, Wifi, GitBranch, X, ExternalLink } from 'lucide-react';
 import ValidationHighlight from './ValidationHighlight';
 import ExpandedPanel from './ExpandedPanel';
 import { getCategoryColors } from '../data/categoryColors';
@@ -124,6 +124,21 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                 <p className="text-[13px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
                     {resource.desc}
                 </p>
+
+                {!isExpanded && resource.learnUrl && (
+                    <div className="flex items-center gap-4 mt-1">
+                        <a
+                            href={resource.learnUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-fit text-[#0078d4] dark:text-[#60cdff] hover:underline flex items-center gap-1.5 text-[12px] font-medium"
+                        >
+                            Microsoft Learn
+                            <ExternalLink className="w-3 h-3" />
+                        </a>
+                    </div>
+                )}
 
                 <div className="mt-auto pt-2">
                     <div className="group/copy relative rounded-md px-3 flex flex-col justify-center h-[32px] bg-[#f3f2f1] dark:bg-[#292827] hover:bg-[#edebe9] dark:hover:bg-[#323130] transition-colors border border-transparent">
