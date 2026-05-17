@@ -92,45 +92,49 @@ const ServiceFilter = ({
     };
 
     return (
-        <div className="rounded-lg border shadow-soft bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644]">
+        <div className="rounded-lg border shadow-soft bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644]" role="toolbar" aria-label="Filter and category toolbar">
             <div className="flex items-center h-[42px] px-3 gap-2">
                 {/* Inline compact search */}
                 <div className="flex items-center shrink-0 w-[180px] sm:w-[220px] h-[30px] px-2 gap-1.5 rounded border transition-colors bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644] focus-within:border-[#0078d4] focus-within:ring-1 focus-within:ring-[#0078d4]/20">
-                    <Search className="w-3.5 h-3.5 shrink-0 text-[#605e5c] dark:text-[#a19f9d]" />
+                    <Search className="w-3.5 h-3.5 shrink-0 text-[#605e5c] dark:text-[#a19f9d]" aria-hidden="true" />
                     <input
                         ref={searchInputRef}
                         type="text"
                         value={searchTerm}
                         onChange={onSearchChange}
                         placeholder="Filter... (Ctrl+K)"
+                        aria-label="Filter resources"
                         className="flex-1 min-w-0 bg-transparent border-none outline-none text-[12px] text-[#201f1e] dark:text-white placeholder:text-[#a19f9d] dark:placeholder:text-[#605e5c]"
                     />
                     {searchTerm && (
-                        <button onClick={onClearSearch} className="p-0.5 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                        <button onClick={onClearSearch} aria-label="Clear search" className="p-0.5 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
                             <X className="w-3 h-3 text-[#605e5c] dark:text-[#a19f9d]" />
                         </button>
                     )}
                 </div>
 
                 {/* Divider */}
-                <div className="w-px h-5 shrink-0 bg-[#edebe9] dark:bg-[#484644]" />
+                <div className="w-px h-5 shrink-0 bg-[#edebe9] dark:bg-[#484644]" aria-hidden="true" />
 
-                {/* Scroll left */}
-                {canScrollLeft && (
-                    <button
-                        onClick={() => scroll('left')}
-                        aria-label="Scroll left"
-                        className="shrink-0 p-0.5 rounded transition-colors text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#f3f2f1] dark:hover:bg-[#323130] hover:text-[#201f1e] dark:hover:text-white"
-                    >
-                        <ChevronLeft className="w-4 h-4" />
-                    </button>
-                )}
+                {/* Scroll left — always rendered, disabled when not scrollable */}
+                <button
+                    onClick={() => scroll('left')}
+                    disabled={!canScrollLeft}
+                    aria-label="Scroll categories left"
+                    aria-hidden={!canScrollLeft}
+                    tabIndex={canScrollLeft ? 0 : -1}
+                    className={`shrink-0 p-0.5 rounded transition-all text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#f3f2f1] dark:hover:bg-[#323130] hover:text-[#201f1e] dark:hover:text-white ${!canScrollLeft ? 'opacity-0 pointer-events-none w-0 p-0 overflow-hidden' : ''}`}
+                >
+                    <ChevronLeft className="w-4 h-4" />
+                </button>
 
                 {/* Scrollable category tabs */}
                 <div className="relative flex-1 min-w-0 overflow-hidden">
                     <div
                         ref={scrollContainerRef}
                         className="flex items-center gap-0.5 overflow-x-auto py-1 scrollbar-none"
+                        role="tablist"
+                        aria-label="Category filters"
                         style={{
                             scrollbarWidth: 'none',
                             msOverflowStyle: 'none',
@@ -143,6 +147,8 @@ const ServiceFilter = ({
                                 key={cat}
                                 data-category={cat}
                                 onClick={() => onCategoryChange(cat)}
+                                role="tab"
+                                aria-selected={activeCategory === cat}
                                 className={`
                                     shrink-0 px-2.5 py-1 text-[12px] font-medium rounded transition-all duration-150
                                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0078d4]
@@ -158,25 +164,27 @@ const ServiceFilter = ({
                     </div>
                 </div>
 
-                {/* Scroll right */}
-                {canScrollRight && (
-                    <button
-                        onClick={() => scroll('right')}
-                        aria-label="Scroll right"
-                        className="shrink-0 p-0.5 rounded transition-colors text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#f3f2f1] dark:hover:bg-[#323130] hover:text-[#201f1e] dark:hover:text-white"
-                    >
-                        <ChevronRight className="w-4 h-4" />
-                    </button>
-                )}
+                {/* Scroll right — always rendered, disabled when not scrollable */}
+                <button
+                    onClick={() => scroll('right')}
+                    disabled={!canScrollRight}
+                    aria-label="Scroll categories right"
+                    aria-hidden={!canScrollRight}
+                    tabIndex={canScrollRight ? 0 : -1}
+                    className={`shrink-0 p-0.5 rounded transition-all text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#f3f2f1] dark:hover:bg-[#323130] hover:text-[#201f1e] dark:hover:text-white ${!canScrollRight ? 'opacity-0 pointer-events-none w-0 p-0 overflow-hidden' : ''}`}
+                >
+                    <ChevronRight className="w-4 h-4" />
+                </button>
 
                 {/* Clear filter */}
                 {activeCategory !== 'All' && (
                     <button
                         onClick={() => onCategoryChange('All')}
                         title="Clear filter"
+                        aria-label="Clear category filter"
                         className="shrink-0 hidden sm:flex items-center gap-1.5 h-[28px] px-2 rounded text-[12px] font-semibold transition-colors bg-[#0078d4] text-white hover:bg-[#106ebe]"
                     >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>Clear</span>
                     </button>
                 )}

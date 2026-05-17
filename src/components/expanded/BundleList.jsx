@@ -1,5 +1,4 @@
-import React from 'react';
-import { Copy } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 import ValidationHighlight from '../ValidationHighlight';
 import PropTypes from 'prop-types';
 
@@ -36,7 +35,7 @@ export default function BundleList({ bundle, getBundleName, resource, isCopied, 
                                 <ValidationHighlight name={itemName} allowedCharsPattern={item.chars || resource.chars} />
                             </div>
                             <button
-                                onClick={(e) => { e.stopPropagation(); onCopy(e, itemName); }}
+                                onClick={(e) => { e.stopPropagation(); onCopy(itemName, item.name, e); }}
                                 className={`h-[24px] w-[24px] rounded-sm transition-all flex items-center justify-center shrink-0 border ${isCopied 
                                     ? 'bg-[#f1faf1] dark:bg-[#1b2b1b] border-[#c6ebc9] dark:border-[#1e4620] text-[#107c10] dark:text-[#a3d4a3]' 
                                     : 'bg-white dark:bg-[#323130] border-[#e1dfdd] dark:border-[#484644] text-[#605e5c] dark:text-[#c8c6c4] hover:border-[#c8c6c4] dark:hover:border-[#605e5c] hover:text-[#323130] dark:hover:text-[#e1dfdd]'}`}

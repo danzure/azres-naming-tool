@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Copy, Shield, Check, ExternalLink, ChevronDown, ChevronUp, Settings, Users, Lock } from 'lucide-react';
 import { getReadableTitle } from '../data/conditionalAccessData';
 
@@ -186,4 +186,4 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy }) => {
     );
 };
 
-export default PolicyGroupCard;
+export default memo(PolicyGroupCard);

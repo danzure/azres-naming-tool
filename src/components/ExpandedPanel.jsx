@@ -79,7 +79,7 @@ function ExpandedPanel({
     resource, genName, isCopied, onCopy,
     selectedSubResource, onSubResourceChange,
     topology, setTopology, spokeCount, setSpokeCount, spokeStartValue, setSpokeStartValue,
-    bundle, getBundleName, onClose
+    bundle, getBundleName
 }) {
     // ── Derived state ──────────────────────────────────────────────────────────
     const currentSubResource = resource.subResources?.find(sr => sr.suffix === selectedSubResource);
@@ -274,7 +274,6 @@ ExpandedPanel.propTypes = {
     setSpokeStartValue: PropTypes.func,
     bundle: PropTypes.array,
     getBundleName: PropTypes.func,
-    onClose: PropTypes.func,
 };
 
 export default memo(ExpandedPanel);

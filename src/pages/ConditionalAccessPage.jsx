@@ -64,7 +64,7 @@ export default function ConditionalAccessPage() {
      * @param {string} text - The string value to copy to the clipboard.
      * @param {string} id - A unique identifier to track which element triggered the copy (for setting UI state).
      */
-    const handleCopy = async (text, id) => {
+    const handleCopy = useCallback(async (text, id) => {
         try {
             await navigator.clipboard.writeText(text);
             setCopiedId(id);
@@ -72,7 +72,7 @@ export default function ConditionalAccessPage() {
         } catch (err) {
             console.error('Copy failed', err);
         }
-    };
+    }, []);
 
     const groupedPolicies = useMemo(() => {
         const lowerSearch = searchTerm.toLowerCase();

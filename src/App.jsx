@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import Header from './components/Header';
 import NavigationMenu from './components/NavigationMenu';
@@ -80,6 +80,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<ResourceNamingPage />} />
                     <Route path="/conditional-access" element={<ConditionalAccessPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </main>
         </div>

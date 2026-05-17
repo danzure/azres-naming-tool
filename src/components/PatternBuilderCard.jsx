@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { Copy, Check, Edit3, Eye, Info } from 'lucide-react';
 
 const ALPHANUMERIC_REGEX = /[^a-zA-Z0-9-]/g;
 const selectClasses = "px-2.5 h-[32px] flex-1 min-w-[120px] border rounded outline-none text-[13px] transition-all bg-white dark:bg-[#1b1a19] text-[#201f1e] dark:text-white border-[#8a8886] dark:border-[#605e5c] hover:border-[#323130] dark:hover:border-[#8a8886] focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4] cursor-pointer text-ellipsis";
 
-export default function PatternBuilderCard({ copiedId, handleCopy }) {
+function PatternBuilderCard({ copiedId, handleCopy }) {
     // Policy naming parts
     const [prefix, setPrefix] = useState('CA');
     const [persona, setPersona] = useState('AllUsers');
@@ -194,3 +194,5 @@ export default function PatternBuilderCard({ copiedId, handleCopy }) {
         </div>
     );
 }
+
+export default memo(PatternBuilderCard);

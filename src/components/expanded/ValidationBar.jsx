@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { ShieldCheck, ShieldAlert, AlertTriangle } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  */
 export default function ValidationBar({ validationIssues }) {
-    const { bg, accent } = React.useMemo(() => {
+    const { bg, accent } = useMemo(() => {
         if (validationIssues.length === 0) {
             return {
                 bg: 'bg-[#f1faf1] dark:bg-[#1b2b1b] border-[#c6ebc9] dark:border-[#1e4620]',

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Info, Check } from 'lucide-react';
 import PropTypes from 'prop-types';
 
