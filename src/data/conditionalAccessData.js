@@ -1,26 +1,216 @@
 export const PREMADE_POLICIES = [
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMFA', categories: ['Secure foundation', 'Zero Trust', 'Remote work'], desc: 'Establishes a foundational security posture by mandating Multi-factor Authentication for all users across all cloud applications. This is the critical baseline defense against credential theft, phishing, and password spray attacks.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-mfa-strength' },
-    { name: 'CA-Admins-AllApps-AnyPlatform-RequireMFA', categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], desc: 'Enforces strict Multi-factor Authentication for all privileged administrative roles (e.g., Global Administrator, Security Administrator) across all applications. This protects highly sensitive accounts that hold the keys to your tenant\'s infrastructure.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin' },
-    { name: 'CA-Admins-MsAdminPortals-AnyPlatform-RequireMFA', categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], desc: 'Requires Multi-factor Authentication whenever privileged users attempt to access Microsoft management portals (such as the Entra, Azure, or Microsoft 365 admin centers). This secures the control plane against unauthorized administrative access.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin-portals' },
-    { name: 'CA-AllUsers-AzurePortal-AnyPlatform-RequireMFA', categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], desc: 'Secures Azure infrastructure by mandating Multi-factor Authentication for any user attempting to access Azure management endpoints, such as the Azure Portal or Azure Resource Manager APIs, preventing unauthorized resource modification.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-azure-mgmt' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-BlockLegacyAuth', categories: ['Secure foundation', 'Zero Trust', 'Remote work', 'Emerging threats'], desc: 'Proactively blocks legacy authentication protocols (such as POP3, IMAP, and older Office clients) that cannot enforce Multi-factor Authentication. This significantly reduces the attack surface against automated credential stuffing and password spray attacks.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication' },
-    { name: 'CA-AllUsers-SecurityInfo-AnyPlatform-RequireMFA', categories: ['Secure foundation', 'Zero Trust', 'Remote work'], desc: 'Secures the credential enrollment process by requiring users to be on a trusted network or to successfully perform Multi-factor Authentication before registering or modifying their security info, preventing attackers from hijacking MFA methods.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-security-info-registration' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-RequireCompliant', categories: ['Secure foundation', 'Zero Trust', 'Remote work'], desc: 'Enforces device-level security by requiring endpoints to be either marked as compliant by Microsoft Intune or Hybrid Entra joined before accessing organizational data. This ensures devices meet minimum security baselines (e.g., active antivirus, encryption).', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance' },
-
-    { name: 'CA-Guests-AllApps-AnyPlatform-RequireMFA', categories: ['Zero Trust', 'Remote work'], desc: 'Secures B2B collaboration by ensuring that all external and guest users must perform Multi-factor Authentication before accessing your tenant\'s resources, mitigating risks associated with compromised external partner accounts.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-guest' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMfaForRisk', categories: ['Zero Trust', 'Remote work', 'Emerging threats'], desc: 'Leverages Microsoft Entra ID Protection to dynamically require Multi-factor Authentication when a medium or high sign-in risk is detected. This adaptive control provides real-time defense against anomalous login attempts, such as unfamiliar locations or anonymous IP addresses.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-sign-in' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-RequirePasswordChange', categories: ['Zero Trust', 'Remote work', 'Emerging threats'], desc: 'Mitigates account takeover by forcing an immediate, secure password change when Microsoft Entra ID Protection flags a user\'s overall identity risk as high (e.g., leaked credentials found on the dark web).', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-user' },
-    { name: 'CA-AllUsers-AllApps-UnknownPlatform-Block', categories: ['Zero Trust', 'Remote work', 'Emerging threats'], desc: 'Prevents unauthorized data access by blocking sign-ins from device operating systems that are not officially supported, recognized, or managed by your organization\'s IT department.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-unknown-unsupported' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-SessionControl', categories: ['Zero Trust', 'Remote work'], desc: 'Enhances session security by preventing users from remaining persistently signed in. By enforcing non-persistent browser sessions, users must re-authenticate after closing their browser, protecting data on shared or unmanaged devices.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-persistent-browser' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-AppProtection', categories: ['Zero Trust', 'Remote work'], desc: 'Safeguards corporate data on mobile devices by requiring users to access services via approved client apps or apps safeguarded by Intune App Protection Policies, preventing data leakage to unmanaged personal applications.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance' },
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-BlockInsiderRisk', categories: ['Zero Trust', 'Emerging threats'], desc: 'Integrates with Microsoft Purview to automatically block access for users flagged with a high insider risk severity. This prevents potential data exfiltration or sabotage by internal threat actors.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-insider-block' },
-
-    { name: 'CA-Admins-AzurePortal-AnyPlatform-RequirePhishResist', categories: ['Protect administrator', 'Zero Trust'], desc: 'Mandates the highest level of authentication strength (such as FIDO2 security keys, Passkeys, or Windows Hello for Business) for administrators. This provides robust protection against advanced phishing campaigns targeting privileged accounts.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa' },
-    { name: 'CA-Admins-AllApps-AnyPlatform-RequireCompliant', categories: ['Protect administrator', 'Remote work'], desc: 'Enforces strict endpoint requirements for privileged users, ensuring administrators can only access corporate applications from devices that are actively managed, compliant with Intune policies, or Hybrid Entra joined.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-alt-admin-device-compliand-hybrid' },
-
-    { name: 'CA-AllUsers-AllApps-AnyPlatform-AppEnforced', categories: ['Remote work'], desc: 'Enables limited, web-only access to services like SharePoint or Exchange Online from unmanaged devices. This uses application-enforced restrictions to prevent users from downloading, printing, or syncing sensitive data locally.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-app-enforced-restrictions' },
-
-    { name: 'CA-AIAgents-AllApps-AnyPlatform-BlockHighRisk', categories: ['AI Agents', 'Emerging threats'], desc: 'Secures non-human identities by automatically blocking access for workload identities and AI agents that exhibit anomalous or high-risk behavior, preventing automated service accounts from being exploited.', link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-agent-block-high-risk' }
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMFA', 
+        categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
+        desc: 'Establishes a foundational security posture by mandating Multi-factor Authentication for all users across all cloud applications. This is the critical baseline defense against credential theft, phishing, and password spray attacks.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-mfa-strength',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Client apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-Admins-AllApps-AnyPlatform-RequireMFA', 
+        categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
+        desc: 'Enforces strict Multi-factor Authentication for all privileged administrative roles (e.g., Global Administrator, Security Administrator) across all applications. This protects highly sensitive accounts that hold the keys to your tenant\'s infrastructure.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin',
+        settings: [
+            { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Client apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-Admins-MsAdminPortals-AnyPlatform-RequireMFA', 
+        categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
+        desc: 'Requires Multi-factor Authentication whenever privileged users attempt to access Microsoft management portals (such as the Entra, Azure, or Microsoft 365 admin centers). This secures the control plane against unauthorized administrative access.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin-portals',
+        settings: [
+            { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: Microsoft Admin Portals." },
+            { label: "Conditions", value: "Client apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AzurePortal-AnyPlatform-RequireMFA', 
+        categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
+        desc: 'Secures Azure infrastructure by mandating Multi-factor Authentication for any user attempting to access Azure management endpoints, such as the Azure Portal or Azure Resource Manager APIs, preventing unauthorized resource modification.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-azure-mgmt',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: Microsoft Azure Management." },
+            { label: "Conditions", value: "Client apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-BlockLegacyAuth', 
+        categories: ['Secure foundation', 'Zero Trust', 'Remote work', 'Emerging threats'], 
+        desc: 'Proactively blocks legacy authentication protocols (such as POP3, IMAP, and older Office clients) that cannot enforce Multi-factor Authentication. This significantly reduces the attack surface against automated credential stuffing and password spray attacks.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication',
+        settings: [
+            { label: "Users", value: "Include: All users." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Client apps: Exchange ActiveSync clients, Other clients." },
+            { label: "Grant", value: "Block access." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-SecurityInfo-AnyPlatform-RequireMFA', 
+        categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
+        desc: 'Secures the credential enrollment process by requiring users to be on a trusted network or to successfully perform Multi-factor Authentication before registering or modifying their security info, preventing attackers from hijacking MFA methods.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-security-info-registration',
+        settings: [
+            { label: "Users", value: "Include: All users." },
+            { label: "Target resources", value: "User actions: Register security information." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-RequireCompliant', 
+        categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
+        desc: 'Enforces device-level security by requiring endpoints to be either marked as compliant by Microsoft Intune or Hybrid Entra joined before accessing organizational data. This ensures devices meet minimum security baselines (e.g., active antivirus, encryption).', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Device platforms: Include any device.\nClient apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require device to be marked as compliant." }
+        ]
+    },
+    { 
+        name: 'CA-Guests-AllApps-AnyPlatform-RequireMFA', 
+        categories: ['Zero Trust', 'Remote work'], 
+        desc: 'Secures B2B collaboration by ensuring that all external and guest users must perform Multi-factor Authentication before accessing your tenant\'s resources, mitigating risks associated with compromised external partner accounts.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-guest',
+        settings: [
+            { label: "Users", value: "Include: All guest and external users." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Client apps: Browser, Mobile apps and desktop clients." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMfaForRisk', 
+        categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
+        desc: 'Leverages Microsoft Entra ID Protection to dynamically require Multi-factor Authentication when a medium or high sign-in risk is detected. This adaptive control provides real-time defense against anomalous login attempts, such as unfamiliar locations or anonymous IP addresses.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-sign-in',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Sign-in risk: High, Medium." },
+            { label: "Grant", value: "Grant access -> Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-RequirePasswordChange', 
+        categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
+        desc: 'Mitigates account takeover by forcing an immediate, secure password change when Microsoft Entra ID Protection flags a user\'s overall identity risk as high (e.g., leaked credentials found on the dark web).', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-user',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "User risk: High." },
+            { label: "Grant", value: "Grant access -> Require password change AND Require multifactor authentication." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-UnknownPlatform-Block', 
+        categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
+        desc: 'Prevents unauthorized data access by blocking sign-ins from device operating systems that are not officially supported, recognized, or managed by your organization\'s IT department.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-unknown-unsupported',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Device platforms: Include any device. Exclude Android, iOS, Windows, macOS, Linux." },
+            { label: "Grant", value: "Block access." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-SessionControl', 
+        categories: ['Zero Trust', 'Remote work'], 
+        desc: 'Enhances session security by preventing users from remaining persistently signed in. By enforcing non-persistent browser sessions, users must re-authenticate after closing their browser, protecting data on shared or unmanaged devices.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-persistent-browser',
+        settings: [
+            { label: "Users", value: "Include: All users." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Client apps: Browser." },
+            { label: "Session", value: "Sign-in frequency: Periodic (e.g., 1 hour)\nOR Persistent browser session: Never persistent." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-AppProtection', 
+        categories: ['Zero Trust', 'Remote work'], 
+        desc: 'Safeguards corporate data on mobile devices by requiring users to access services via approved client apps or apps safeguarded by Intune App Protection Policies, preventing data leakage to unmanaged personal applications.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance',
+        settings: [
+            { label: "Users", value: "Include: All users." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Device platforms: Include Android, iOS." },
+            { label: "Grant", value: "Grant access -> Require approved client app OR Require app protection policy." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-BlockInsiderRisk', 
+        categories: ['Zero Trust', 'Emerging threats'], 
+        desc: 'Integrates with Microsoft Purview to automatically block access for users flagged with a high insider risk severity. This prevents potential data exfiltration or sabotage by internal threat actors.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-insider-block',
+        settings: [
+            { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Insider risk: High." },
+            { label: "Grant", value: "Block access." }
+        ]
+    },
+    { 
+        name: 'CA-Admins-AzurePortal-AnyPlatform-RequirePhishResist', 
+        categories: ['Protect administrator', 'Zero Trust'], 
+        desc: 'Mandates the highest level of authentication strength (such as FIDO2 security keys, Passkeys, or Windows Hello for Business) for administrators. This provides robust protection against advanced phishing campaigns targeting privileged accounts.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa',
+        settings: [
+            { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: Microsoft Azure Management." },
+            { label: "Grant", value: "Grant access -> Require authentication strength: Phishing-resistant MFA." }
+        ]
+    },
+    { 
+        name: 'CA-Admins-AllApps-AnyPlatform-RequireCompliant', 
+        categories: ['Protect administrator', 'Remote work'], 
+        desc: 'Enforces strict endpoint requirements for privileged users, ensuring administrators can only access corporate applications from devices that are actively managed, compliant with Intune policies, or Hybrid Entra joined.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-alt-admin-device-compliand-hybrid',
+        settings: [
+            { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Grant", value: "Grant access -> Require device to be marked as compliant OR Require Hybrid Microsoft Entra joined device." }
+        ]
+    },
+    { 
+        name: 'CA-AllUsers-AllApps-AnyPlatform-AppEnforced', 
+        categories: ['Remote work'], 
+        desc: 'Enables limited, web-only access to services like SharePoint or Exchange Online from unmanaged devices. This uses application-enforced restrictions to prevent users from downloading, printing, or syncing sensitive data locally.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-app-enforced-restrictions',
+        settings: [
+            { label: "Users", value: "Include: All users." },
+            { label: "Target resources", value: "Include: Office 365, SharePoint Online, Exchange Online." },
+            { label: "Session", value: "Use app enforced restrictions." }
+        ]
+    },
+    { 
+        name: 'CA-AIAgents-AllApps-AnyPlatform-BlockHighRisk', 
+        categories: ['AI Agents', 'Emerging threats'], 
+        desc: 'Secures non-human identities by automatically blocking access for workload identities and AI agents that exhibit anomalous or high-risk behavior, preventing automated service accounts from being exploited.', 
+        link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-agent-block-high-risk',
+        settings: [
+            { label: "Workload identities", value: "Include: All owned service principals." },
+            { label: "Target resources", value: "Include: All cloud apps." },
+            { label: "Conditions", value: "Service principal risk: High." },
+            { label: "Grant", value: "Block access." }
+        ]
+    }
 ];
 
 export const CA_CATEGORIES = [
@@ -50,5 +240,8 @@ export const TITLE_OVERRIDES = {
 
 export const getReadableTitle = (requirement) => {
     if (TITLE_OVERRIDES[requirement]) return TITLE_OVERRIDES[requirement];
-    return requirement.replace(/([A-Z])/g, ' $1').trim();
+    return requirement
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+        .trim();
 };

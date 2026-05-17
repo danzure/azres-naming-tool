@@ -143,14 +143,14 @@ function ExpandedPanel({
     return (
         <div onClick={(e) => e.stopPropagation()} className="px-5 py-4 border-t cursor-default bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
             {/* Header — compact inline row */}
-            <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3 flex-wrap">
-                    <span className={`text-[13px] font-semibold ${t.caption}`}>Resource guidance</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#edebe9] dark:border-[#323130]">
+                <span className={`text-[13px] font-bold uppercase tracking-wide ${t.caption}`}>Resource details</span>
 
+                <div className="flex items-center gap-4 flex-wrap">
                     {/* Topology inline */}
                     {showTopology && (
                         <div className="flex items-center gap-2">
-                            <span className={`text-[12px] ${t.muted}`}>{isVNet ? 'Topology:' : 'Bundle:'}</span>
+                            <span className={`text-[12px] leading-[26px] ${t.muted}`}>{isVNet ? 'Topology:' : 'Bundle:'}</span>
                             <div className="relative">
                                 <select
                                     value={topology}
@@ -163,12 +163,12 @@ function ExpandedPanel({
                             </div>
                             {isHubSpoke && (
                                 <>
-                                    <span className={`text-[12px] ${t.muted}`}>Spokes:</span>
+                                    <span className={`text-[12px] leading-[26px] ${t.muted}`}>Spokes:</span>
                                     <input type="number" min="0" max="20" value={spokeCount}
                                         onChange={(e) => setSpokeCount?.(Math.max(0, Math.min(20, parseInt(e.target.value) || 0)))}
                                         className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
                                     />
-                                    <span className={`text-[12px] ${t.muted}`}>from:</span>
+                                    <span className={`text-[12px] leading-[26px] ${t.muted}`}>from:</span>
                                     <input type="number" min="0" max="999" value={spokeStartValue}
                                         onChange={(e) => setSpokeStartValue?.(Math.max(0, parseInt(e.target.value) || 0))}
                                         className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
@@ -181,7 +181,7 @@ function ExpandedPanel({
                     {/* Sub-resource inline */}
                     {resource.subResources?.length > 0 && (
                         <div className="flex items-center gap-2">
-                            <span className={`text-[12px] ${t.muted}`}>Target:</span>
+                            <span className={`text-[12px] leading-[26px] ${t.muted}`}>Target:</span>
                             <div className="relative">
                                 <select
                                     value={selectedSubResource || ''}
@@ -199,7 +199,6 @@ function ExpandedPanel({
                     )}
                 </div>
             </div>
-
 
             <BundleList 
                 bundle={bundle} 
