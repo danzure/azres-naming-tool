@@ -1,10 +1,14 @@
-import { useState, memo } from 'react';
-import { Copy, Shield, Check, ExternalLink, ChevronDown, ChevronUp, Settings, Users, Lock } from 'lucide-react';
+import { useState, memo, useEffect } from 'react';
+import { Copy, Shield, Check, ExternalLink, ChevronDown, ChevronUp, Settings, Users, Lock, BadgeCheck, AlertCircle, Info } from 'lucide-react';
 import { getReadableTitle } from '../data/conditionalAccessData';
 
-const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy }) => {
+const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalExpandState }) => {
     const [selectedIdx, setSelectedIdx] = useState(0);
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        setIsExpanded(globalExpandState || false);
+    }, [globalExpandState]);
 
     // Clamp the index to ensure it's always valid when the policies array shrinks
     const activeIndex = selectedIdx < policies.length ? selectedIdx : 0;
@@ -130,6 +134,9 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy }) => {
                 const assignments = activePolicy.settings.filter(s => ['Users', 'Workload identities', 'Target resources', 'Conditions'].includes(s.label));
                 const accessControls = activePolicy.settings.filter(s => ['Grant', 'Session'].includes(s.label));
 
+                const requiresP2 = activePolicy.settings.some(s => s.value.toLowerCase().includes('risk'));
+                const licenseRequired = requiresP2 ? 'Microsoft Entra ID P2' : 'Microsoft Entra ID P1';
+
                 return (
                     <div className="border-t border-[#edebe9] dark:border-[#323130] bg-[#faf9f8] dark:bg-[#1b1a19] rounded-b-lg p-4 animate-slide-up">
                         <div className="flex flex-col md:flex-row gap-4">
@@ -147,9 +154,21 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy }) => {
                                                 <span className="text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">
                                                     {setting.label}
                                                 </span>
-                                                <span className="text-[13px] text-[#242424] dark:text-[#e1dfdd] whitespace-pre-wrap leading-relaxed">
-                                                    {setting.value}
-                                                </span>
+                                                <div className="text-[13px] text-[#242424] dark:text-[#e1dfdd] leading-relaxed">
+                                                    {setting.value.split('\n').map((line, i) => {
+                                                        if (line.startsWith('Include:')) return (
+                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-[#107c10] dark:text-[#a3d4a3] font-bold mt-[1px]">+</span><span><strong className="font-semibold text-[#242424] dark:text-white">Include:</strong> {line.replace('Include:', '').trim()}</span></div>
+                                                        );
+                                                        if (line.startsWith('Exclude:')) return (
+                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-[#d13438] dark:text-[#f8b2b6] font-bold mt-[1px]">-</span><span><strong className="font-semibold text-[#242424] dark:text-white">Exclude:</strong> {line.replace('Exclude:', '').trim()}</span></div>
+                                                        );
+                                                        const colonIdx = line.indexOf(':');
+                                                        if (colonIdx > -1 && colonIdx < 30) {
+                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-[#0078d4] dark:bg-[#60cdff] mt-[9px] shrink-0"></span><span><strong className="font-semibold text-[#242424] dark:text-white">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
+                                                        }
+                                                        return <div key={i} className="mt-1">{line}</div>;
+                                                    })}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -169,15 +188,59 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy }) => {
                                                 <span className="text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">
                                                     {setting.label}
                                                 </span>
-                                                <span className="text-[13px] text-[#242424] dark:text-[#e1dfdd] whitespace-pre-wrap leading-relaxed">
-                                                    {setting.value}
-                                                </span>
+                                                <div className="text-[13px] text-[#242424] dark:text-[#e1dfdd] leading-relaxed">
+                                                    {setting.value.split('\n').map((line, i) => {
+                                                        if (line.includes('->')) {
+                                                            const parts = line.split('->');
+                                                            return (
+                                                                <div key={i} className="flex items-center flex-wrap gap-2 mt-1">
+                                                                    <span className="bg-[#f3f2f1] dark:bg-[#323130] border border-[#edebe9] dark:border-[#484644] px-1.5 py-0.5 rounded text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">{parts[0].trim()}</span>
+                                                                    <span className="text-[#0078d4] dark:text-[#60cdff] font-bold">→</span>
+                                                                    <span className="font-semibold text-[#242424] dark:text-[#e1dfdd]">{parts[1].trim()}</span>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        if (line.startsWith('Block access')) return (
+                                                            <div key={i} className="flex items-center gap-2 mt-1"><span className="w-2 h-2 rounded-full bg-[#d13438]"></span><span className="font-semibold text-[#d13438] dark:text-[#f8b2b6]">{line}</span></div>
+                                                        );
+                                                        const colonIdx = line.indexOf(':');
+                                                        if (colonIdx > -1 && colonIdx < 30) {
+                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-[#0078d4] dark:bg-[#60cdff] mt-[9px] shrink-0"></span><span><strong className="font-semibold text-[#242424] dark:text-white">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
+                                                        }
+                                                        return <div key={i} className="mt-1">{line}</div>;
+                                                    })}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             )}
 
+                        </div>
+
+                        {/* Policy Metadata Summary */}
+                        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#edebe9] dark:border-[#323130]">
+                            <div className="flex items-center gap-2">
+                                <BadgeCheck className="w-4 h-4 text-[#0078d4] dark:text-[#60cdff]" />
+                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
+                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">License required:</span>
+                                    {licenseRequired}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <AlertCircle className="w-4 h-4 text-[#ffaa44]" />
+                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
+                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">Recommended state:</span>
+                                    Report-only mode
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Info className="w-4 h-4 text-[#107c10] dark:text-[#a3d4a3]" />
+                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
+                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">Exclusions:</span>
+                                    Ensure break-glass access
+                                </span>
+                            </div>
                         </div>
                     </div>
                 );

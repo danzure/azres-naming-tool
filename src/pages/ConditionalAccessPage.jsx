@@ -1,8 +1,9 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { Shield } from 'lucide-react';
+import { Shield, Settings } from 'lucide-react';
 import ServiceFilter from '../components/ServiceFilter';
 import PolicyGroupCard from '../components/PolicyGroupCard';
 import PatternBuilderCard from '../components/PatternBuilderCard';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 import { PREMADE_POLICIES, CA_CATEGORIES, getReadableTitle } from '../data/conditionalAccessData';
 
 // Pre-compute groupings outside the render lifecycle for performance
@@ -30,6 +31,7 @@ const PRE_GROUPED_POLICIES = Object.entries(INITIAL_GROUPS)
 export default function ConditionalAccessPage() {
     // UI state for copy feedback
     const [copiedId, setCopiedId] = useState(null);
+    const [globalExpandState, setGlobalExpandState] = useState(false);
 
     // Search and filter state
     const [searchTerm, setSearchTerm] = useState('');
@@ -110,9 +112,18 @@ export default function ConditionalAccessPage() {
 
             <div className="max-w-[1600px] mx-auto px-4 pt-6 pb-12 space-y-5">
                 {/* Pre-made Policies Section - styled like ResourceCards */}
-                <div className="flex items-center gap-2 mb-4">
-                    <Shield className="w-4 h-4 text-[#0078d4]" />
-                    <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Common Microsoft Defaults</h2>
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-[#0078d4]" />
+                        <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Common Microsoft Defaults</h2>
+                    </div>
+                    <button
+                        onClick={() => setGlobalExpandState(!globalExpandState)}
+                        className="flex items-center gap-1.5 text-[12px] font-medium text-[#0078d4] dark:text-[#60cdff] hover:text-[#005a9e] dark:hover:text-[#4cc1ff] transition-colors"
+                    >
+                        <Settings className="w-3.5 h-3.5" />
+                        {globalExpandState ? 'Collapse All Settings' : 'Expand All Settings'}
+                    </button>
                 </div>
 
                 <ServiceFilter
@@ -133,17 +144,20 @@ export default function ConditionalAccessPage() {
                 ) : (
                     <div className="flex flex-col gap-3">
                         {groupedPolicies.map((group) => (
-                            <PolicyGroupCard
-                                key={group.requirement}
-                                requirement={group.requirement}
-                                policies={group.policies}
-                                copiedId={copiedId}
-                                handleCopy={handleCopy}
-                            />
+                                <PolicyGroupCard
+                                    key={group.requirement}
+                                    requirement={group.requirement}
+                                    policies={group.policies}
+                                    copiedId={copiedId}
+                                    handleCopy={handleCopy}
+                                    globalExpandState={globalExpandState}
+                                />
                         ))}
                     </div>
                 )}
             </div>
+
+            <ScrollToTopButton />
         </div>
     );
 }

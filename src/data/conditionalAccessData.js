@@ -2,7 +2,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMFA', 
         categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
-        desc: 'Establishes a foundational security posture by mandating Multi-factor Authentication for all users across all cloud applications. This is the critical baseline defense against credential theft, phishing, and password spray attacks.', 
+        desc: 'Establishes a foundational zero-trust security posture by mandating Multi-factor Authentication (MFA) for all users across all cloud applications. This policy acts as the critical baseline defense against identity-based attacks like credential theft, phishing, and password spraying. Implementing this policy significantly reduces the risk of account compromise and is considered a mandatory requirement for any modern security architecture.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-mfa-strength',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -14,7 +14,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-Admins-AllApps-AnyPlatform-RequireMFA', 
         categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
-        desc: 'Enforces strict Multi-factor Authentication for all privileged administrative roles (e.g., Global Administrator, Security Administrator) across all applications. This protects highly sensitive accounts that hold the keys to your tenant\'s infrastructure.', 
+        desc: 'Enforces strict Multi-factor Authentication for all privileged administrative roles (e.g., Global Administrator, Security Administrator) across all applications. Because administrative accounts hold the \'keys to the kingdom\', they are high-value targets for threat actors. This policy ensures that even if an administrator\'s credentials are compromised, unauthorized access to your tenant\'s infrastructure is prevented.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin',
         settings: [
             { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
@@ -26,7 +26,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-Admins-MsAdminPortals-AnyPlatform-RequireMFA', 
         categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
-        desc: 'Requires Multi-factor Authentication whenever privileged users attempt to access Microsoft management portals (such as the Entra, Azure, or Microsoft 365 admin centers). This secures the control plane against unauthorized administrative access.', 
+        desc: 'Requires Multi-factor Authentication whenever highly privileged users attempt to access Microsoft management portals (such as the Entra admin center, Azure portal, or Microsoft 365 admin center). This creates an isolated and secure control plane, specifically protecting the administrative interfaces where tenant-wide changes can be made.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-admin-portals',
         settings: [
             { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
@@ -38,7 +38,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AzurePortal-AnyPlatform-RequireMFA', 
         categories: ['Secure foundation', 'Zero Trust', 'Protect administrator'], 
-        desc: 'Secures Azure infrastructure by mandating Multi-factor Authentication for any user attempting to access Azure management endpoints, such as the Azure Portal or Azure Resource Manager APIs, preventing unauthorized resource modification.', 
+        desc: 'Secures Azure infrastructure by mandating Multi-factor Authentication for any user attempting to access Azure management endpoints, such as the Azure Portal or Azure Resource Manager APIs. This is crucial for preventing unauthorized resource modification, deployment of malicious infrastructure, or access to sensitive data stored in Azure services.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-azure-mgmt',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -50,7 +50,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-BlockLegacyAuth', 
         categories: ['Secure foundation', 'Zero Trust', 'Remote work', 'Emerging threats'], 
-        desc: 'Proactively blocks legacy authentication protocols (such as POP3, IMAP, and older Office clients) that cannot enforce Multi-factor Authentication. This significantly reduces the attack surface against automated credential stuffing and password spray attacks.', 
+        desc: 'Proactively blocks legacy authentication protocols (such as POP3, IMAP, SMTP, and older Office clients) that cannot natively enforce Multi-factor Authentication. Legacy protocols are heavily exploited by automated credential stuffing and password spray attacks. Blocking them significantly reduces your attack surface and forces users onto modern, secure authentication flows.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication',
         settings: [
             { label: "Users", value: "Include: All users." },
@@ -62,7 +62,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-SecurityInfo-AnyPlatform-RequireMFA', 
         categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
-        desc: 'Secures the credential enrollment process by requiring users to be on a trusted network or to successfully perform Multi-factor Authentication before registering or modifying their security info, preventing attackers from hijacking MFA methods.', 
+        desc: 'Secures the credential enrollment process by requiring users to successfully perform Multi-factor Authentication before registering or modifying their security info (MFA methods or SSPR details). This prevents attackers who have compromised a password from independently registering their own MFA device and locking the legitimate user out of their account.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-security-info-registration',
         settings: [
             { label: "Users", value: "Include: All users." },
@@ -73,7 +73,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-RequireCompliant', 
         categories: ['Secure foundation', 'Zero Trust', 'Remote work'], 
-        desc: 'Enforces device-level security by requiring endpoints to be either marked as compliant by Microsoft Intune or Hybrid Entra joined before accessing organizational data. This ensures devices meet minimum security baselines (e.g., active antivirus, encryption).', 
+        desc: 'Enforces device-level security trust by requiring endpoints to be either marked as compliant by Microsoft Intune or Hybrid Entra joined before accessing organizational data. This ensures that users can only access company resources from devices that meet your minimum security baselines (e.g., active antivirus, device encryption, latest OS patches).', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -85,7 +85,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-Guests-AllApps-AnyPlatform-RequireMFA', 
         categories: ['Zero Trust', 'Remote work'], 
-        desc: 'Secures B2B collaboration by ensuring that all external and guest users must perform Multi-factor Authentication before accessing your tenant\'s resources, mitigating risks associated with compromised external partner accounts.', 
+        desc: 'Secures B2B collaboration by ensuring that all external partners, vendors, and guest users must perform Multi-factor Authentication before accessing your tenant\'s resources. External identities are often outside your direct control, making this policy a critical layer of defense against compromised partner accounts infiltrating your environment.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-old-require-mfa-guest',
         settings: [
             { label: "Users", value: "Include: All guest and external users." },
@@ -97,7 +97,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMfaForRisk', 
         categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
-        desc: 'Leverages Microsoft Entra ID Protection to dynamically require Multi-factor Authentication when a medium or high sign-in risk is detected. This adaptive control provides real-time defense against anomalous login attempts, such as unfamiliar locations or anonymous IP addresses.', 
+        desc: 'Leverages the machine-learning capabilities of Microsoft Entra ID Protection to dynamically require Multi-factor Authentication when a medium or high sign-in risk is detected. This adaptive control provides real-time defense against anomalous login attempts, such as sign-ins from unfamiliar locations, anonymous IP addresses, or atypical travel, minimizing friction for normal logins.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-sign-in',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -109,7 +109,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-RequirePasswordChange', 
         categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
-        desc: 'Mitigates account takeover by forcing an immediate, secure password change when Microsoft Entra ID Protection flags a user\'s overall identity risk as high (e.g., leaked credentials found on the dark web).', 
+        desc: 'Mitigates full account takeover by forcing an immediate, secure password change when Microsoft Entra ID Protection flags a user\'s overall identity risk as high. A high user risk indicates that the user\'s credentials have likely been compromised (e.g., found leaked on the dark web). This policy forces remediation before granting access.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-user',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -121,7 +121,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-UnknownPlatform-Block', 
         categories: ['Zero Trust', 'Remote work', 'Emerging threats'], 
-        desc: 'Prevents unauthorized data access by blocking sign-ins from device operating systems that are not officially supported, recognized, or managed by your organization\'s IT department.', 
+        desc: 'Prevents unauthorized data access by explicitly blocking sign-ins from device operating systems that are not officially supported, recognized, or managed by your organization\'s IT department. This mitigates the risk of access from insecure or rooted mobile devices, unsupported Linux distributions, or obscured platforms.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-unknown-unsupported',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -133,7 +133,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-SessionControl', 
         categories: ['Zero Trust', 'Remote work'], 
-        desc: 'Enhances session security by preventing users from remaining persistently signed in. By enforcing non-persistent browser sessions, users must re-authenticate after closing their browser, protecting data on shared or unmanaged devices.', 
+        desc: 'Enhances session security and data protection by preventing users from remaining persistently signed in. By enforcing non-persistent browser sessions or aggressive sign-in frequencies, users must re-authenticate after closing their browser. This is essential for protecting data when users access resources from shared, public, or unmanaged devices.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-persistent-browser',
         settings: [
             { label: "Users", value: "Include: All users." },
@@ -145,7 +145,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-AppProtection', 
         categories: ['Zero Trust', 'Remote work'], 
-        desc: 'Safeguards corporate data on mobile devices by requiring users to access services via approved client apps or apps safeguarded by Intune App Protection Policies, preventing data leakage to unmanaged personal applications.', 
+        desc: 'Safeguards corporate data on mobile devices by requiring users to access services via officially approved client apps or apps safeguarded by Intune App Protection Policies (MAM). This prevents data leakage by ensuring corporate data cannot be copied, pasted, or saved to unmanaged personal applications on BYOD devices.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance',
         settings: [
             { label: "Users", value: "Include: All users." },
@@ -157,7 +157,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-BlockInsiderRisk', 
         categories: ['Zero Trust', 'Emerging threats'], 
-        desc: 'Integrates with Microsoft Purview to automatically block access for users flagged with a high insider risk severity. This prevents potential data exfiltration or sabotage by internal threat actors.', 
+        desc: 'Integrates natively with Microsoft Purview Insider Risk Management to automatically block access for users flagged with a high insider risk severity. This provides immediate, automated containment to prevent potential data exfiltration, malicious sabotage, or intellectual property theft by internal threat actors.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-risk-based-insider-block',
         settings: [
             { label: "Users", value: "Include: All users.\nExclude: Break-glass / emergency access accounts." },
@@ -169,7 +169,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-Admins-AzurePortal-AnyPlatform-RequirePhishResist', 
         categories: ['Protect administrator', 'Zero Trust'], 
-        desc: 'Mandates the highest level of authentication strength (such as FIDO2 security keys, Passkeys, or Windows Hello for Business) for administrators. This provides robust protection against advanced phishing campaigns targeting privileged accounts.', 
+        desc: 'Mandates the highest level of authentication strength (such as FIDO2 security keys, Passkeys, or Windows Hello for Business) for administrative access. Standard MFA can be bypassed using adversary-in-the-middle (AiTM) proxy attacks. This policy provides robust, hardware-backed protection against advanced phishing campaigns targeting privileged accounts.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-admin-phish-resistant-mfa',
         settings: [
             { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
@@ -180,7 +180,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-Admins-AllApps-AnyPlatform-RequireCompliant', 
         categories: ['Protect administrator', 'Remote work'], 
-        desc: 'Enforces strict endpoint requirements for privileged users, ensuring administrators can only access corporate applications from devices that are actively managed, compliant with Intune policies, or Hybrid Entra joined.', 
+        desc: 'Enforces strict endpoint requirements for highly privileged users, ensuring administrators can only access corporate applications and management portals from devices that are actively managed, compliant with stringent Intune policies, or Hybrid Entra joined. This prevents admins from managing the environment from insecure personal devices.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-alt-admin-device-compliand-hybrid',
         settings: [
             { label: "Users", value: "Include: Select directory roles (Global Admin, Security Admin, Privileged Role Admin, etc.).\nExclude: Break-glass / emergency access accounts." },
@@ -191,7 +191,7 @@ export const PREMADE_POLICIES = [
     { 
         name: 'CA-AllUsers-AllApps-AnyPlatform-AppEnforced', 
         categories: ['Remote work'], 
-        desc: 'Enables limited, web-only access to services like SharePoint or Exchange Online from unmanaged devices. This uses application-enforced restrictions to prevent users from downloading, printing, or syncing sensitive data locally.', 
+        desc: 'Enables limited, web-only access to services like SharePoint or Exchange Online when accessed from unmanaged devices. By passing device state to the application, it uses application-enforced restrictions to prevent users from downloading, printing, or syncing sensitive data locally, allowing secure productivity from anywhere.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-app-enforced-restrictions',
         settings: [
             { label: "Users", value: "Include: All users." },
@@ -200,9 +200,9 @@ export const PREMADE_POLICIES = [
         ]
     },
     { 
-        name: 'CA-AIAgents-AllApps-AnyPlatform-BlockHighRisk', 
+        name: 'CA-AIAgents-AllApps-AnyPlatform-BlockHighRiskAgentIdentities', 
         categories: ['AI Agents', 'Emerging threats'], 
-        desc: 'Secures non-human identities by automatically blocking access for workload identities and AI agents that exhibit anomalous or high-risk behavior, preventing automated service accounts from being exploited.', 
+        desc: 'Secures non-human identities by automatically blocking access for workload identities, service principals, and AI agents that exhibit anomalous or high-risk behavior. As automation increases, service accounts become prime targets. This policy ensures compromised automated accounts are immediately disabled before they can be exploited.', 
         link: 'https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-agent-block-high-risk',
         settings: [
             { label: "Workload identities", value: "Include: All owned service principals." },
@@ -232,7 +232,7 @@ export const TITLE_OVERRIDES = {
     'AppProtection': 'Require App Protection',
     'AppEnforced': 'App Enforced Restrictions',
     'Block': 'Block Unknown Platforms',
-    'BlockHighRisk': 'Block High Risk',
+    'BlockHighRiskAgentIdentities': 'Block high-risk agent identities',
     'BlockInsiderRisk': 'Block Insider Risk',
     'BlockLegacyAuth': 'Block Legacy Authentication',
     'SessionControl': 'Session Control'
