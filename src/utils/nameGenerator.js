@@ -10,11 +10,12 @@
  * @param {string} config.envValue - Environment abbreviation (e.g., 'prod')
  * @param {string[]} config.namingOrder - Array defining segment order
  * @param {boolean} config.showOrg - Whether to include org prefix
+ * @param {string} [config.patternOverride] - Optional custom pattern to replace resource+workload
  * @param {string} [selectedSubResource=null] - Optional suffix for sub-resources
  * @returns {string} The generated resource name
  */
 export function generateName(resource, config, selectedSubResource = null) {
-    const { workload, orgPrefix, regionAbbrev, instance, envValue, namingOrder, showOrg } = config;
+    const { workload, orgPrefix, regionAbbrev, instance, envValue, namingOrder, showOrg, patternOverride } = config;
 
     let resAbbrev = resource.abbrev || "res";
 
@@ -47,19 +48,47 @@ export function generateName(resource, config, selectedSubResource = null) {
         return `${resAbbrev}${cleanWorkload.substring(0, maxWorkload)}${envValue.substring(0, 1)}${regAbbrev.substring(0, 3)}${suffix}`.toLowerCase();
     }
 
+    // Handle pattern override which may contain placeholders
+    let processedPattern = patternOverride;
+    let skipParts = {};
+    if (processedPattern) {
+        if (processedPattern.includes('{env}')) {
+            processedPattern = processedPattern.replace('{env}', envValue);
+            skipParts['Environment'] = true;
+        }
+        if (processedPattern.includes('{region}')) {
+            processedPattern = processedPattern.replace('{region}', regAbbrev);
+            skipParts['Region'] = true;
+        }
+        if (processedPattern.includes('{instance}')) {
+            processedPattern = processedPattern.replace('{instance}', suffix);
+            skipParts['Instance'] = true;
+        }
+    }
+
     // Build parts based on naming order
     let parts = [];
     namingOrder.forEach(part => {
         if (part === 'Org' && showOrg && cleanOrg) parts.push(cleanOrg);
-        if (part === 'Resource') parts.push(resAbbrev);
-        if (part === 'Workload') parts.push(cleanWorkload);
-        if (part === 'Environment') parts.push(envValue);
-        if (part === 'Region') {
+        if (part === 'Resource') {
+            if (processedPattern) {
+                parts.push(processedPattern);
+            } else {
+                parts.push(resAbbrev);
+            }
+        }
+        if (part === 'Workload') {
+            if (!processedPattern) {
+                parts.push(cleanWorkload);
+            }
+        }
+        if (part === 'Environment' && !skipParts['Environment']) parts.push(envValue);
+        if (part === 'Region' && !skipParts['Region']) {
             if (resource.name !== 'Subscription' && resource.name !== 'Management group') {
                 parts.push(regAbbrev);
             }
         }
-        if (part === 'Instance') parts.push(suffix);
+        if (part === 'Instance' && !skipParts['Instance']) parts.push(suffix);
     });
 
     const separator = allowsHyphens ? '-' : '';

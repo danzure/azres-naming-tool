@@ -94,7 +94,7 @@ export default function ResourceNamingPage() {
      * Generates a compliant Azure resource name based on configuration and resource specific rules.
      * Delegates to the pure generateName utility with current state as config.
      */
-    const generateName = useCallback((resource, selectedSubResource = null, instanceOverride = null) => {
+    const generateName = useCallback((resource, selectedSubResource = null, instanceOverride = null, patternOverride = null) => {
         return generateResourceName(resource, {
             workload,
             orgPrefix,
@@ -103,6 +103,7 @@ export default function ResourceNamingPage() {
             envValue,
             namingOrder,
             showOrg,
+            patternOverride
         }, selectedSubResource);
     }, [workload, orgPrefix, currentRegion, formattedInstance, envValue, namingOrder, showOrg]);
 

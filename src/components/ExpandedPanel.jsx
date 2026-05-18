@@ -115,6 +115,13 @@ function ExpandedPanel({
         };
     }, [resource.namingGuidance, displayBestPractice]);
 
+    // Generate the fully resolved name that incorporates the guidance pattern
+    const guidanceName = useMemo(() => {
+        if (!namingPattern) return null;
+        // getBundleName is actually the getGeneratedName function passed from ResourceCard
+        return getBundleName ? getBundleName(resource, namingPattern) : null;
+    }, [namingPattern, resource, getBundleName]);
+
     // ── Shared theme tokens (computed once per render) ──────────────────────────
 
     const t = useMemo(() => ({
@@ -216,7 +223,7 @@ function ExpandedPanel({
                 <AboutCard 
                     resource={resource} 
                     displayDesc={displayDesc} 
-                    namingPattern={namingPattern} 
+                    namingPattern={guidanceName} 
                     namingGuidanceText={namingGuidanceText} 
                     t={t} 
                 />

@@ -1,4 +1,5 @@
-import { Info, Check } from 'lucide-react';
+import React, { useState } from 'react';
+import { Info, Lightbulb, Copy, Check } from 'lucide-react';
 import PropTypes from 'prop-types';
 
 /**
@@ -17,6 +18,15 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  */
 export default function AboutCard({ resource, displayDesc, namingPattern, namingGuidanceText, t }) {
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(namingPattern);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
+
     return (
         <div className={`rounded-md border overflow-hidden ${t.card}`}>
             {/* About this Service */}
@@ -49,12 +59,19 @@ export default function AboutCard({ resource, displayDesc, namingPattern, naming
             {(namingPattern || namingGuidanceText) && (
                 <div className={`border-t px-4 pt-2 pb-3 ${t.divider}`}>
                     <div className="flex items-center gap-1.5 mb-1.5">
-                        <Check className="w-3 h-3 text-[#107c10]" />
+                        <Lightbulb className={`w-3 h-3 ${t.muted}`} />
                         <span className={`text-[12px] font-semibold ${t.caption}`}>Naming guidance</span>
                     </div>
                     {namingPattern && (
-                        <div className={`mb-1.5 px-2.5 py-1.5 rounded-sm font-mono text-[12px] ${t.codeBlock}`}>
-                            {namingPattern}
+                        <div className={`mb-1.5 px-2.5 py-1.5 rounded-sm font-mono text-[12px] flex items-center justify-between gap-2 ${t.codeBlock}`}>
+                            <span className="break-all">{namingPattern}</span>
+                            <button
+                                onClick={handleCopy}
+                                className={`shrink-0 flex items-center justify-center p-1 rounded-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10 ${isCopied ? 'text-[#107c10] dark:text-[#a3d4a3]' : t.muted}`}
+                                title="Copy naming guidance"
+                            >
+                                {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            </button>
                         </div>
                     )}
                     {namingGuidanceText && (

@@ -59,7 +59,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
     const hasBundle = bundle && bundle.length > 0;
 
     // Helper to generate name - utilizing the passed generateName function with modified resource context
-    const getGeneratedName = (resItem) => generateName(resItem, null, resItem.instanceOverride);
+    const getGeneratedName = (resItem, patternOverride = null) => generateName(resItem, null, resItem.instanceOverride, patternOverride);
 
     // Validation
     const validationIssues = useMemo(() => validateName(genName, resource), [genName, resource]);

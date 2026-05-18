@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { BookOpen } from 'lucide-react';
 
 /**
  * NamingRuleRow Sub-component
@@ -51,7 +52,10 @@ export default function NamingRulesCard({ resource, scopeDesc, selectedSubResour
     return (
         <div className={`rounded-md border overflow-hidden flex-shrink-0 ${t.card}`}>
             <div className="p-4">
-                <span className={`text-[13px] font-semibold mb-4 block ${t.caption}`}>Naming rules</span>
+                <div className="flex items-center gap-1.5 mb-4">
+                    <BookOpen className={`w-3 h-3 ${t.muted}`} />
+                    <span className={`text-[12px] font-semibold ${t.caption}`}>Naming rules</span>
+                </div>
                 <div className="flex flex-col">
                     <NamingRuleRow label="Uniqueness Scope" description="The level at which the name must be unique." t={t}>
                         <div className="flex flex-col items-end gap-0.5 text-right">
