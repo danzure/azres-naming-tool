@@ -4,6 +4,7 @@ import ConfigPanel from '../components/ConfigPanel';
 import ResourceGrid from '../components/ResourceGrid';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import ServiceFilter from '../components/ServiceFilter';
+import Footer from '../components/Footer';
 import useDebounce from '../hooks/useDebounce';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { generateName as generateResourceName } from '../utils/nameGenerator';
@@ -195,12 +196,9 @@ export default function ResourceNamingPage() {
                     copiedId={copiedId}
                     onCopy={copyToClipboard}
                 />
-
-                {/* Footer */}
-                <footer className="py-6 text-center text-[12px] text-[#605e5c] dark:text-[#a19f9d]">
-                    Published by <a href="https://www.linkedin.com/in/danielpowley92/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#0078d4] hover:underline">Daniel Powley</a> • <a href="https://blog.atozazure.com" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">Blog</a> • <a href="https://github.com/danzure/azres-naming-tool" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">GitHub</a> • Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" className="text-[#0078d4] hover:underline">MIT License</a>
-                </footer>
             </div>
+
+            <Footer />
 
             <ScrollToTopButton />
         </div>
