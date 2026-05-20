@@ -105,7 +105,7 @@ export default function NavigationMenu({ isOpen, onClose }) {
             {/* Slide-out Drawer */}
             <div 
                 ref={drawerRef}
-                className={`fixed top-0 left-0 h-full w-[280px] bg-white dark:bg-[#1b1a19] shadow-xl z-50 transform transition-transform duration-300 ease-in-out border-r border-transparent dark:border-[#323130] flex flex-col ${
+                className={`fixed top-0 left-0 h-full w-[280px] bg-fluent-bg-card shadow-xl z-50 transform transition-transform duration-300 ease-in-out border-r border-fluent-stroke-subtle flex flex-col ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
                 role="dialog"
@@ -114,12 +114,12 @@ export default function NavigationMenu({ isOpen, onClose }) {
                 aria-hidden={!isOpen}
             >
                 {/* Header inside drawer */}
-                <div className="h-[48px] flex items-center justify-between px-5 border-b border-[#edebe9] dark:border-[#323130]">
+                <div className="h-[48px] flex items-center justify-between px-5 border-b border-fluent-stroke-subtle">
                     <span className="font-semibold text-[16px] tracking-tight">Navigation</span>
                     <button 
                         ref={closeButtonRef}
                         onClick={onClose}
-                        className="p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                        className="p-1 rounded hover:bg-fluent-bg-hover transition-colors"
                         aria-label="Close navigation menu"
                         tabIndex={isOpen ? 0 : -1}
                     >
@@ -136,8 +136,8 @@ export default function NavigationMenu({ isOpen, onClose }) {
                         className={({ isActive }) => 
                             `flex items-center gap-3 px-3 py-2 rounded text-[14px] font-medium transition-colors ${
                                 isActive 
-                                    ? 'bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#4fc3f7]' 
-                                    : 'text-[#323130] dark:text-[#e1dfdd] hover:bg-[#f3f2f1] dark:hover:bg-[#323130]'
+                                    ? 'bg-fluent-bg-hover text-fluent-brand-fg font-semibold' 
+                                    : 'text-fluent-fg-secondary hover:bg-fluent-bg-hover hover:text-fluent-fg-primary'
                             }`
                         }
                     >
@@ -152,8 +152,8 @@ export default function NavigationMenu({ isOpen, onClose }) {
                         className={({ isActive }) => 
                             `flex items-center gap-3 px-3 py-2 rounded text-[14px] font-medium transition-colors ${
                                 isActive 
-                                    ? 'bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#4fc3f7]' 
-                                    : 'text-[#323130] dark:text-[#e1dfdd] hover:bg-[#f3f2f1] dark:hover:bg-[#323130]'
+                                    ? 'bg-fluent-bg-hover text-fluent-brand-fg font-semibold' 
+                                    : 'text-fluent-fg-secondary hover:bg-fluent-bg-hover hover:text-fluent-fg-primary'
                             }`
                         }
                     >

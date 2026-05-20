@@ -68,7 +68,7 @@ export default function ResourceGrid({ resources, generateName, copiedId, onCopy
 
     if (displayedResources.length === 0) {
         return (
-            <div className="text-center py-16 text-[#605e5c] dark:text-[#a19f9d]">
+            <div className="text-center py-16 text-fluent-fg-tertiary">
                 <p className="text-[14px]">No resources found matching your criteria.</p>
                 <p className="text-[12px] mt-2">Try adjusting your search or category filter.</p>
             </div>

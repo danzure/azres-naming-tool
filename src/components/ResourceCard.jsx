@@ -72,7 +72,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
         <div
             id={id}
             onClick={() => onToggle(resource.name, isExpanded)}
-            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-[#0078d4] shadow-depth border-transparent dark:border-transparent' : 'hover:shadow-depth hover:border-[#c8c6c4] dark:hover:border-[#8a8886] shadow-soft'} bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644] ${hasErrors ? 'border-l-4 border-l-[#a80000]' : hasWarnings ? 'border-l-4 border-l-[#ffaa44]' : ''}`}
+            className={`group relative flex flex-col rounded-lg border cursor-pointer transition-all duration-300 h-full ${isExpanded ? 'ring-2 ring-fluent-brand-bg shadow-depth border-transparent dark:border-transparent' : 'hover:shadow-depth hover:border-fluent-stroke-strong shadow-soft'} bg-fluent-bg-card border-fluent-stroke-subtle ${hasErrors ? 'border-l-4 border-l-[#a80000]' : hasWarnings ? 'border-l-4 border-l-[#ffaa44]' : ''}`}
         >
             <div className="p-4 flex flex-col h-full gap-3">
                 <div className="flex items-start justify-between gap-3">
@@ -83,12 +83,12 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                             <CategoryIcon className="w-5 h-5" />
                         </div>
                         <div className="flex flex-col min-w-0">
-                            <h3 className="text-[14px] font-semibold truncate text-[#242424] dark:text-white">{resource.name}</h3>
+                            <h3 className="text-[14px] font-semibold truncate text-fluent-fg-primary">{resource.name}</h3>
                             <div className="flex items-center gap-1.5 mt-1">
                                 <span
                                     className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${categoryColors.bgClass} ${categoryColors.textClass}`}
                                 >{resource.category}</span>
-                                <span className="text-[11px] font-mono opacity-60 text-[#616161] dark:text-[#d2d2d2]">{resource.abbrev}</span>
+                                <span className="text-[11px] font-mono opacity-60 text-fluent-fg-tertiary">{resource.abbrev}</span>
                             </div>
                         </div>
                     </div>
@@ -99,9 +99,9 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                                     ? <ShieldAlert className="w-4 h-4 text-[#a80000]" aria-label={`${validationIssues.length} validation issue(s)`} />
                                     : <AlertTriangle className="w-4 h-4 text-[#ffaa44]" aria-label={`${validationIssues.length} validation warning(s)`} />
                                 }
-                                <div className="absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block bg-white dark:bg-[#323130] border-[#edebe9] dark:border-[#605e5c] text-[#323130] dark:text-[#e1dfdd]">
+                                <div className="absolute right-0 top-6 z-50 w-56 p-2.5 rounded shadow-lg border text-[11px] leading-relaxed hidden group-hover/validation:block bg-fluent-bg-card border-fluent-stroke-subtle text-fluent-fg-secondary">
                                     {validationIssues.map((issue, i) => (
-                                        <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} border-[#edebe9] dark:border-[#484644]`}>
+                                        <div key={i} className={`flex items-start gap-1.5 ${i > 0 ? 'mt-1.5 pt-1.5 border-t' : ''} border-fluent-stroke-subtle`}>
                                             <span className={`shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full ${issue.type === 'error' ? 'bg-[#a80000]' : 'bg-[#ffaa44]'}`} />
                                             <span>{issue.message}</span>
                                         </div>
@@ -112,7 +112,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                         {isExpanded && (
                             <button
                                 onClick={(e) => { e.stopPropagation(); onToggle(resource.name, isExpanded); }}
-                                className="p-1 -mr-1 rounded-sm text-[#605e5c] dark:text-[#c8c6c4] hover:bg-[#edebe9] dark:hover:bg-[#323130] transition-colors"
+                                className="p-1 -mr-1 rounded-sm text-fluent-fg-tertiary hover:bg-fluent-bg-hover transition-colors"
                                 aria-label="Close"
                             >
                                 <X className="w-5 h-5" />
@@ -121,7 +121,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                     </div>
                 </div>
 
-                <p className="text-[13px] leading-relaxed line-clamp-2 text-[#605e5c] dark:text-[#d2d0ce]">
+                <p className="text-[13px] leading-relaxed line-clamp-2 text-fluent-fg-secondary">
                     {resource.desc}
                 </p>
 
@@ -132,7 +132,7 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="w-fit text-[#0078d4] dark:text-[#60cdff] hover:underline flex items-center gap-1.5 text-[12px] font-medium"
+                            className="w-fit text-fluent-brand-fg hover:underline flex items-center gap-1.5 text-[12px] font-medium"
                         >
                             Microsoft Learn
                             <ExternalLink className="w-3 h-3" />
@@ -141,11 +141,11 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                 )}
 
                 <div className="mt-auto pt-2">
-                    <div className="group/copy relative rounded-md px-3 flex flex-col justify-center h-[32px] bg-[#f3f2f1] dark:bg-[#292827] hover:bg-[#edebe9] dark:hover:bg-[#323130] transition-colors border border-transparent">
-                        <div className={`text-[13px] font-medium font-mono truncate w-full pr-16 flex items-center gap-2 ${isTooLong ? 'text-[#a80000]' : 'text-[#242424] dark:text-[#ffffff]'}`}>
+                    <div className="group/copy relative rounded-md px-3 flex flex-col justify-center h-[32px] bg-fluent-bg-canvas hover:bg-fluent-bg-hover transition-colors border border-transparent">
+                        <div className={`text-[13px] font-medium font-mono truncate w-full pr-16 flex items-center gap-2 ${isTooLong ? 'text-[#a80000]' : 'text-fluent-fg-primary'}`}>
                             <ValidationHighlight name={hasBundle ? getGeneratedName(bundle[0]) : genName} allowedCharsPattern={hasBundle ? bundle[0].chars : resource.chars} />
                             {hasBundle && (
-                                <span className="text-[11px] px-1.5 py-0.5 rounded font-bold bg-white dark:bg-[#3b3a39] text-[#0078d4] dark:text-[#60cdff] shadow-sm">
+                                <span className="text-[11px] px-1.5 py-0.5 rounded font-bold bg-fluent-bg-card text-fluent-brand-fg shadow-sm">
                                     +{bundle.length - 1}
                                 </span>
                             )}
@@ -163,15 +163,15 @@ function ResourceCard({ id, resource, genName, isCopied, isExpanded, onCopy, onT
                             aria-label={isCopied ? 'Copied' : 'Copy name'}
                             className={`absolute right-1 top-1 h-[24px] px-2 flex items-center justify-center gap-1.5 rounded-sm text-[11px] font-medium transition-all z-10 border ${isCopied 
                                 ? 'bg-[#f1faf1] dark:bg-[#1b2b1b] border-[#c6ebc9] dark:border-[#1e4620] text-[#107c10] dark:text-[#a3d4a3]' 
-                                : 'bg-white dark:bg-[#323130] border-[#e1dfdd] dark:border-[#484644] text-[#605e5c] dark:text-[#c8c6c4] hover:border-[#c8c6c4] dark:hover:border-[#605e5c] hover:text-[#323130] dark:hover:text-[#e1dfdd]'}`}
+                                : 'bg-fluent-bg-card border-fluent-stroke-subtle text-fluent-fg-secondary hover:border-fluent-stroke-strong hover:text-fluent-fg-primary'}`}
                         >
                             {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                             <span>{isCopied ? 'Copied' : 'Copy'}</span>
                         </button>
                     </div>
                     <div className="flex justify-between items-center text-[11px] mt-2 px-0.5 opacity-70 shrink-0">
-                        <span className="text-[#605e5c] dark:text-[#c8c6c4]">Max: {resource.maxLength || 64}</span>
-                        <span className={`font-bold ${isTooLong ? 'text-[#a80000]' : 'text-[#201f1e] dark:text-white'}`}>{genName.length} chars</span>
+                        <span className="text-fluent-fg-tertiary">Max: {resource.maxLength || 64}</span>
+                        <span className={`font-bold ${isTooLong ? 'text-[#a80000]' : 'text-fluent-fg-primary'}`}>{genName.length} chars</span>
                     </div>
                 </div>
             </div>

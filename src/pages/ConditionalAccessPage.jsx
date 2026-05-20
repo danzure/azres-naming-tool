@@ -97,13 +97,13 @@ export default function ConditionalAccessPage() {
 
     return (
         <div className="pt-12">
-            <nav className="mt-[48px] shadow-sm transition-all border-b bg-white dark:bg-[#252423] border-[#edebe9] dark:border-[#484644]">
+            <nav className="mt-[48px] shadow-sm transition-all border-b bg-fluent-bg-card border-fluent-stroke-subtle">
                 <div className="max-w-[1600px] mx-auto px-4 py-3">
                     {/* Header row */}
                     <div className="flex items-center justify-between mb-3">
                         <div>
-                            <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Conditional Access</h2>
-                            <p className="text-[13px] text-[#616161] dark:text-[#a19f9d]">Policy naming generator</p>
+                            <h2 className="text-[16px] font-semibold text-fluent-fg-primary">Conditional Access</h2>
+                            <p className="text-[13px] text-fluent-fg-tertiary">Policy naming generator</p>
                         </div>
                     </div>
 
@@ -115,12 +115,12 @@ export default function ConditionalAccessPage() {
                 {/* Pre-made Policies Section - styled like ResourceCards */}
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-[#0078d4]" />
-                        <h2 className="text-[16px] font-semibold text-[#242424] dark:text-white">Common Microsoft Defaults</h2>
+                        <Shield className="w-4 h-4 text-fluent-brand-fg" />
+                        <h2 className="text-[16px] font-semibold text-fluent-fg-primary">Common Microsoft Defaults</h2>
                     </div>
                     <button
                         onClick={() => setGlobalExpandState(!globalExpandState)}
-                        className="flex items-center gap-1.5 text-[12px] font-medium text-[#0078d4] dark:text-[#60cdff] hover:text-[#005a9e] dark:hover:text-[#4cc1ff] transition-colors"
+                        className="flex items-center gap-1.5 text-[12px] font-medium text-fluent-brand-fg hover:text-fluent-brand-hover transition-colors"
                     >
                         <Settings className="w-3.5 h-3.5" />
                         {globalExpandState ? 'Collapse All Settings' : 'Expand All Settings'}
@@ -138,7 +138,7 @@ export default function ConditionalAccessPage() {
                 />
 
                 {groupedPolicies.length === 0 ? (
-                    <div className="text-center py-16 text-[#605e5c] dark:text-[#a19f9d]">
+                    <div className="text-center py-16 text-fluent-fg-tertiary">
                         <p className="text-[14px]">No policies found matching your criteria.</p>
                         <p className="text-[12px] mt-2">Try adjusting your search or category filter.</p>
                     </div>

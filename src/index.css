@@ -4,6 +4,90 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --colorNeutralBackground1: #ffffff;
+    --colorNeutralBackground2: #fafafa;
+    --colorNeutralBackground3: #f5f5f5;
+    --colorNeutralBackground4: #f0f0f0;
+    --colorNeutralBackground5: #ebebeb;
+    --colorNeutralForeground1: #242424;
+    --colorNeutralForeground2: #424242;
+    --colorNeutralForeground3: #616161;
+    --colorNeutralStroke1: #d1d1d1;
+    --colorNeutralStroke2: #e0e0e0;
+    --colorBrandBackground: #0f6cbd;
+    --colorBrandBackgroundHover: #115ea3;
+    --colorBrandBackgroundPressed: #0f548c;
+    --colorBrandForeground: #0f6cbd;
+    --colorInfoBackground: #eff6fc;
+    --colorInfoBorder: #c7e0f4;
+    --colorInfoText: #004578;
+    
+    /* Category Colors - Light Mode */
+    --colorCategoryBlueBg: #eff6fc;
+    --colorCategoryBlueFg: #0078d4;
+    --colorCategoryOrangeBg: #fdf6f3;
+    --colorCategoryOrangeFg: #d83b01;
+    --colorCategoryGreenBg: #f3f9f1;
+    --colorCategoryGreenFg: #107c10;
+    --colorCategoryPurpleBg: #f6f3f9;
+    --colorCategoryPurpleFg: #5c2d91;
+    --colorCategoryCyanBg: #eaf8fc;
+    --colorCategoryCyanFg: #00bcf2;
+    --colorCategoryTealBg: #ebf7f7;
+    --colorCategoryTealFg: #038387;
+    --colorCategoryRedBg: #fdf3f4;
+    --colorCategoryRedFg: #d13438;
+    --colorCategoryMagentaBg: #fcf0f6;
+    --colorCategoryMagentaFg: #b4009e;
+    --colorCategoryYellowBg: #fff9e6;
+    --colorCategoryYellowFg: #ffb900;
+    --colorCategoryNeutralBg: #f3f2f1;
+    --colorCategoryNeutralFg: #605e5c;
+}
+
+.dark {
+    --colorNeutralBackground1: #292929;
+    --colorNeutralBackground2: #242424;
+    --colorNeutralBackground3: #202020;
+    --colorNeutralBackground4: #1b1b1b;
+    --colorNeutralBackground5: #111111;
+    --colorNeutralForeground1: #ffffff;
+    --colorNeutralForeground2: #d6d6d6;
+    --colorNeutralForeground3: #adadad;
+    --colorNeutralStroke1: #666666;
+    --colorNeutralStroke2: #525252;
+    --colorBrandBackground: #1f9eff;
+    --colorBrandBackgroundHover: #4cc1ff;
+    --colorBrandBackgroundPressed: #0078d4;
+    --colorBrandForeground: #60cdff;
+    --colorInfoBackground: rgba(31, 158, 255, 0.1);
+    --colorInfoBorder: rgba(31, 158, 255, 0.3);
+    --colorInfoText: #c7e0f4;
+
+    /* Category Colors - Dark Mode */
+    --colorCategoryBlueBg: #00245b;
+    --colorCategoryBlueFg: #2899f5;
+    --colorCategoryOrangeBg: #4a1600;
+    --colorCategoryOrangeFg: #f36f38;
+    --colorCategoryGreenBg: #062906;
+    --colorCategoryGreenFg: #42a142;
+    --colorCategoryPurpleBg: #200d3b;
+    --colorCategoryPurpleFg: #8d64c5;
+    --colorCategoryCyanBg: #00384b;
+    --colorCategoryCyanFg: #3ed1f6;
+    --colorCategoryTealBg: #002a2b;
+    --colorCategoryTealFg: #32b4b8;
+    --colorCategoryRedBg: #43020a;
+    --colorCategoryRedFg: #f46b70;
+    --colorCategoryMagentaBg: #3d0026;
+    --colorCategoryMagentaFg: #d13fb8;
+    --colorCategoryYellowBg: #4c3b00;
+    --colorCategoryYellowFg: #ffce40;
+    --colorCategoryNeutralBg: #323130;
+    --colorCategoryNeutralFg: #c8c6c4;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +101,7 @@
     select:focus-visible,
     a:focus-visible,
     [tabindex]:focus-visible {
-        outline: 2px solid #0078d4 !important;
+        outline: 2px solid var(--colorBrandBackground) !important;
         outline-offset: 2px !important;
         box-shadow: none !important;
     }

@@ -126,31 +126,31 @@ function ExpandedPanel({
 
     const t = useMemo(() => ({
         // Surface card
-        card: 'bg-white dark:bg-[#292827] border-[#e1dfdd] dark:border-[#3b3a39]',
+        card: 'bg-fluent-bg-card border-fluent-stroke-subtle',
         // Primary body text
-        text: 'text-[#323130] dark:text-[#d2d0ce]',
+        text: 'text-fluent-fg-secondary',
         // Strong text / headings
-        strong: 'text-[#242424] dark:text-white',
+        strong: 'text-fluent-fg-primary',
         // Caption / label
-        caption: 'text-[#605e5c] dark:text-[#c8c6c4]',
+        caption: 'text-fluent-fg-tertiary',
         // Muted / secondary text
-        muted: 'text-[#605e5c] dark:text-[#a19f9d]',
+        muted: 'text-fluent-fg-tertiary',
         // Divider
-        divider: 'border-[#e1dfdd] dark:border-[#3b3a39]',
+        divider: 'border-fluent-stroke-subtle',
         // Code badge
-        code: 'bg-[#f3f2f1] dark:bg-[#323130] text-[#0078d4] dark:text-[#60cdff] border-[#e1dfdd] dark:border-[#484644]',
+        code: 'bg-fluent-bg-subtle text-fluent-brand-fg border-fluent-stroke-subtle',
         // Code block (naming pattern)
-        codeBlock: 'bg-[#f5f5f5] dark:bg-[#1b1a19] text-[#0078d4] dark:text-[#60cdff] border border-[#e1dfdd] dark:border-[#3b3a39]',
+        codeBlock: 'bg-fluent-bg-canvas text-fluent-brand-fg border border-fluent-stroke-subtle',
         // Char badge
-        charBadge: 'bg-[#f3f2f1] dark:bg-[#323130] text-[#323130] dark:text-[#e1dfdd] border-[#e1dfdd] dark:border-[#484644]',
+        charBadge: 'bg-fluent-bg-canvas text-fluent-fg-secondary border-fluent-stroke-subtle',
     }), []);
 
     // ── Render ─────────────────────────────────────────────────────────────────
 
     return (
-        <div onClick={(e) => e.stopPropagation()} className="px-5 py-4 border-t cursor-default bg-[#faf9f8] dark:bg-[#1b1a19] border-[#edebe9] dark:border-[#484644]">
+        <div onClick={(e) => e.stopPropagation()} className="px-5 py-4 border-t cursor-default bg-fluent-bg-canvas border-fluent-stroke-subtle">
             {/* Header — compact inline row */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#edebe9] dark:border-[#323130]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-fluent-stroke-subtle">
                 <span className={`text-[13px] font-bold uppercase tracking-wide ${t.caption}`}>Resource details</span>
 
                 <div className="flex items-center gap-4 flex-wrap">
@@ -162,23 +162,23 @@ function ExpandedPanel({
                                 <select
                                     value={topology}
                                     onChange={(e) => setTopology?.(e.target.value)}
-                                    className="h-[26px] pl-2.5 pr-7 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
+                                    className="h-[26px] pl-2.5 pr-7 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-fluent-brand-bg transition-colors bg-fluent-bg-card border-fluent-stroke-strong text-fluent-fg-primary"
                                 >
                                     {topologyOptions.map(opt => <option key={opt.value ?? opt.suffix} value={opt.value ?? opt.suffix}>{opt.label}</option>)}
                                 </select>
-                                <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-[#605e5c] dark:text-[#c8c6c4]" />
+                                <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-fluent-fg-tertiary" />
                             </div>
                             {isHubSpoke && (
                                 <>
                                     <span className={`text-[12px] leading-[26px] ${t.muted}`}>Spokes:</span>
                                     <input type="number" min="0" max="20" value={spokeCount}
                                         onChange={(e) => setSpokeCount?.(Math.max(0, Math.min(20, parseInt(e.target.value) || 0)))}
-                                        className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
+                                        className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-fluent-brand-bg transition-colors bg-fluent-bg-card border-fluent-stroke-strong text-fluent-fg-primary"
                                     />
                                     <span className={`text-[12px] leading-[26px] ${t.muted}`}>from:</span>
                                     <input type="number" min="0" max="999" value={spokeStartValue}
                                         onChange={(e) => setSpokeStartValue?.(Math.max(0, parseInt(e.target.value) || 0))}
-                                        className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
+                                        className="w-[56px] h-[26px] px-2 rounded-sm border text-[13px] focus:outline-none focus:border-fluent-brand-bg transition-colors bg-fluent-bg-card border-fluent-stroke-strong text-fluent-fg-primary"
                                     />
                                 </>
                             )}
@@ -193,11 +193,11 @@ function ExpandedPanel({
                                 <select
                                     value={selectedSubResource || ''}
                                     onChange={(e) => onSubResourceChange?.(e.target.value)}
-                                    className="h-[26px] pl-2.5 pr-7 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-[#0078d4] transition-colors bg-white dark:bg-[#1b1a19] border-[#8a8886] dark:border-[#605e5c] text-[#323130] dark:text-white"
+                                    className="h-[26px] pl-2.5 pr-7 rounded-sm border appearance-none cursor-pointer text-[13px] focus:outline-none focus:border-fluent-brand-bg transition-colors bg-fluent-bg-card border-fluent-stroke-strong text-fluent-fg-primary"
                                 >
                                     {resource.subResources.map(opt => <option key={opt.suffix} value={opt.suffix}>{opt.label}</option>)}
                                 </select>
-                                <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-[#605e5c] dark:text-[#c8c6c4]" />
+                                <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-fluent-fg-tertiary" />
                             </div>
                             {currentSubResource?.dnsZone && (
                                 <code className={`px-1.5 py-0.5 rounded-sm font-mono text-[12px] ${t.code}`}>{currentSubResource.dnsZone}</code>

@@ -37,18 +37,18 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
     };
 
     return (
-        <div className="group flex flex-col bg-white dark:bg-[#1b1a19] rounded-lg border border-[#edebe9] dark:border-[#323130] shadow-soft dark:shadow-none hover:shadow-md dark:hover:border-[#605e5c] transition-all duration-200">
+        <div className="group flex flex-col bg-fluent-bg-card rounded-lg border border-fluent-stroke-subtle shadow-soft dark:shadow-none hover:shadow-md hover:border-fluent-stroke-strong transition-all duration-200">
             <div className="p-4 flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-center">
 
                 {/* Left Side: Name, Target Dropdown, Badges */}
                 <div className="flex flex-col gap-3 lg:w-[45%] shrink-0">
                     <div className="flex items-start gap-2.5">
-                        <div className="mt-0.5 bg-[#f3f2f1] dark:bg-[#252423] p-1.5 rounded shrink-0">
-                            <Shield className="w-4 h-4 text-[#0078d4] dark:text-[#60cdff]" />
+                        <div className="mt-0.5 bg-fluent-bg-canvas p-1.5 rounded shrink-0">
+                            <Shield className="w-4 h-4 text-fluent-brand-fg" />
                         </div>
                         <div className="flex flex-col min-w-0 w-full">
                             <div className="flex items-center justify-between gap-2">
-                                <h3 className="text-[14px] font-semibold text-[#242424] dark:text-white truncate" title={readableTitle}>
+                                <h3 className="text-[14px] font-semibold text-fluent-fg-primary truncate" title={readableTitle}>
                                     {readableTitle}
                                 </h3>
                             </div>
@@ -56,7 +56,7 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                             {/* Target Dropdown */}
                             {policies.length > 1 ? (
                                 <select
-                                    className="mt-2 w-full max-w-[300px] px-2 h-[28px] border rounded text-[12px] font-medium bg-[#faf9f8] dark:bg-[#252423] border-[#edebe9] dark:border-[#484644] text-[#242424] dark:text-white outline-none focus:border-[#0078d4] focus:ring-1 focus:ring-[#0078d4]/20 transition-all cursor-pointer"
+                                    className="mt-2 w-full max-w-[300px] px-2 h-[28px] border rounded text-[12px] font-medium bg-fluent-bg-canvas border-fluent-stroke-subtle text-fluent-fg-primary outline-none focus:border-fluent-brand-bg focus:ring-1 focus:ring-fluent-brand-bg/20 transition-all cursor-pointer"
                                     value={activeIndex}
                                     onChange={(e) => setSelectedIdx(Number(e.target.value))}
                                 >
@@ -65,21 +65,21 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                                     ))}
                                 </select>
                             ) : (
-                                <div className="mt-2 text-[12px] font-medium text-[#605e5c] dark:text-[#a19f9d]">
-                                    Target: <span className="text-[#242424] dark:text-[#e1dfdd]">{formatTarget(activePolicy.name)}</span>
+                                <div className="mt-2 text-[12px] font-medium text-fluent-fg-tertiary">
+                                    Target: <span className="text-fluent-fg-primary">{formatTarget(activePolicy.name)}</span>
                                 </div>
                             )}
 
                             <div className="mt-3 flex items-center gap-2">
-                                <span className="font-mono text-[12px] text-[#0078d4] dark:text-[#60cdff] bg-[#EFF6FC] dark:bg-[#0078d4]/15 px-1.5 py-0.5 rounded break-all border border-[#c7e0f4] dark:border-transparent">
+                                <span className="font-mono text-[12px] text-fluent-brand-fg bg-fluent-info-bg px-1.5 py-0.5 rounded break-all border border-fluent-info-border dark:border-transparent">
                                     {activePolicy.name}
                                 </span>
                                 <button
                                     onClick={() => handleCopy(activePolicy.name, activePolicy.name)}
-                                    className="shrink-0 p-1 rounded text-[#605e5c] dark:text-[#a19f9d] hover:bg-[#edebe9] dark:hover:bg-[#323130] transition-colors"
+                                    className="shrink-0 p-1 rounded text-fluent-fg-tertiary hover:bg-fluent-bg-hover transition-colors"
                                     title="Copy Name"
                                 >
-                                    {isCopied ? <Check className="w-4 h-4 text-[#107c10] dark:text-[#a3d4a3]" /> : <Copy className="w-4 h-4" />}
+                                    {isCopied ? <Check className="w-4 h-4 text-fluent-cat-green-fg" /> : <Copy className="w-4 h-4" />}
                                 </button>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
 
                     <div className="flex gap-1.5 flex-wrap ml-[34px]">
                         {activePolicy.categories.map((cat, idx) => (
-                            <span key={idx} className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-[#f3f2f1] text-[#605e5c] dark:bg-[#292827] dark:text-[#a19f9d] border border-transparent dark:border-[#484644]">
+                            <span key={idx} className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-fluent-bg-subtle text-fluent-fg-tertiary border border-fluent-stroke-subtle">
                                 {cat}
                             </span>
                         ))}
@@ -95,11 +95,11 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                 </div>
 
                 {/* Divider for desktop */}
-                <div className="hidden lg:block w-px self-stretch bg-[#edebe9] dark:bg-[#323130] my-1"></div>
+                <div className="hidden lg:block w-px self-stretch bg-fluent-stroke-subtle my-1"></div>
 
                 {/* Right Side: Description */}
                 <div className="flex flex-col gap-3 lg:w-[55%] flex-1">
-                    <p className="text-[13px] leading-relaxed text-[#605e5c] dark:text-[#a19f9d]">
+                    <p className="text-[13px] leading-relaxed text-fluent-fg-secondary">
                         {activePolicy.desc}
                     </p>
 
@@ -107,7 +107,7 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                         {activePolicy.settings && (
                             <button
                                 onClick={() => setIsExpanded(!isExpanded)}
-                                className="w-fit text-[#242424] dark:text-[#e1dfdd] hover:text-[#0078d4] dark:hover:text-[#60cdff] flex items-center gap-1.5 text-[12px] font-medium transition-colors"
+                                className="w-fit text-fluent-fg-primary hover:text-fluent-brand-fg flex items-center gap-1.5 text-[12px] font-medium transition-colors"
                             >
                                 <Settings className="w-3.5 h-3.5" />
                                 {isExpanded ? 'Hide Settings' : 'View Settings'}
@@ -119,7 +119,7 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                                 href={activePolicy.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-fit text-[#0078d4] dark:text-[#60cdff] hover:underline flex items-center gap-1.5 text-[12px] font-medium"
+                                className="w-fit text-fluent-brand-fg hover:underline flex items-center gap-1.5 text-[12px] font-medium"
                             >
                                 Microsoft Learn
                                 <ExternalLink className="w-3 h-3" />
@@ -138,33 +138,33 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                 const licenseRequired = requiresP2 ? 'Microsoft Entra ID P2' : 'Microsoft Entra ID P1';
 
                 return (
-                    <div className="border-t border-[#edebe9] dark:border-[#323130] bg-[#faf9f8] dark:bg-[#1b1a19] rounded-b-lg p-4 animate-slide-up">
+                    <div className="border-t border-fluent-stroke-subtle bg-fluent-bg-canvas rounded-b-lg p-4 animate-slide-up">
                         <div className="flex flex-col md:flex-row gap-4">
                             
                             {/* Assignments Column */}
                             {assignments.length > 0 && (
-                                <div className="flex-1 bg-white dark:bg-[#252423] border border-[#edebe9] dark:border-[#484644] rounded-md p-3.5 shadow-sm dark:shadow-none">
-                                    <h4 className="text-[13px] font-bold text-[#242424] dark:text-white mb-3 flex items-center gap-2 border-b border-[#edebe9] dark:border-[#323130] pb-2">
-                                        <Users className="w-4 h-4 text-[#0078d4] dark:text-[#60cdff]" />
+                                <div className="flex-1 bg-fluent-bg-card border border-fluent-stroke-subtle rounded-md p-3.5 shadow-sm dark:shadow-none">
+                                    <h4 className="text-[13px] font-bold text-fluent-fg-primary mb-3 flex items-center gap-2 border-b border-fluent-stroke-subtle pb-2">
+                                        <Users className="w-4 h-4 text-fluent-brand-fg" />
                                         Assignments
                                     </h4>
                                     <div className="flex flex-col gap-4">
                                         {assignments.map((setting, idx) => (
                                             <div key={idx} className="flex flex-col gap-1">
-                                                <span className="text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">
+                                                <span className="text-[11px] font-semibold text-fluent-fg-tertiary uppercase tracking-wide">
                                                     {setting.label}
                                                 </span>
-                                                <div className="text-[13px] text-[#242424] dark:text-[#e1dfdd] leading-relaxed">
+                                                <div className="text-[13px] text-fluent-fg-primary leading-relaxed">
                                                     {setting.value.split('\n').map((line, i) => {
                                                         if (line.startsWith('Include:')) return (
-                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-[#107c10] dark:text-[#a3d4a3] font-bold mt-[1px]">+</span><span><strong className="font-semibold text-[#242424] dark:text-white">Include:</strong> {line.replace('Include:', '').trim()}</span></div>
+                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-fluent-cat-green-fg font-bold mt-[1px]">+</span><span><strong className="font-semibold text-fluent-fg-primary">Include:</strong> {line.replace('Include:', '').trim()}</span></div>
                                                         );
                                                         if (line.startsWith('Exclude:')) return (
-                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-[#d13438] dark:text-[#f8b2b6] font-bold mt-[1px]">-</span><span><strong className="font-semibold text-[#242424] dark:text-white">Exclude:</strong> {line.replace('Exclude:', '').trim()}</span></div>
+                                                            <div key={i} className="flex items-start gap-2 mt-1"><span className="text-fluent-cat-red-fg font-bold mt-[1px]">-</span><span><strong className="font-semibold text-fluent-fg-primary">Exclude:</strong> {line.replace('Exclude:', '').trim()}</span></div>
                                                         );
                                                         const colonIdx = line.indexOf(':');
                                                         if (colonIdx > -1 && colonIdx < 30) {
-                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-[#0078d4] dark:bg-[#60cdff] mt-[9px] shrink-0"></span><span><strong className="font-semibold text-[#242424] dark:text-white">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
+                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-fluent-brand-fg mt-[9px] shrink-0"></span><span><strong className="font-semibold text-fluent-fg-primary">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
                                                         }
                                                         return <div key={i} className="mt-1">{line}</div>;
                                                     })}
@@ -177,26 +177,26 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
 
                             {/* Access Controls Column */}
                             {accessControls.length > 0 && (
-                                <div className="flex-1 bg-white dark:bg-[#252423] border border-[#edebe9] dark:border-[#484644] rounded-md p-3.5 shadow-sm dark:shadow-none">
-                                    <h4 className="text-[13px] font-bold text-[#242424] dark:text-white mb-3 flex items-center gap-2 border-b border-[#edebe9] dark:border-[#323130] pb-2">
-                                        <Lock className="w-4 h-4 text-[#0078d4] dark:text-[#60cdff]" />
+                                <div className="flex-1 bg-fluent-bg-card border border-fluent-stroke-subtle rounded-md p-3.5 shadow-sm dark:shadow-none">
+                                    <h4 className="text-[13px] font-bold text-fluent-fg-primary mb-3 flex items-center gap-2 border-b border-fluent-stroke-subtle pb-2">
+                                        <Lock className="w-4 h-4 text-fluent-brand-fg" />
                                         Access controls
                                     </h4>
                                     <div className="flex flex-col gap-4">
                                         {accessControls.map((setting, idx) => (
                                             <div key={idx} className="flex flex-col gap-1">
-                                                <span className="text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">
+                                                <span className="text-[11px] font-semibold text-fluent-fg-tertiary uppercase tracking-wide">
                                                     {setting.label}
                                                 </span>
-                                                <div className="text-[13px] text-[#242424] dark:text-[#e1dfdd] leading-relaxed">
+                                                <div className="text-[13px] text-fluent-fg-primary leading-relaxed">
                                                     {setting.value.split('\n').map((line, i) => {
                                                         if (line.includes('->')) {
                                                             const parts = line.split('->');
                                                             return (
                                                                 <div key={i} className="flex items-center flex-wrap gap-2 mt-1">
-                                                                    <span className="bg-[#f3f2f1] dark:bg-[#323130] border border-[#edebe9] dark:border-[#484644] px-1.5 py-0.5 rounded text-[11px] font-semibold text-[#605e5c] dark:text-[#a19f9d] uppercase tracking-wide">{parts[0].trim()}</span>
-                                                                    <span className="text-[#0078d4] dark:text-[#60cdff] font-bold">→</span>
-                                                                    <span className="font-semibold text-[#242424] dark:text-[#e1dfdd]">{parts[1].trim()}</span>
+                                                                    <span className="bg-fluent-bg-canvas border border-fluent-stroke-subtle px-1.5 py-0.5 rounded text-[11px] font-semibold text-fluent-fg-tertiary uppercase tracking-wide">{parts[0].trim()}</span>
+                                                                    <span className="text-fluent-brand-fg font-bold">→</span>
+                                                                    <span className="font-semibold text-fluent-fg-primary">{parts[1].trim()}</span>
                                                                 </div>
                                                             );
                                                         }
@@ -205,7 +205,7 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                                                         );
                                                         const colonIdx = line.indexOf(':');
                                                         if (colonIdx > -1 && colonIdx < 30) {
-                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-[#0078d4] dark:bg-[#60cdff] mt-[9px] shrink-0"></span><span><strong className="font-semibold text-[#242424] dark:text-white">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
+                                                            return <div key={i} className="flex items-start gap-2 mt-1"><span className="w-1 h-1 rounded-full bg-fluent-brand-fg mt-[9px] shrink-0"></span><span><strong className="font-semibold text-fluent-fg-primary">{line.substring(0, colonIdx)}:</strong>{line.substring(colonIdx + 1)}</span></div>;
                                                         }
                                                         return <div key={i} className="mt-1">{line}</div>;
                                                     })}
@@ -219,25 +219,25 @@ const PolicyGroupCard = ({ requirement, policies, copiedId, handleCopy, globalEx
                         </div>
 
                         {/* Policy Metadata Summary */}
-                        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#edebe9] dark:border-[#323130]">
+                        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-fluent-stroke-subtle">
                             <div className="flex items-center gap-2">
-                                <BadgeCheck className="w-4 h-4 text-[#0078d4] dark:text-[#60cdff]" />
-                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
-                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">License required:</span>
+                                <BadgeCheck className="w-4 h-4 text-fluent-brand-fg" />
+                                <span className="text-[12px] font-medium text-fluent-fg-primary">
+                                    <span className="text-fluent-fg-tertiary mr-1.5 font-normal">License required:</span>
                                     {licenseRequired}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <AlertCircle className="w-4 h-4 text-[#ffaa44]" />
-                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
-                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">Recommended state:</span>
+                                <span className="text-[12px] font-medium text-fluent-fg-primary">
+                                    <span className="text-fluent-fg-tertiary mr-1.5 font-normal">Recommended state:</span>
                                     Report-only mode
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Info className="w-4 h-4 text-[#107c10] dark:text-[#a3d4a3]" />
-                                <span className="text-[12px] font-medium text-[#242424] dark:text-[#e1dfdd]">
-                                    <span className="text-[#605e5c] dark:text-[#a19f9d] mr-1.5 font-normal">Exclusions:</span>
+                                <Info className="w-4 h-4 text-fluent-cat-green-fg" />
+                                <span className="text-[12px] font-medium text-fluent-fg-primary">
+                                    <span className="text-fluent-fg-tertiary mr-1.5 font-normal">Exclusions:</span>
                                     Ensure break-glass access
                                 </span>
                             </div>

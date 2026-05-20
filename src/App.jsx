@@ -63,7 +63,7 @@ export default function App() {
     }
 
     return (
-        <div className="min-h-screen font-sans transition-colors duration-200 bg-[#faf9f8] dark:bg-[#111009] text-[#242424] dark:text-white flex flex-col">
+        <div className="min-h-screen font-sans transition-colors duration-200 bg-fluent-bg-canvas text-fluent-fg-primary flex flex-col">
             <Header
                 isDarkMode={isDarkMode}
                 onToggleTheme={handleToggleTheme}
