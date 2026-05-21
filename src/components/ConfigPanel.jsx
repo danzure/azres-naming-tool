@@ -61,12 +61,9 @@ function ConfigPanel({
                         {/* Two-column grid: Parameters + About (reversed order on mobile) */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                             {/* About / CAF Introduction - shows first on mobile via order */}
-                            <div className="order-1 lg:order-2 p-3 rounded-lg border shadow-soft bg-fluent-bg-card dark:bg-fluent-bg-subtle border-fluent-stroke-subtle">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <Info className="w-3.5 h-3.5 text-fluent-brand-fg" />
-                                    <h3 className="text-[14px] font-semibold text-fluent-fg-primary">About This Tool</h3>
-                                </div>
-                                <div className="text-[13px] leading-relaxed space-y-2 text-fluent-fg-secondary">
+                            <div className="order-1 lg:order-2 p-3.5 rounded-lg border shadow-soft bg-fluent-info-bg border-fluent-info-border flex gap-3 items-start">
+                                <Info className="w-4 h-4 text-fluent-brand-fg mt-0.5 shrink-0" />
+                                <div className="text-[13px] leading-relaxed text-fluent-info-text space-y-2">
                                     <p>
                                         The app.atozazure Resource Naming Tool helps you generate consistent, standards-compliant Azure resource names aligned with Microsoft's{' '}
                                         <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming" target="_blank" rel="noopener noreferrer" className="text-fluent-brand-fg hover:underline font-medium">

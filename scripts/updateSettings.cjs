@@ -1,4 +1,7 @@
 const fs = require('fs');
+const path = require('path');
+
+const DATA_FILE = path.join(__dirname, '..', 'src', 'data', 'conditionalAccessData.js');
 
 const policies = [
     { name: 'CA-AllUsers-AllApps-AnyPlatform-RequireMFA', settings: [ { label: 'Users', value: 'All users (Exclude emergency access accounts)' }, { label: 'Target resources', value: 'All cloud apps' }, { label: 'Conditions', value: 'Any device' }, { label: 'Grant', value: 'Require multifactor authentication' } ] },
@@ -21,7 +24,7 @@ const policies = [
     { name: 'CA-AIAgents-AllApps-AnyPlatform-BlockHighRisk', settings: [ { label: 'Workload identities', value: 'All owned service principals' }, { label: 'Target resources', value: 'All cloud apps' }, { label: 'Conditions', value: 'Service principal risk: High' }, { label: 'Grant', value: 'Block access' } ] }
 ];
 
-let file = fs.readFileSync('src/data/conditionalAccessData.js', 'utf8');
+let file = fs.readFileSync(DATA_FILE, 'utf8');
 
 policies.forEach(p => {
     const settingsStr = JSON.stringify(p.settings).replace(/"label"/g, 'label').replace(/"value"/g, 'value').replace(/},\{/g, '}, {');
@@ -29,4 +32,5 @@ policies.forEach(p => {
     file = file.replace(regex, `$1, settings: ${settingsStr} }`);
 });
 
-fs.writeFileSync('src/data/conditionalAccessData.js', file);
+fs.writeFileSync(DATA_FILE, file);
+
